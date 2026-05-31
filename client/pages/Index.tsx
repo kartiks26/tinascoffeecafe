@@ -272,6 +272,21 @@ export default function Index() {
         id="featurable-806e1882-029c-4d23-abdf-d8ae34917291"
         data-featurable-async
       ></div>
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-3xl font-light text-[#092622] mb-8 uppercase tracking-wide">
+            Find Us
+          </h2>
+          <div className="bg-gray-200 rounded-lg h-200 flex items-center justify-center">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3417.1927968908212!2d151.9504918753185!3d-27.564598876264707!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b965d1a7b0e5baf%3A0xfce9b5d7b7320700!2zVGluYeKAmXMgUGxhY2UgQ2FmZSAmIENhdGVyaW5nLvCfkpU!5e1!3m2!1sen!2sau!4v1780207589144!5m2!1sen!2sau"
+              width="100%"
+              height="450"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+      </section>
       {/* Footer */}
       <footer className="bg-[#171717] text-white py-16">
         <div className="max-w-7xl mx-auto px-6">
@@ -289,7 +304,7 @@ export default function Index() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-[#092622] uppercase tracking-wide text-sm">
+              <h4 className="font-semibold mb-4 text-[#3bbdac] uppercase tracking-wide text-sm">
                 Hours
               </h4>
               <p className="text-gray-400 text-sm font-light leading-relaxed">
@@ -302,7 +317,7 @@ export default function Index() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-[#092622] uppercase tracking-wide text-sm">
+              <h4 className="font-semibold mb-4 text-[#3bbdac] uppercase tracking-wide text-sm">
                 Contact
               </h4>
               <div className="text-gray-400 text-sm font-light space-y-2">

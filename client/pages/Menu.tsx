@@ -365,7 +365,7 @@ export default function Menu() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-[#092622] uppercase tracking-wide text-sm">
+              <h4 className="font-semibold mb-4 text-[#3bbdac] uppercase tracking-wide text-sm">
                 Hours
               </h4>
               <p className="text-gray-400 text-sm font-light leading-relaxed">
@@ -376,7 +376,7 @@ export default function Menu() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-[#092622] uppercase tracking-wide text-sm">
+              <h4 className="font-semibold mb-4 text-[#3bbdac] uppercase tracking-wide text-sm">
                 Contact
               </h4>
               <div className="text-gray-400 text-sm font-light space-y-2">
