@@ -1,296 +1,5 @@
-import { useState } from "react";
-import { MapPin, Clock, Phone, Mail, ChevronRight } from "lucide-react";
-
-interface MenuItem {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  category: "coffee" | "food";
-  addons?: AddonGroup[];
-}
-
-interface AddonGroup {
-  name: string;
-  options: AddonOption[];
-}
-
-interface AddonOption {
-  label: string;
-  priceModifier: number;
-}
-
-const menuItems: MenuItem[] = [
-  // Coffee
-  {
-    id: "espresso",
-    name: "Classic Espresso",
-    description: "Bold and rich double shot of pure espresso",
-    price: 2.99,
-    category: "coffee",
-    addons: [
-      {
-        name: "Size",
-        options: [
-          { label: "Single Shot", priceModifier: 0 },
-          { label: "Double Shot", priceModifier: 0.5 },
-          { label: "Triple Shot", priceModifier: 1 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "cappuccino",
-    name: "Silky Cappuccino",
-    description: "Perfect blend of espresso, steamed milk & velvety foam",
-    price: 4.49,
-    category: "coffee",
-    addons: [
-      {
-        name: "Milk",
-        options: [
-          { label: "Whole Milk", priceModifier: 0 },
-          { label: "Oat Milk", priceModifier: 0.5 },
-          { label: "Almond Milk", priceModifier: 0.5 },
-          { label: "Soy Milk", priceModifier: 0.5 },
-        ],
-      },
-      {
-        name: "Size",
-        options: [
-          { label: "Small", priceModifier: 0 },
-          { label: "Medium", priceModifier: 0.5 },
-          { label: "Large", priceModifier: 1 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "latte",
-    name: "Smooth Latte",
-    description: "Creamy espresso with perfectly steamed milk",
-    price: 4.79,
-    category: "coffee",
-    addons: [
-      {
-        name: "Milk",
-        options: [
-          { label: "Whole Milk", priceModifier: 0 },
-          { label: "Oat Milk", priceModifier: 0.5 },
-          { label: "Almond Milk", priceModifier: 0.5 },
-          { label: "Soy Milk", priceModifier: 0.5 },
-        ],
-      },
-      {
-        name: "Flavor",
-        options: [
-          { label: "Original", priceModifier: 0 },
-          { label: "Vanilla", priceModifier: 0.5 },
-          { label: "Hazelnut", priceModifier: 0.5 },
-          { label: "Caramel", priceModifier: 0.5 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "americano",
-    name: "Bold Americano",
-    description: "Double espresso with hot water for balanced strength",
-    price: 3.49,
-    category: "coffee",
-    addons: [
-      {
-        name: "Size",
-        options: [
-          { label: "Single", priceModifier: 0 },
-          { label: "Double", priceModifier: 0.5 },
-          { label: "Triple", priceModifier: 1 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "mocha",
-    name: "Rich Mocha",
-    description: "Espresso, steamed milk, decadent chocolate, topped with cream",
-    price: 5.29,
-    category: "coffee",
-    addons: [
-      {
-        name: "Milk",
-        options: [
-          { label: "Whole Milk", priceModifier: 0 },
-          { label: "Oat Milk", priceModifier: 0.5 },
-          { label: "Almond Milk", priceModifier: 0.5 },
-        ],
-      },
-      {
-        name: "Extras",
-        options: [
-          { label: "No Cream", priceModifier: 0 },
-          { label: "Extra Cream", priceModifier: 0.5 },
-          { label: "Whipped Cream", priceModifier: 0.75 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "macchiato",
-    name: "Artistic Macchiato",
-    description: "Espresso with just a touch of steamed milk",
-    price: 3.99,
-    category: "coffee",
-    addons: [
-      {
-        name: "Size",
-        options: [
-          { label: "Small", priceModifier: 0 },
-          { label: "Medium", priceModifier: 0.5 },
-          { label: "Large", priceModifier: 1 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "cortado",
-    name: "Balanced Cortado",
-    description: "Equal parts espresso and steamed milk",
-    price: 3.79,
-    category: "coffee",
-  },
-  {
-    id: "flat-white",
-    name: "Velvety Flat White",
-    description: "Espresso with thin layer of microfoam",
-    price: 4.99,
-    category: "coffee",
-    addons: [
-      {
-        name: "Milk",
-        options: [
-          { label: "Whole Milk", priceModifier: 0 },
-          { label: "Oat Milk", priceModifier: 0.5 },
-          { label: "Almond Milk", priceModifier: 0.5 },
-        ],
-      },
-    ],
-  },
-  // Food
-  {
-    id: "croissant",
-    name: "Butter Croissant",
-    description: "Flaky, buttery croissant with a delicate crumb",
-    price: 3.99,
-    category: "food",
-    addons: [
-      {
-        name: "Add-ons",
-        options: [
-          { label: "Plain", priceModifier: 0 },
-          { label: "Chocolate", priceModifier: 1.5 },
-          { label: "Almond", priceModifier: 1.5 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "sandwich",
-    name: "Morning Sandwich",
-    description: "Fresh egg, bacon, and cheddar on artisan bread",
-    price: 7.99,
-    category: "food",
-    addons: [
-      {
-        name: "Bread",
-        options: [
-          { label: "White", priceModifier: 0 },
-          { label: "Whole Wheat", priceModifier: 0 },
-          { label: "Sourdough", priceModifier: 0.5 },
-        ],
-      },
-      {
-        name: "Temperature",
-        options: [
-          { label: "Cold", priceModifier: 0 },
-          { label: "Toasted", priceModifier: 0 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "muffin",
-    name: "Blueberry Muffin",
-    description: "Fresh blueberries in a tender, moist muffin",
-    price: 4.49,
-    category: "food",
-  },
-  {
-    id: "bagel",
-    name: "Smoked Salmon Bagel",
-    description: "Cream cheese, smoked salmon, capers, and red onion",
-    price: 8.99,
-    category: "food",
-    addons: [
-      {
-        name: "Add-ons",
-        options: [
-          { label: "Standard", priceModifier: 0 },
-          { label: "Extra Salmon", priceModifier: 2 },
-          { label: "Extra Cream Cheese", priceModifier: 0.75 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "avocado-toast",
-    name: "Avocado Toast",
-    description: "Ripe avocado, poached egg, cherry tomatoes on whole grain",
-    price: 7.49,
-    category: "food",
-    addons: [
-      {
-        name: "Bread",
-        options: [
-          { label: "Whole Grain", priceModifier: 0 },
-          { label: "Sourdough", priceModifier: 0.5 },
-          { label: "Multigrain", priceModifier: 0.5 },
-        ],
-      },
-      {
-        name: "Egg",
-        options: [
-          { label: "Poached", priceModifier: 0 },
-          { label: "Scrambled", priceModifier: 0 },
-          { label: "Fried", priceModifier: 0 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "granola",
-    name: "Yogurt Granola Bowl",
-    description: "Creamy yogurt, house-made granola, fresh berries, honey",
-    price: 6.99,
-    category: "food",
-    addons: [
-      {
-        name: "Yogurt",
-        options: [
-          { label: "Greek", priceModifier: 0 },
-          { label: "Coconut", priceModifier: 0.5 },
-          { label: "Regular", priceModifier: 0 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "fruit-salad",
-    name: "Fresh Fruit Salad",
-    description: "Seasonal mix of fresh fruits with mint and lime dressing",
-    price: 5.99,
-    category: "food",
-  },
-];
+import { Link } from "react-router-dom";
+import { MapPin, Clock, Phone, Mail, ArrowRight } from "lucide-react";
 
 function triggerHaptic(pattern: "tap" | "success") {
   if ("vibrate" in navigator) {
@@ -302,78 +11,46 @@ function triggerHaptic(pattern: "tap" | "success") {
   }
 }
 
-interface ExpandedItem {
-  id: string;
-  selectedAddons: Record<string, string>;
-}
-
 export default function Index() {
-  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
-  const [selectedAddons, setSelectedAddons] = useState<Record<string, Record<string, string>>>({});
-
-  const toggleExpand = (itemId: string) => {
-    triggerHaptic("tap");
-    setExpandedItems((prev) => ({
-      ...prev,
-      [itemId]: !prev[itemId],
-    }));
-  };
-
-  const handleAddonSelect = (itemId: string, groupName: string, option: string) => {
-    triggerHaptic("tap");
-    setSelectedAddons((prev) => ({
-      ...prev,
-      [itemId]: {
-        ...prev[itemId],
-        [groupName]: option,
-      },
-    }));
-  };
-
-  const calculatePrice = (item: MenuItem) => {
-    let total = item.price;
-    if (selectedAddons[item.id] && item.addons) {
-      item.addons.forEach((group) => {
-        const selectedOption = selectedAddons[item.id][group.name];
-        if (selectedOption) {
-          const option = group.options.find((opt) => opt.label === selectedOption);
-          if (option) {
-            total += option.priceModifier;
-          }
-        }
-      });
-    }
-    return total;
-  };
-
-  const coffeeItems = menuItems.filter((item) => item.category === "coffee");
-  const foodItems = menuItems.filter((item) => item.category === "food");
-
   return (
     <div className="bg-white text-gray-900 min-h-screen">
       {/* Navigation */}
       <nav className="sticky top-0 z-40 bg-[#014CE0] shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <div className="text-white font-bold text-2xl">TINA'S</div>
             <div className="text-white/80 text-sm font-light">COFFEE</div>
-          </div>
+          </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            <button
-              onClick={() => {
-                triggerHaptic("tap");
-                document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" });
-              }}
+            <Link
+              to="/menu"
+              onClick={() => triggerHaptic("tap")}
               className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide"
             >
               Menu
-            </button>
-            <button className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide">
+            </Link>
+            <Link
+              to="/about"
+              onClick={() => triggerHaptic("tap")}
+              className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide"
+            >
               About
-            </button>
-            <button className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide">
+            </Link>
+            <Link
+              to="/contact"
+              onClick={() => triggerHaptic("tap")}
+              className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide"
+            >
               Contact
+            </Link>
+          </div>
+
+          <div className="md:hidden">
+            <button className="text-white">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
             </button>
           </div>
         </div>
@@ -419,222 +96,63 @@ export default function Index() {
               </a>
             </div>
 
-            <button
-              onClick={() => {
-                triggerHaptic("success");
-                document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="px-8 py-3 border-2 border-[#014CE0] text-[#014CE0] rounded-full font-light uppercase tracking-widest text-sm hover:bg-[#014CE0] hover:text-white transition-all"
+            <Link
+              to="/menu"
+              onClick={() => triggerHaptic("success")}
+              className="inline-flex items-center gap-2 px-8 py-3 border-2 border-[#014CE0] text-[#014CE0] rounded-full font-light uppercase tracking-widest text-sm hover:bg-[#014CE0] hover:text-white transition-all"
             >
               Order Now
-            </button>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* About Section */}
+      {/* Features Section */}
       <section className="bg-gradient-to-r from-gray-50 to-white py-20 md:py-28">
         <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-light text-[#014CE0] mb-6">
-              Crafted for Community
-            </h2>
-            <p className="text-lg text-gray-700 leading-relaxed font-light">
-              We believe coffee is more than just a beverage—it's a moment of pause in your day. 
-              Each cup is prepared with intention, using ethically sourced beans and time-honored 
-              techniques. Come experience the warmth of genuine hospitality and exceptional taste.
-            </p>
+          <div className="grid md:grid-cols-3 gap-12">
+            <div className="text-center">
+              <div className="text-4xl mb-4">☕</div>
+              <h3 className="text-xl font-semibold text-[#014CE0] mb-2">Premium Coffee</h3>
+              <p className="text-gray-600 font-light">
+                Ethically sourced and freshly roasted beans from around the world
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl mb-4">🎨</div>
+              <h3 className="text-xl font-semibold text-[#014CE0] mb-2">Artisan Crafted</h3>
+              <p className="text-gray-600 font-light">
+                Each cup is prepared with care and precision by our skilled baristas
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl mb-4">🤝</div>
+              <h3 className="text-xl font-semibold text-[#014CE0] mb-2">Community First</h3>
+              <p className="text-gray-600 font-light">
+                A welcoming space for everyone to pause, connect, and enjoy
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Menu Section */}
-      <section id="menu" className="py-20 md:py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl md:text-6xl font-light text-gray-900 mb-6">
-              Our Menu
-            </h2>
-            <p className="text-gray-600 text-lg font-light">
-              Meticulously sourced and expertly prepared
-            </p>
-          </div>
-
-          {/* Coffee Section */}
-          <div className="mb-20">
-            <h3 className="text-3xl font-light text-[#014CE0] mb-8 uppercase tracking-wide">
-              Coffee
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
-              {coffeeItems.map((item, idx) => (
-                <div
-                  key={item.id}
-                  className="border border-gray-200 rounded-lg overflow-hidden hover:border-[#014CE0] transition-all animate-slide-up"
-                  style={{ animationDelay: `${idx * 0.05}s` }}
-                >
-                  <button
-                    onClick={() => toggleExpand(item.id)}
-                    className="w-full text-left p-6 hover:bg-gray-50 transition-colors"
-                  >
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <h4 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-[#014CE0] transition-colors">
-                          {item.name}
-                        </h4>
-                        <p className="text-sm text-gray-600 font-light line-clamp-2 mb-3">
-                          {item.description}
-                        </p>
-                      </div>
-                      <ChevronRight
-                        className={`w-5 h-5 text-[#014CE0] transition-transform flex-shrink-0 ml-4 ${
-                          expandedItems[item.id] ? "rotate-90" : ""
-                        }`}
-                      />
-                    </div>
-
-                    <div className="text-2xl font-semibold text-[#014CE0]">
-                      ${calculatePrice(item).toFixed(2)}
-                    </div>
-                  </button>
-
-                  {expandedItems[item.id] && item.addons && (
-                    <div className="border-t border-gray-200 bg-gray-50 p-6 space-y-4">
-                      {item.addons.map((group) => (
-                        <div key={group.name}>
-                          <h5 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
-                            {group.name}
-                          </h5>
-                          <div className="space-y-2">
-                            {group.options.map((option) => (
-                              <label
-                                key={option.label}
-                                className="flex items-center p-2 rounded hover:bg-white cursor-pointer transition-colors"
-                              >
-                                <input
-                                  type="radio"
-                                  name={`${item.id}-${group.name}`}
-                                  checked={
-                                    selectedAddons[item.id]?.[group.name] === option.label
-                                  }
-                                  onChange={() =>
-                                    handleAddonSelect(item.id, group.name, option.label)
-                                  }
-                                  className="w-4 h-4 accent-[#014CE0]"
-                                />
-                                <span className="ml-3 text-sm text-gray-700 flex-1">
-                                  {option.label}
-                                </span>
-                                {option.priceModifier > 0 && (
-                                  <span className="text-sm text-[#014CE0] font-semibold">
-                                    +${option.priceModifier.toFixed(2)}
-                                  </span>
-                                )}
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-
-                      <div className="pt-4 border-t border-gray-200">
-                        <p className="text-sm text-gray-700 font-light">
-                          Total: <span className="font-bold text-[#014CE0] text-lg">${calculatePrice(item).toFixed(2)}</span>
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Food Section */}
-          <div>
-            <h3 className="text-3xl font-light text-[#014CE0] mb-8 uppercase tracking-wide">
-              Food
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
-              {foodItems.map((item, idx) => (
-                <div
-                  key={item.id}
-                  className="border border-gray-200 rounded-lg overflow-hidden hover:border-[#014CE0] transition-all animate-slide-up"
-                  style={{ animationDelay: `${(idx + coffeeItems.length) * 0.05}s` }}
-                >
-                  <button
-                    onClick={() => toggleExpand(item.id)}
-                    className="w-full text-left p-6 hover:bg-gray-50 transition-colors"
-                  >
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <h4 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-[#014CE0] transition-colors">
-                          {item.name}
-                        </h4>
-                        <p className="text-sm text-gray-600 font-light line-clamp-2 mb-3">
-                          {item.description}
-                        </p>
-                      </div>
-                      {item.addons && (
-                        <ChevronRight
-                          className={`w-5 h-5 text-[#014CE0] transition-transform flex-shrink-0 ml-4 ${
-                            expandedItems[item.id] ? "rotate-90" : ""
-                          }`}
-                        />
-                      )}
-                    </div>
-
-                    <div className="text-2xl font-semibold text-[#014CE0]">
-                      ${calculatePrice(item).toFixed(2)}
-                    </div>
-                  </button>
-
-                  {expandedItems[item.id] && item.addons && (
-                    <div className="border-t border-gray-200 bg-gray-50 p-6 space-y-4">
-                      {item.addons.map((group) => (
-                        <div key={group.name}>
-                          <h5 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
-                            {group.name}
-                          </h5>
-                          <div className="space-y-2">
-                            {group.options.map((option) => (
-                              <label
-                                key={option.label}
-                                className="flex items-center p-2 rounded hover:bg-white cursor-pointer transition-colors"
-                              >
-                                <input
-                                  type="radio"
-                                  name={`${item.id}-${group.name}`}
-                                  checked={
-                                    selectedAddons[item.id]?.[group.name] === option.label
-                                  }
-                                  onChange={() =>
-                                    handleAddonSelect(item.id, group.name, option.label)
-                                  }
-                                  className="w-4 h-4 accent-[#014CE0]"
-                                />
-                                <span className="ml-3 text-sm text-gray-700 flex-1">
-                                  {option.label}
-                                </span>
-                                {option.priceModifier > 0 && (
-                                  <span className="text-sm text-[#014CE0] font-semibold">
-                                    +${option.priceModifier.toFixed(2)}
-                                  </span>
-                                )}
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-
-                      <div className="pt-4 border-t border-gray-200">
-                        <p className="text-sm text-gray-700 font-light">
-                          Total: <span className="font-bold text-[#014CE0] text-lg">${calculatePrice(item).toFixed(2)}</span>
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+      {/* CTA Section */}
+      <section className="py-20 md:py-32 bg-white">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
+            Ready to Order?
+          </h2>
+          <p className="text-lg text-gray-600 mb-8 font-light">
+            Explore our full menu of premium coffee and delicious food options
+          </p>
+          <Link
+            to="/menu"
+            onClick={() => triggerHaptic("success")}
+            className="inline-block px-10 py-4 bg-[#014CE0] hover:bg-[#0139A8] text-white font-light uppercase tracking-widest rounded-full transition-all hover:shadow-xl active:scale-95"
+          >
+            View Menu
+          </Link>
         </div>
       </section>
 
