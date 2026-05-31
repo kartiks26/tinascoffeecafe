@@ -393,11 +393,11 @@ export default function Index() {
               <h4 className="font-semibold mb-4 text-[#014CE0] uppercase tracking-wide text-sm">
                 Contact
               </h4>
-              <p className="text-gray-400 text-sm font-light space-y-2">
-                <div>Margaret Street, Toowoomba, QLD</div>
-                <div>(555) 123-4567</div>
-                <div>hello@tinascoffee.com</div>
-              </p>
+              <div className="text-gray-400 text-sm font-light space-y-2">
+                <p>Margaret Street, Toowoomba, QLD</p>
+                <p>(555) 123-4567</p>
+                <p>hello@tinascoffee.com</p>
+              </div>
             </div>
           </div>
 
