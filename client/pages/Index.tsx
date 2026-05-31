@@ -57,53 +57,88 @@ export default function Index() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-gray-50 to-white overflow-hidden py-24 md:py-40">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
-          <div className="mb-8 animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-light text-gray-900 mb-6 leading-tight">
-              Located at The Longs Quarter
+      <section className="relative overflow-hidden min-h-screen md:min-h-[85vh] flex items-center justify-center">
+        {/* Background Image with Overlay */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1447933601403-0c6688e566e2?w=1600&h=900&fit=crop')",
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/60 to-black/50"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40"></div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center text-center py-20">
+          <div className="mb-8 animate-fade-in max-w-3xl">
+            {/* Subtitle */}
+            <p className="text-white/80 text-sm md:text-base uppercase tracking-[0.2em] font-light mb-6">
+              Premium Coffee Experience
+            </p>
+
+            {/* Main Heading */}
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-white mb-8 leading-tight">
+              Located at<br />
+              <span className="text-[#FFD700]">The Longs Quarter</span>
             </h1>
 
-            <div className="space-y-3 text-gray-600 text-lg md:text-xl font-light mb-8">
+            {/* Description */}
+            <div className="space-y-2 text-white/90 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto">
               <p>Margaret Street, Toowoomba, Queensland</p>
-              <p>Monday to Sunday from 7am</p>
-              <p>Walk ins only</p>
+              <p className="text-white/75">Monday to Sunday from 7am • Walk ins only</p>
             </div>
 
-            <div className="flex justify-center gap-6 mb-10">
+            {/* Divider */}
+            <div className="flex items-center justify-center gap-4 mb-12">
+              <div className="h-px bg-gradient-to-r from-transparent to-white/30 w-12"></div>
+              <span className="text-white/70 text-sm tracking-widest">OPEN NOW</span>
+              <div className="h-px bg-gradient-to-l from-transparent to-white/30 w-12"></div>
+            </div>
+
+            {/* Social Icons */}
+            <div className="flex justify-center gap-8 mb-12">
               <a
                 href="mailto:hello@tinascoffee.com"
-                className="text-[#014CE0] hover:opacity-70 transition-opacity"
+                className="text-white hover:text-[#FFD700] transition-colors transform hover:scale-110 duration-200"
                 title="Email"
               >
-                <Mail className="w-5 h-5" />
+                <Mail className="w-6 h-6" />
               </a>
               <a
                 href="tel:+61551234567"
-                className="text-[#014CE0] hover:opacity-70 transition-opacity"
+                className="text-white hover:text-[#FFD700] transition-colors transform hover:scale-110 duration-200"
                 title="Call"
               >
-                <Phone className="w-5 h-5" />
+                <Phone className="w-6 h-6" />
               </a>
               <a
                 href="#"
-                className="text-[#014CE0] hover:opacity-70 transition-opacity"
+                className="text-white hover:text-[#FFD700] transition-colors transform hover:scale-110 duration-200"
                 title="Instagram"
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.646.069 4.85 0 3.204-.012 3.584-.07 4.85-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.69.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.322a1.44 1.44 0 11.001 2.881 1.44 1.44 0 01-.001-2.881z" />
                 </svg>
               </a>
             </div>
 
+            {/* CTA Button */}
             <Link
               to="/menu"
               onClick={() => triggerHaptic("success")}
-              className="inline-flex items-center gap-2 px-8 py-3 border-2 border-[#014CE0] text-[#014CE0] rounded-full font-light uppercase tracking-widest text-sm hover:bg-[#014CE0] hover:text-white transition-all"
+              className="inline-flex items-center gap-3 px-10 py-4 bg-[#014CE0] hover:bg-[#FFD700] hover:text-gray-900 text-white font-light uppercase tracking-widest text-sm rounded-full transition-all transform hover:scale-105 duration-200 shadow-2xl"
             >
-              Order Now
-              <ArrowRight className="w-4 h-4" />
+              Explore Our Menu
+              <ArrowRight className="w-5 h-5" />
             </Link>
+
+            {/* Scroll Indicator */}
+            <div className="mt-16 animate-bounce">
+              <svg className="w-6 h-6 text-white/60 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </div>
           </div>
         </div>
       </section>
