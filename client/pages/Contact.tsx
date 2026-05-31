@@ -36,7 +36,7 @@ export default function Contact() {
   return (
     <div className="bg-white text-gray-900 min-h-screen">
       {/* Navigation */}
-      <nav className="sticky top-0 z-40 bg-[#014CE0] shadow-lg">
+      <nav className="sticky top-0 z-40 bg-[#092622] shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link
             to="/"
@@ -91,7 +91,7 @@ export default function Contact() {
           <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
             {/* Contact Info */}
             <div>
-              <h2 className="text-3xl font-light text-[#014CE0] mb-8 uppercase tracking-wide">
+              <h2 className="text-3xl font-light text-[#092622] mb-8 uppercase tracking-wide">
                 Contact Information
               </h2>
 
@@ -99,7 +99,7 @@ export default function Contact() {
                 {/* Location */}
                 <div className="flex gap-4">
                   <div className="flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-[#014CE0]" />
+                    <MapPin className="w-6 h-6 text-[#092622]" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-2">
@@ -116,13 +116,13 @@ export default function Contact() {
                 {/* Phone */}
                 <div className="flex gap-4">
                   <div className="flex-shrink-0">
-                    <Phone className="w-6 h-6 text-[#014CE0]" />
+                    <Phone className="w-6 h-6 text-[#092622]" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-2">Phone</h3>
                     <a
                       href="tel:+61551234567"
-                      className="text-gray-600 font-light hover:text-[#014CE0] transition-colors"
+                      className="text-gray-600 font-light hover:text-[#092622] transition-colors"
                     >
                       +61 469 633 877
                     </a>
@@ -132,13 +132,13 @@ export default function Contact() {
                 {/* Email */}
                 <div className="flex gap-4">
                   <div className="flex-shrink-0">
-                    <Mail className="w-6 h-6 text-[#014CE0]" />
+                    <Mail className="w-6 h-6 text-[#092622]" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-2">Email</h3>
                     <a
                       href="mailto:hello@tinascoffee.com"
-                      className="text-gray-600 font-light hover:text-[#014CE0] transition-colors"
+                      className="text-gray-600 font-light hover:text-[#092622] transition-colors"
                     >
                       hello@tinascoffee.com
                     </a>
@@ -148,7 +148,7 @@ export default function Contact() {
                 {/* Hours */}
                 <div className="flex gap-4">
                   <div className="flex-shrink-0">
-                    <Clock className="w-6 h-6 text-[#014CE0]" />
+                    <Clock className="w-6 h-6 text-[#092622]" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-2">Hours</h3>
@@ -159,7 +159,7 @@ export default function Contact() {
                       <br />
                       Sunday: Closed
                       <br />
-                      <span className="block mt-2 text-sm text-[#014CE0]">
+                      <span className="block mt-2 text-sm text-[#092622]">
                         Walk-ins only
                       </span>
                     </p>
@@ -173,14 +173,14 @@ export default function Contact() {
                 <div className="flex gap-4">
                   <a
                     href="https://www.instagram.com/tinascoffeeplace"
-                    className="text-[#014CE0] hover:opacity-70 transition-opacity"
+                    className="text-[#092622] hover:opacity-70 transition-opacity"
                     title="Instagram"
                   >
                     <Instagram className="w-6 h-6" />
                   </a>
                   {/* <a
                     href="#"
-                    className="text-[#014CE0] hover:opacity-70 transition-opacity"
+                    className="text-[#092622] hover:opacity-70 transition-opacity"
                     title="Facebook"
                   >
                     <svg
@@ -197,7 +197,7 @@ export default function Contact() {
 
             {/* Contact Form */}
             <div>
-              <h2 className="text-3xl font-light text-[#014CE0] mb-8 uppercase tracking-wide">
+              <h2 className="text-3xl font-light text-[#092622] mb-8 uppercase tracking-wide">
                 Send us a Message
               </h2>
 
@@ -216,7 +216,7 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#014CE0] focus:ring-1 focus:ring-[#014CE0] transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#092622] focus:ring-1 focus:ring-[#092622] transition-colors"
                     placeholder="Your name"
                   />
                 </div>
@@ -235,7 +235,7 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#014CE0] focus:ring-1 focus:ring-[#014CE0] transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#092622] focus:ring-1 focus:ring-[#092622] transition-colors"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -254,7 +254,7 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#014CE0] focus:ring-1 focus:ring-[#014CE0] transition-colors resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#092622] focus:ring-1 focus:ring-[#092622] transition-colors resize-none"
                     placeholder="Tell us how we can help..."
                   />
                 </div>
@@ -262,7 +262,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   onClick={() => triggerHaptic("tap")}
-                  className="w-full px-8 py-4 bg-[#014CE0] hover:bg-[#0139A8] text-white font-light uppercase tracking-widest rounded-lg transition-all hover:shadow-lg active:scale-95"
+                  className="w-full px-8 py-4 bg-[#092622] hover:bg-[#0139A8] text-white font-light uppercase tracking-widest rounded-lg transition-all hover:shadow-lg active:scale-95"
                 >
                   Send Message
                 </button>
@@ -280,16 +280,15 @@ export default function Contact() {
       {/* Map Section */}
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-light text-[#014CE0] mb-8 uppercase tracking-wide">
+          <h2 className="text-3xl font-light text-[#092622] mb-8 uppercase tracking-wide">
             Find Us
           </h2>
-          <div className="bg-gray-200 rounded-lg h-96 flex items-center justify-center">
+          <div className="bg-gray-200 rounded-lg h-200 flex items-center justify-center">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3417.1927968908212!2d151.9504918753185!3d-27.564598876264707!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b965d1a7b0e5baf%3A0xfce9b5d7b7320700!2zVGluYeKAmXMgUGxhY2UgQ2FmZSAmIENhdGVyaW5nLvCfkpU!5e1!3m2!1sen!2sau!4v1780207589144!5m2!1sen!2sau"
-              width="600"
+              width="100%"
               height="450"
               loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
         </div>
@@ -312,7 +311,7 @@ export default function Contact() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-[#014CE0] uppercase tracking-wide text-sm">
+              <h4 className="font-semibold mb-4 text-[#092622] uppercase tracking-wide text-sm">
                 Hours
               </h4>
               <p className="text-gray-400 text-sm font-light leading-relaxed">
@@ -325,7 +324,7 @@ export default function Contact() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-[#014CE0] uppercase tracking-wide text-sm">
+              <h4 className="font-semibold mb-4 text-[#092622] uppercase tracking-wide text-sm">
                 Contact
               </h4>
               <div className="text-gray-400 text-sm font-light space-y-2">

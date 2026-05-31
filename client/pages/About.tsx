@@ -10,7 +10,7 @@ export default function About() {
   return (
     <div className="bg-white text-gray-900 min-h-screen">
       {/* Navigation */}
-      <nav className="sticky top-0 z-40 bg-[#014CE0] shadow-lg">
+      <nav className="sticky top-0 z-40 bg-[#092622] shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link
             to="/"
@@ -62,7 +62,7 @@ export default function About() {
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-4xl mx-auto px-6">
           <div className="mb-12">
-            <h2 className="text-4xl font-light text-[#014CE0] mb-6 uppercase tracking-wide">
+            <h2 className="text-4xl font-light text-[#092622] mb-6 uppercase tracking-wide">
               Our Story
             </h2>
             <p className="text-lg text-gray-700 font-light leading-relaxed mb-6">
@@ -81,33 +81,33 @@ export default function About() {
 
           <div className="grid md:grid-cols-2 gap-12 my-16">
             <div>
-              <h3 className="text-2xl font-light text-[#014CE0] mb-4 uppercase tracking-wide">
+              <h3 className="text-2xl font-light text-[#092622] mb-4 uppercase tracking-wide">
                 Our Values
               </h3>
               <ul className="space-y-4 text-gray-700 font-light">
                 <li className="flex gap-3">
-                  <span className="text-[#014CE0] font-bold">•</span>
+                  <span className="text-[#092622] font-bold">•</span>
                   <span>
                     <strong>Quality First</strong> - We never compromise on the
                     quality of our coffee or service
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#014CE0] font-bold">•</span>
+                  <span className="text-[#092622] font-bold">•</span>
                   <span>
                     <strong>Ethical Sourcing</strong> - Direct trade
                     relationships with sustainable coffee farms
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#014CE0] font-bold">•</span>
+                  <span className="text-[#092622] font-bold">•</span>
                   <span>
                     <strong>Community Connection</strong> - A welcoming space
                     for everyone
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#014CE0] font-bold">•</span>
+                  <span className="text-[#092622] font-bold">•</span>
                   <span>
                     <strong>Artisan Craftsmanship</strong> - Each cup prepared
                     with care and precision
@@ -117,33 +117,33 @@ export default function About() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-light text-[#014CE0] mb-4 uppercase tracking-wide">
+              <h3 className="text-2xl font-light text-[#092622] mb-4 uppercase tracking-wide">
                 Why Choose Us
               </h3>
               <ul className="space-y-4 text-gray-700 font-light">
                 <li className="flex gap-3">
-                  <span className="text-[#014CE0] font-bold">•</span>
+                  <span className="text-[#092622] font-bold">•</span>
                   <span>
                     <strong>Expertly Roasted</strong> - Small batch roasting
                     ensures freshness and flavor
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#014CE0] font-bold">•</span>
+                  <span className="text-[#092622] font-bold">•</span>
                   <span>
                     <strong>Skilled Baristas</strong> - Our team trained in the
                     art of coffee preparation
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#014CE0] font-bold">•</span>
+                  <span className="text-[#092622] font-bold">•</span>
                   <span>
                     <strong>Perfect Pairing</strong> - Complementary food
                     offerings prepared fresh daily
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#014CE0] font-bold">•</span>
+                  <span className="text-[#092622] font-bold">•</span>
                   <span>
                     <strong>Local Pride</strong> - Supporting the Toowoomba
                     community
@@ -154,7 +154,7 @@ export default function About() {
           </div>
 
           <div className="bg-gray-50 rounded-lg p-8 mt-12">
-            <h3 className="text-2xl font-light text-[#014CE0] mb-4 uppercase tracking-wide">
+            <h3 className="text-2xl font-light text-[#092622] mb-4 uppercase tracking-wide">
               Our Process
             </h3>
             <div className="grid md:grid-cols-3 gap-8 text-center">
@@ -198,7 +198,7 @@ export default function About() {
             href="/menu.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-10 py-4 bg-[#014CE0] hover:bg-[#0139A8] text-white font-light uppercase tracking-widest rounded-full transition-all hover:shadow-xl active:scale-95"
+            className="inline-block px-10 py-4 bg-[#092622] hover:bg-[#0139A8] text-white font-light uppercase tracking-widest rounded-full transition-all hover:shadow-xl active:scale-95"
           >
             View Menu
           </a>
@@ -220,7 +220,7 @@ export default function About() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-[#014CE0] uppercase tracking-wide text-sm">
+              <h4 className="font-semibold mb-4 text-[#092622] uppercase tracking-wide text-sm">
                 Hours
               </h4>
               <p className="text-gray-400 text-sm font-light leading-relaxed">
@@ -231,7 +231,7 @@ export default function About() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-[#014CE0] uppercase tracking-wide text-sm">
+              <h4 className="font-semibold mb-4 text-[#092622] uppercase tracking-wide text-sm">
                 Contact
               </h4>
               <div className="text-gray-400 text-sm font-light space-y-2">

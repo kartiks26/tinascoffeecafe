@@ -92,7 +92,7 @@ export default function Menu() {
   return (
     <div className="bg-white text-gray-900 min-h-screen">
       {/* Navigation */}
-      <nav className="sticky top-0 z-40 bg-[#014CE0] shadow-lg">
+      <nav className="sticky top-0 z-40 bg-[#092622] shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link
             to="/"
@@ -143,7 +143,7 @@ export default function Menu() {
       {/* Coffee Section */}
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-2xl sm:text-4xl font-light text-[#014CE0] mb-10 uppercase tracking-wide">
+          <h2 className="text-2xl sm:text-4xl font-light text-[#092622] mb-10 uppercase tracking-wide">
             Coffee
           </h2>
 
@@ -151,7 +151,7 @@ export default function Menu() {
             {coffeeItems.map((item) => (
               <div
                 key={item.id}
-                className="border border-gray-200 rounded-none overflow-hidden hover:shadow-xl transition-all hover:border-[#014CE0] bg-white"
+                className="border border-gray-200 rounded-none overflow-hidden hover:shadow-xl transition-all hover:border-[#092622] bg-white"
               >
                 <button
                   type="button"
@@ -176,10 +176,10 @@ export default function Menu() {
                         </p>
                       </div>
                       <div className="flex items-center justify-between gap-4">
-                        <div className="text-base sm:text-2xl font-semibold text-[#014CE0]">
+                        <div className="text-base sm:text-2xl font-semibold text-[#092622]">
                           ${calculatePrice(item).toFixed(2)}
                         </div>
-                        <div className="text-xs uppercase tracking-[0.24em] text-[#014CE0] font-semibold hidden sm:block">
+                        <div className="text-xs uppercase tracking-[0.24em] text-[#092622] font-semibold hidden sm:block">
                           {item.addons
                             ? item.addons.map((group) => group.name).join(" • ")
                             : "No customization"}
@@ -197,7 +197,7 @@ export default function Menu() {
       {/* Food Section */}
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-light text-[#014CE0] mb-10 uppercase tracking-wide">
+          <h2 className="text-4xl font-light text-[#092622] mb-10 uppercase tracking-wide">
             Food
           </h2>
 
@@ -205,7 +205,7 @@ export default function Menu() {
             {foodItems.map((item) => (
               <div
                 key={item.id}
-                className="border border-gray-200 rounded-none overflow-hidden hover:shadow-xl transition-all hover:border-[#014CE0] bg-white"
+                className="border border-gray-200 rounded-none overflow-hidden hover:shadow-xl transition-all hover:border-[#092622] bg-white"
               >
                 <button
                   type="button"
@@ -230,10 +230,10 @@ export default function Menu() {
                         </p>
                       </div>
                       <div className="flex items-center justify-between gap-4">
-                        <div className="text-base sm:text-2xl font-semibold text-[#014CE0]">
+                        <div className="text-base sm:text-2xl font-semibold text-[#092622]">
                           ${calculatePrice(item).toFixed(2)}
                         </div>
-                        <div className="text-xs uppercase tracking-[0.24em] text-[#014CE0] font-semibold hidden sm:block">
+                        <div className="text-xs uppercase tracking-[0.24em] text-[#092622] font-semibold hidden sm:block">
                           {item.addons
                             ? item.addons.map((group) => group.name).join(" • ")
                             : "No customization"}
@@ -276,7 +276,7 @@ export default function Menu() {
               {customizeItem?.addons?.length ? (
                 customizeItem.addons.map((group) => (
                   <div key={group.name} className="space-y-3">
-                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#014CE0]">
+                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#092622]">
                       {group.name}
                     </p>
                     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -294,8 +294,8 @@ export default function Menu() {
                           className={`rounded-none border p-4 text-left transition ${
                             selectedAddons[customizeItem.id]?.[group.name] ===
                             option.label
-                              ? "border-[#014CE0] bg-[#e8efff]"
-                              : "border-gray-200 bg-white hover:border-[#014CE0]"
+                              ? "border-[#092622] bg-[#e8efff]"
+                              : "border-gray-200 bg-white hover:border-[#092622]"
                           }`}
                         >
                           <div className="flex items-center justify-between gap-4">
@@ -303,7 +303,7 @@ export default function Menu() {
                               {option.label}
                             </span>
                             {option.priceModifier > 0 ? (
-                              <span className="text-sm text-[#014CE0] font-semibold">
+                              <span className="text-sm text-[#092622] font-semibold">
                                 +${option.priceModifier.toFixed(2)}
                               </span>
                             ) : (
@@ -328,7 +328,7 @@ export default function Menu() {
             <div className="border-t border-gray-200 p-6 bg-gray-50 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm text-gray-600">Estimated total</p>
-                <p className="text-2xl font-semibold text-[#014CE0]">
+                <p className="text-2xl font-semibold text-[#092622]">
                   $
                   {customizeItem
                     ? calculatePrice(customizeItem).toFixed(2)
@@ -365,7 +365,7 @@ export default function Menu() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-[#014CE0] uppercase tracking-wide text-sm">
+              <h4 className="font-semibold mb-4 text-[#092622] uppercase tracking-wide text-sm">
                 Hours
               </h4>
               <p className="text-gray-400 text-sm font-light leading-relaxed">
@@ -376,7 +376,7 @@ export default function Menu() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-[#014CE0] uppercase tracking-wide text-sm">
+              <h4 className="font-semibold mb-4 text-[#092622] uppercase tracking-wide text-sm">
                 Contact
               </h4>
               <div className="text-gray-400 text-sm font-light space-y-2">

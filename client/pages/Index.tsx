@@ -28,7 +28,7 @@ export default function Index() {
   return (
     <div className="bg-white text-gray-900 min-h-screen">
       {/* Navigation */}
-      <nav className="sticky top-0 z-40 bg-[#014CE0] shadow-lg">
+      <nav className="sticky top-0 z-40 bg-[#092622] shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link
             to="/"
@@ -82,7 +82,7 @@ export default function Index() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#014CE0] border-t border-white/10">
+          <div className="md:hidden bg-[#092622] border-t border-white/10">
             <div className="max-w-7xl mx-auto px-6 py-4 space-y-3">
               {[
                 // { href: "/menu", label: "Menu" },
@@ -185,7 +185,7 @@ export default function Index() {
               href="/menu.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-[#014CE0] hover:bg-[#FFD700] hover:text-gray-900 text-white font-light uppercase tracking-widest text-sm rounded-full transition-all transform hover:scale-105 duration-200 shadow-2xl"
+              className="inline-flex items-center gap-3 px-10 py-4 bg-[#092622] hover:bg-[#FFD700] hover:text-gray-900 text-white font-light uppercase tracking-widest text-sm rounded-full transition-all transform hover:scale-105 duration-200 shadow-2xl"
             >
               Explore Our Menu
               <ArrowRight className="w-5 h-5" />
@@ -217,7 +217,7 @@ export default function Index() {
           <div className="grid md:grid-cols-3 gap-12">
             <div className="text-center">
               <div className="text-4xl mb-4">☕</div>
-              <h3 className="text-xl font-semibold text-[#014CE0] mb-2">
+              <h3 className="text-xl font-semibold text-[#092622] mb-2">
                 Premium Coffee
               </h3>
               <p className="text-gray-600 font-light">
@@ -227,7 +227,7 @@ export default function Index() {
             </div>
             <div className="text-center">
               <div className="text-4xl mb-4">🎨</div>
-              <h3 className="text-xl font-semibold text-[#014CE0] mb-2">
+              <h3 className="text-xl font-semibold text-[#092622] mb-2">
                 Artisan Crafted
               </h3>
               <p className="text-gray-600 font-light">
@@ -237,7 +237,7 @@ export default function Index() {
             </div>
             <div className="text-center">
               <div className="text-4xl mb-4">🤝</div>
-              <h3 className="text-xl font-semibold text-[#014CE0] mb-2">
+              <h3 className="text-xl font-semibold text-[#092622] mb-2">
                 Community First
               </h3>
               <p className="text-gray-600 font-light">
@@ -261,7 +261,7 @@ export default function Index() {
             href="/menu.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-10 py-4 bg-[#014CE0] hover:bg-[#0139A8] text-white font-light uppercase tracking-widest rounded-full transition-all hover:shadow-xl active:scale-95"
+            className="inline-block px-10 py-4 bg-[#092622] hover:bg-[#0139A8] text-white font-light uppercase tracking-widest rounded-full transition-all hover:shadow-xl active:scale-95"
           >
             View Menu
           </a>
@@ -289,7 +289,7 @@ export default function Index() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-[#014CE0] uppercase tracking-wide text-sm">
+              <h4 className="font-semibold mb-4 text-[#092622] uppercase tracking-wide text-sm">
                 Hours
               </h4>
               <p className="text-gray-400 text-sm font-light leading-relaxed">
@@ -302,7 +302,7 @@ export default function Index() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-[#014CE0] uppercase tracking-wide text-sm">
+              <h4 className="font-semibold mb-4 text-[#092622] uppercase tracking-wide text-sm">
                 Contact
               </h4>
               <div className="text-gray-400 text-sm font-light space-y-2">
