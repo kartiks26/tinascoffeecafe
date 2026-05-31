@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Instagram } from "lucide-react";
 
 function triggerHaptic(pattern: "tap") {
   if ("vibrate" in navigator) {
@@ -15,7 +15,9 @@ export default function Contact() {
     message: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -36,7 +38,10 @@ export default function Contact() {
       {/* Navigation */}
       <nav className="sticky top-0 z-40 bg-[#014CE0] shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <Link
+            to="/"
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          >
             <div className="text-white font-bold text-2xl">TINA'S</div>
             <div className="text-white/80 text-sm font-light">COFFEE</div>
           </Link>
@@ -70,15 +75,18 @@ export default function Contact() {
       {/* Hero */}
       <section className="bg-gradient-to-b from-gray-50 to-white py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-4">Get in Touch</h1>
+          <h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-4">
+            Get in Touch
+          </h1>
           <p className="text-lg text-gray-600 font-light">
-            We'd love to hear from you. Reach out with any questions or feedback.
+            We'd love to hear from you. Reach out with any questions or
+            feedback.
           </p>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-1 md:py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
             {/* Contact Info */}
@@ -94,10 +102,12 @@ export default function Contact() {
                     <MapPin className="w-6 h-6 text-[#014CE0]" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">Location</h3>
+                    <h3 className="font-semibold text-gray-900 mb-2">
+                      Location
+                    </h3>
                     <p className="text-gray-600 font-light">
-                      Margaret Street<br />
-                      The Longs Quarter<br />
+                      588 Ruthven Street
+                      <br />
                       Toowoomba, Queensland 4350
                     </p>
                   </div>
@@ -110,8 +120,11 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-2">Phone</h3>
-                    <a href="tel:+61551234567" className="text-gray-600 font-light hover:text-[#014CE0] transition-colors">
-                      (555) 123-4567
+                    <a
+                      href="tel:+61551234567"
+                      className="text-gray-600 font-light hover:text-[#014CE0] transition-colors"
+                    >
+                      +61 469 633 877
                     </a>
                   </div>
                 </div>
@@ -123,7 +136,10 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-2">Email</h3>
-                    <a href="mailto:hello@tinascoffee.com" className="text-gray-600 font-light hover:text-[#014CE0] transition-colors">
+                    <a
+                      href="mailto:hello@tinascoffee.com"
+                      className="text-gray-600 font-light hover:text-[#014CE0] transition-colors"
+                    >
                       hello@tinascoffee.com
                     </a>
                   </div>
@@ -137,9 +153,15 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-2">Hours</h3>
                     <p className="text-gray-600 font-light">
-                      Monday–Friday: 6:00 AM – 8:00 PM<br />
-                      Saturday–Sunday: 7:00 AM – 9:00 PM<br />
-                      <span className="block mt-2 text-sm text-[#014CE0]">Walk-ins only</span>
+                      Monday–Friday: 6:30 AM – 2:30 PM
+                      <br />
+                      Saturday: 7:00 AM – 1:00 PM
+                      <br />
+                      Sunday: Closed
+                      <br />
+                      <span className="block mt-2 text-sm text-[#014CE0]">
+                        Walk-ins only
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -150,23 +172,25 @@ export default function Contact() {
                 <h3 className="font-semibold text-gray-900 mb-4">Follow Us</h3>
                 <div className="flex gap-4">
                   <a
-                    href="#"
+                    href="https://www.instagram.com/tinascoffeeplace"
                     className="text-[#014CE0] hover:opacity-70 transition-opacity"
                     title="Instagram"
                   >
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.646.069 4.85 0 3.204-.012 3.584-.07 4.85-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.69.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.322a1.44 1.44 0 11.001 2.881 1.44 1.44 0 01-.001-2.881z" />
-                    </svg>
+                    <Instagram className="w-6 h-6" />
                   </a>
-                  <a
+                  {/* <a
                     href="#"
                     className="text-[#014CE0] hover:opacity-70 transition-opacity"
                     title="Facebook"
                   >
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      className="w-6 h-6"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                     </svg>
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </div>
@@ -179,7 +203,10 @@ export default function Contact() {
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-gray-900 mb-2">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-semibold text-gray-900 mb-2"
+                  >
                     Name
                   </label>
                   <input
@@ -195,7 +222,10 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-semibold text-gray-900 mb-2"
+                  >
                     Email
                   </label>
                   <input
@@ -211,7 +241,10 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-semibold text-gray-900 mb-2">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-semibold text-gray-900 mb-2"
+                  >
                     Message
                   </label>
                   <textarea
@@ -236,7 +269,8 @@ export default function Contact() {
               </form>
 
               <p className="mt-6 text-sm text-gray-600 font-light">
-                We typically respond within 24 hours. For urgent matters, please call us directly.
+                We typically respond within 24 hours. For urgent matters, please
+                call us directly.
               </p>
             </div>
           </div>
@@ -250,13 +284,13 @@ export default function Contact() {
             Find Us
           </h2>
           <div className="bg-gray-200 rounded-lg h-96 flex items-center justify-center">
-            <div className="text-center">
-              <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 font-light">
-                Map location coming soon<br />
-                <span className="text-sm">Margaret Street, The Longs Quarter, Toowoomba</span>
-              </p>
-            </div>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3417.1927968908212!2d151.9504918753185!3d-27.564598876264707!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b965d1a7b0e5baf%3A0xfce9b5d7b7320700!2zVGluYeKAmXMgUGxhY2UgQ2FmZSAmIENhdGVyaW5nLvCfkpU!5e1!3m2!1sen!2sau!4v1780207589144!5m2!1sen!2sau"
+              width="600"
+              height="450"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
         </div>
       </section>
@@ -268,7 +302,9 @@ export default function Contact() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="text-white font-bold text-xl">TINA'S</div>
-                <div className="text-white/70 text-xs font-light">COFFEE</div>
+                <div className="text-white/70 text-xs font-light">
+                  COFFEE PLACE
+                </div>
               </div>
               <p className="text-gray-400 text-sm font-light">
                 Crafting excellence in every cup since day one.
@@ -280,8 +316,11 @@ export default function Contact() {
                 Hours
               </h4>
               <p className="text-gray-400 text-sm font-light leading-relaxed">
-                Monday–Friday: 6:00 AM – 8:00 PM<br />
-                Saturday–Sunday: 7:00 AM – 9:00 PM
+                Monday–Friday: 6:30 AM – 2:30 PM
+                <br />
+                Saturday: 7:00 AM – 1:00 PM
+                <br />
+                Sunday: Closed
               </p>
             </div>
 
@@ -290,15 +329,15 @@ export default function Contact() {
                 Contact
               </h4>
               <div className="text-gray-400 text-sm font-light space-y-2">
-                <p>Margaret Street, Toowoomba, QLD</p>
-                <p>(555) 123-4567</p>
+                <p>588 Ruthven Street, Toowoomba, QLD</p>
+                <p>+61 469 633 877</p>
                 <p>hello@tinascoffee.com</p>
               </div>
             </div>
           </div>
 
           <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm font-light">
-            <p>&copy; 2024 Tina's Coffee. All rights reserved.</p>
+            <p>&copy; 2026 Tina's Coffee. All rights reserved.</p>
           </div>
         </div>
       </footer>

@@ -1,0 +1,163 @@
+[
+  {
+    "id": "espresso",
+    "name": "Classic Espresso",
+    "description": "Bold and rich double shot of pure espresso",
+    "price": 2.99,
+    "category": "coffee",
+    "image": "https://images.unsplash.com/photo-1501339847302-ac426a36ae57?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Size",
+        "options": [
+          { "label": "Single Shot", "priceModifier": 0 },
+          { "label": "Double Shot", "priceModifier": 0.5 },
+          { "label": "Triple Shot", "priceModifier": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cappuccino",
+    "name": "Silky Cappuccino",
+    "description": "Perfect blend of espresso, steamed milk & velvety foam",
+    "price": 4.49,
+    "category": "coffee",
+    "image": "https://images.unsplash.com/photo-1517668808822-9ebb02ae2a0e?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Milk",
+        "options": [
+          { "label": "Whole Milk", "priceModifier": 0 },
+          { "label": "Oat Milk", "priceModifier": 0.5 },
+          { "label": "Almond Milk", "priceModifier": 0.5 },
+          { "label": "Soy Milk", "priceModifier": 0.5 }
+        ]
+      },
+      {
+        "name": "Size",
+        "options": [
+          { "label": "Small", "priceModifier": 0 },
+          { "label": "Medium", "priceModifier": 0.5 },
+          { "label": "Large", "priceModifier": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "latte",
+    "name": "Smooth Latte",
+    "description": "Creamy espresso with perfectly steamed milk",
+    "price": 4.79,
+    "category": "coffee",
+    "image": "https://images.unsplash.com/photo-1497636577773-f1231844b5a9?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Milk",
+        "options": [
+          { "label": "Whole Milk", "priceModifier": 0 },
+          { "label": "Oat Milk", "priceModifier": 0.5 },
+          { "label": "Almond Milk", "priceModifier": 0.5 },
+          { "label": "Soy Milk", "priceModifier": 0.5 }
+        ]
+      },
+      {
+        "name": "Flavor",
+        "options": [
+          { "label": "Original", "priceModifier": 0 },
+          { "label": "Vanilla", "priceModifier": 0.5 },
+          { "label": "Hazelnut", "priceModifier": 0.5 },
+          { "label": "Caramel", "priceModifier": 0.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "americano",
+    "name": "Bold Americano",
+    "description": "Double espresso with hot water for balanced strength",
+    "price": 3.49,
+    "category": "coffee",
+    "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Size",
+        "options": [
+          { "label": "Single", "priceModifier": 0 },
+          { "label": "Double", "priceModifier": 0.5 },
+          { "label": "Triple", "priceModifier": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mocha",
+    "name": "Rich Mocha",
+    "description": "Espresso, steamed milk, decadent chocolate, topped with cream",
+    "price": 5.29,
+    "category": "coffee",
+    "image": "https://images.unsplash.com/photo-1578365212468-0feb6f23bed3?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Milk",
+        "options": [
+          { "label": "Whole Milk", "priceModifier": 0 },
+          { "label": "Oat Milk", "priceModifier": 0.5 },
+          { "label": "Almond Milk", "priceModifier": 0.5 }
+        ]
+      },
+      {
+        "name": "Extras",
+        "options": [
+          { "label": "No Cream", "priceModifier": 0 },
+          { "label": "Extra Cream", "priceModifier": 0.5 },
+          { "label": "Whipped Cream", "priceModifier": 0.75 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "macchiato",
+    "name": "Artistic Macchiato",
+    "description": "Espresso with just a touch of steamed milk",
+    "price": 3.99,
+    "category": "coffee",
+    "image": "https://images.unsplash.com/photo-1514432324607-2e467f4af4d9?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Size",
+        "options": [
+          { "label": "Small", "priceModifier": 0 },
+          { "label": "Medium", "priceModifier": 0.5 },
+          { "label": "Large", "priceModifier": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cortado",
+    "name": "Balanced Cortado",
+    "description": "Equal parts espresso and steamed milk",
+    "price": 3.79,
+    "category": "coffee",
+    "image": "https://images.unsplash.com/photo-1559056169-2b8b5a6b5f7d?w=500&h=400&fit=crop"
+  },
+  {
+    "id": "flat-white",
+    "name": "Velvety Flat White",
+    "description": "Espresso with thin layer of microfoam",
+    "price": 4.99,
+    "category": "coffee",
+    "image": "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Milk",
+        "options": [
+          { "label": "Whole Milk", "priceModifier": 0 },
+          { "label": "Oat Milk", "priceModifier": 0.5 },
+          { "label": "Almond Milk", "priceModifier": 0.5 }
+        ]
+      }
+    ]
+  }
+]

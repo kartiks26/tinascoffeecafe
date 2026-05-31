@@ -1,0 +1,175 @@
+[
+  {
+    "id": "croissant",
+    "name": "Butter Croissant",
+    "description": "Flaky, buttery croissant with a delicate crumb",
+    "price": 3.99,
+    "category": "food",
+    "image": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Filling",
+        "options": [
+          { "label": "Plain", "priceModifier": 0 },
+          { "label": "Chocolate", "priceModifier": 1.5 },
+          { "label": "Almond", "priceModifier": 1.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sandwich",
+    "name": "Morning Sandwich",
+    "description": "Fresh egg, bacon, and cheddar on artisan bread",
+    "price": 7.99,
+    "category": "food",
+    "image": "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Bread",
+        "options": [
+          { "label": "White", "priceModifier": 0 },
+          { "label": "Whole Wheat", "priceModifier": 0 },
+          { "label": "Sourdough", "priceModifier": 0.5 }
+        ]
+      },
+      {
+        "name": "Temperature",
+        "options": [
+          { "label": "Cold", "priceModifier": 0 },
+          { "label": "Toasted", "priceModifier": 0 }
+        ]
+      },
+      {
+        "name": "Cheese",
+        "options": [
+          { "label": "No Cheese", "priceModifier": 0 },
+          { "label": "Cheddar", "priceModifier": 0.75 },
+          { "label": "Swiss", "priceModifier": 0.75 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "muffin",
+    "name": "Blueberry Muffin",
+    "description": "Fresh blueberries in a tender, moist muffin",
+    "price": 4.49,
+    "category": "food",
+    "image": "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Glaze",
+        "options": [
+          { "label": "Sugar Dust", "priceModifier": 0 },
+          { "label": "Lemon Glaze", "priceModifier": 0.75 },
+          { "label": "Vanilla Glaze", "priceModifier": 0.75 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bagel",
+    "name": "Smoked Salmon Bagel",
+    "description": "Cream cheese, smoked salmon, capers, and red onion",
+    "price": 8.99,
+    "category": "food",
+    "image": "https://images.unsplash.com/photo-1585238341710-4b4e6f289635?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Spread",
+        "options": [
+          { "label": "Plain Cream Cheese", "priceModifier": 0 },
+          { "label": "Herb Cream Cheese", "priceModifier": 0.5 },
+          { "label": "Salmon Cream Cheese", "priceModifier": 1 }
+        ]
+      },
+      {
+        "name": "Extras",
+        "options": [
+          { "label": "Capers", "priceModifier": 0 },
+          { "label": "Red Onion", "priceModifier": 0 },
+          { "label": "Tomato", "priceModifier": 0.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "avocado-toast",
+    "name": "Avocado Toast",
+    "description": "Ripe avocado, poached egg, cherry tomatoes on whole grain",
+    "price": 7.49,
+    "category": "food",
+    "image": "https://images.unsplash.com/photo-1517668808822-9ebb02ae2a0e?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Bread",
+        "options": [
+          { "label": "Whole Grain", "priceModifier": 0 },
+          { "label": "Sourdough", "priceModifier": 0.5 },
+          { "label": "Multigrain", "priceModifier": 0.5 }
+        ]
+      },
+      {
+        "name": "Egg",
+        "options": [
+          { "label": "Poached", "priceModifier": 0 },
+          { "label": "Scrambled", "priceModifier": 0 },
+          { "label": "Fried", "priceModifier": 0 }
+        ]
+      },
+      {
+        "name": "Seasoning",
+        "options": [
+          { "label": "Sea Salt", "priceModifier": 0 },
+          { "label": "Chili Flakes", "priceModifier": 0.25 },
+          { "label": "Everything Spice", "priceModifier": 0.25 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "granola",
+    "name": "Yogurt Granola Bowl",
+    "description": "Creamy yogurt, house-made granola, fresh berries, honey",
+    "price": 6.99,
+    "category": "food",
+    "image": "https://images.unsplash.com/photo-1590080876872-da8dd4d1cb5f?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Yogurt",
+        "options": [
+          { "label": "Greek", "priceModifier": 0 },
+          { "label": "Coconut", "priceModifier": 0.5 },
+          { "label": "Regular", "priceModifier": 0 }
+        ]
+      },
+      {
+        "name": "Toppings",
+        "options": [
+          { "label": "Fresh Berries", "priceModifier": 0.75 },
+          { "label": "Honey Drizzle", "priceModifier": 0.5 },
+          { "label": "Toasted Almonds", "priceModifier": 0.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fruit-salad",
+    "name": "Fresh Fruit Salad",
+    "description": "Seasonal mix of fresh fruits with mint and lime dressing",
+    "price": 5.99,
+    "category": "food",
+    "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&h=400&fit=crop",
+    "addons": [
+      {
+        "name": "Dressing",
+        "options": [
+          { "label": "Mint Lime", "priceModifier": 0 },
+          { "label": "Honey Citrus", "priceModifier": 0.5 },
+          { "label": "No Dressing", "priceModifier": 0 }
+        ]
+      }
+    ]
+  }
+]
