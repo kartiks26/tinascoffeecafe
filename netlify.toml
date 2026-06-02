@@ -4,8 +4,10 @@
   publish = "dist/spa"
 
 [functions]
-  node_bundle = true  # <-- Changed from node_bundler = "esbuild"
-  external_node_modules = ["express"]
+  # Netlify handles bundling automatically, but we scope the 
+  # external modules inside the node_bundle configuration object.
+  [functions.node_bundle]
+    external_node_modules = ["express"]
 
 [[redirects]]
   from = "/api/*"
