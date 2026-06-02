@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
+import { handleSyncMenu, handleCreateOrder, handleGetOrderStatus } from "./routes/square";
 
 export function createServer() {
   const app = express();
@@ -18,6 +19,11 @@ export function createServer() {
   });
 
   app.get("/api/demo", handleDemo);
+
+  // Square POS Integration routes
+  app.get("/api/square/sync-menu", handleSyncMenu);
+  app.post("/api/square/create-order", handleCreateOrder);
+  app.get("/api/square/order-status/:orderId", handleGetOrderStatus);
 
   return app;
 }
