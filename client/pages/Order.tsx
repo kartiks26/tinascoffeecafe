@@ -61,6 +61,8 @@ export default function Order() {
         tableNumber,
         tableId: `table_${tableNumber.toLowerCase()}`,
       });
+      searchParams.set("table", `table_${tableNumber.toLowerCase()}`);
+      navigate(`?${searchParams.toString()}`);
       setShowTableInput(false);
       setTableInput("");
     }

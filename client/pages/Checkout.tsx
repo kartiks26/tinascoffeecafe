@@ -13,7 +13,12 @@ import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
 import { useSquareMenu } from "@/hooks/useSquareMenu";
 import { useCart } from "@/hooks/useCart";
-import { OrderRequest, CreateOrderResponse } from "@shared/api";
+import {
+  CartItem,
+  OrderRequest,
+  CreateOrderResponse,
+  SquareOrderResponse,
+} from "@shared/api";
 
 function triggerHaptic(pattern: "tap" | "success" | "warning") {
   if ("vibrate" in navigator) {
@@ -58,6 +63,10 @@ export default function Checkout() {
   const [error, setError] = useState<string | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
 
+  const [submittedItems, setSubmittedItems] = useState<CartItem[] | null>(null);
+  const [submittedOrder, setSubmittedOrder] =
+    useState<SquareOrderResponse | null>(null);
+
   const tableId = searchParams.get("table") || "unknown";
   const tableNumber =
     tableId.replace(/^table_/i, "").toUpperCase() || "Unknown";
@@ -67,7 +76,10 @@ export default function Checkout() {
       ? `/order?table=${encodeURIComponent(tableId)}`
       : "/order";
 
-  if (cart.itemCount === 0) {
+  if (
+    (!submittedItems || submittedItems.length === 0) &&
+    cart.items.length === 0
+  ) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-6">
         <div className="text-center max-w-md">
@@ -121,6 +133,8 @@ export default function Checkout() {
       }
 
       triggerHaptic("success");
+      setSubmittedItems(cart.items);
+      setSubmittedOrder(data.order);
       setOrderId(data.order.orderId);
       setCheckoutState("success");
       cart.clearCart();
@@ -135,30 +149,105 @@ export default function Checkout() {
   if (checkoutState === "success" && orderId) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-6">
-        <div className="text-center max-w-md">
-          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h2 className="text-3xl font-light text-gray-900 mb-3">
-            Order Placed!
-          </h2>
-          <p className="text-gray-600 font-light mb-2">
-            Your order has been sent to the kitchen
-          </p>
-          <p className="text-sm text-gray-500 mb-8">
-            Order ID: <span className="font-mono font-semibold">{orderId}</span>
-          </p>
-          <p className="text-gray-600 font-light mb-8">
-            Your order will be prepared and ready at your table shortly
-          </p>
+        <div className="max-w-3xl w-full">
+          <div className="text-center mb-8">
+            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+            <h2 className="text-3xl font-light text-gray-900 mb-3">
+              Order Placed!
+            </h2>
+            <p className="text-gray-600 font-light mb-2">
+              Your order has been sent to the kitchen.
+            </p>
+            <p className="text-sm text-gray-500 mb-2">
+              Order ID:{" "}
+              <span className="font-mono font-semibold">{orderId}</span>
+            </p>
+            {submittedOrder?.status && (
+              <p className="text-sm text-gray-500 mb-6">
+                Status:{" "}
+                <span className="font-semibold">{submittedOrder.status}</span>
+              </p>
+            )}
+          </div>
 
-          <button
-            onClick={() => {
-              triggerHaptic("tap");
-              navigate(orderPath);
-            }}
-            className="inline-block px-8 py-3 bg-[#092622] text-white rounded-full font-light uppercase hover:bg-[#064637] transition-all"
-          >
-            Place Another Order
-          </button>
+          <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+            <div className="bg-white rounded-2xl p-6 shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                What you ordered
+              </h3>
+              {submittedItems && submittedItems.length > 0 ? (
+                <div className="space-y-4">
+                  {submittedItems.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="rounded-2xl border border-gray-100 p-4"
+                    >
+                      <div className="flex justify-between items-start gap-4">
+                        <div>
+                          <h4 className="font-semibold text-gray-900">
+                            {item.productName}
+                          </h4>
+                          {Object.keys(item.modifiers || {}).length > 0 && (
+                            <p className="text-sm text-gray-600 mt-1">
+                              {Object.entries(item.modifiers)
+                                .map(([modifierId, optionId]) =>
+                                  getModifierLabel(modifierId, optionId),
+                                )
+                                .join(", ")}
+                            </p>
+                          )}
+                        </div>
+                        <div className="text-right">
+                          <p className="font-semibold text-gray-900">
+                            x{item.quantity}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            ${(item.price * item.quantity).toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-600">
+                  No items available for this order.
+                </p>
+              )}
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Order summary
+              </h3>
+              <div className="space-y-3 text-sm text-gray-700">
+                <div className="flex justify-between">
+                  <span>Subtotal</span>
+                  <span>${submittedOrder?.subtotal.toFixed(2) ?? "0.00"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Tax</span>
+                  <span>${submittedOrder?.tax.toFixed(2) ?? "0.00"}</span>
+                </div>
+                <div className="border-t pt-3 flex justify-between font-semibold text-gray-900">
+                  <span>Total</span>
+                  <span>${submittedOrder?.total.toFixed(2) ?? "0.00"}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-8">
+            <button
+              onClick={() => {
+                triggerHaptic("tap");
+                navigate(orderPath);
+              }}
+              className="inline-block px-8 py-3 bg-[#092622] text-white rounded-full font-light uppercase hover:bg-[#064637] transition-all"
+            >
+              Place Another Order
+            </button>
+          </div>
         </div>
       </div>
     );
