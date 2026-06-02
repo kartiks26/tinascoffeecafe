@@ -1,5 +1,11 @@
 import { RequestHandler } from "express";
-import { SquareMenu, MenuSyncResponse, OrderRequest, CreateOrderResponse, SquareOrderResponse } from "@shared/api";
+import {
+  SquareMenu,
+  MenuSyncResponse,
+  OrderRequest,
+  CreateOrderResponse,
+  SquareOrderResponse,
+} from "@shared/api";
 
 const SQUARE_API_BASE = "https://connect.squareup.com/v2";
 
@@ -13,7 +19,7 @@ function getSquareHeaders() {
     throw new Error("SQUARE_ACCESS_TOKEN not configured");
   }
   return {
-    "Authorization": `Bearer ${token}`,
+    Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
     "Square-Version": "2024-01-18",
   };
@@ -32,24 +38,38 @@ async function squareFetch(endpoint: string, options: RequestInit = {}) {
   if (!response.ok) {
     const error = (await response.json()) as SquareError;
     throw new Error(
-      `Square API error: ${error.errors?.[0]?.detail || response.statusText}`
+      `Square API error: ${error.errors?.[0]?.detail || response.statusText}`,
     );
   }
 
   return response.json();
 }
 
-function calculateModifierPrice(modifiers: Record<string, string>, modifierData: any[]): number {
+function calculateModifierPrice(
+  modifiers: Record<string, string>,
+  modifierData: any[],
+): number {
   let total = 0;
-  
+
   Object.entries(modifiers).forEach(([modifierId, optionId]) => {
-    const modifier = modifierData.find(m => m.id === modifierId);
-    if (modifier?.modifierOptions) {
-      const option = modifier.modifierOptions.find((opt: any) => opt.id === optionId);
-      if (option?.priceMoney) {
-        total += (option.priceMoney.amount || 0) / 100;
-      }
-    }
+    const modifier = modifierData.find((m) => m.id === modifierId);
+    if (!modifier) return;
+
+    // possible locations for option arrays
+    const optionsArr =
+      modifier.modifierOptions ||
+      modifier.modifiers ||
+      modifier.modifierListData?.modifiers ||
+      modifier.modifier_list_data?.modifiers ||
+      [];
+
+    const option = optionsArr.find((opt: any) => opt.id === optionId);
+    if (!option) return;
+
+    // option may wrap data in modifierData/modifier_data
+    const optData = option.modifierData || option.modifier_data || option;
+    const priceMoney = optData.priceMoney || optData.price_money || {};
+    total += (priceMoney.amount || 0) / 100;
   });
 
   return total;
@@ -59,58 +79,98 @@ export const handleSyncMenu: RequestHandler = async (req, res) => {
   try {
     const locationId = process.env.SQUARE_LOCATION_ID;
     if (!locationId) {
-      return res.status(500).json({ success: false, error: "SQUARE_LOCATION_ID not configured" });
+      return res
+        .status(500)
+        .json({ success: false, error: "SQUARE_LOCATION_ID not configured" });
     }
 
     // Fetch catalog
-    const catalogResponse = await squareFetch("/catalog/list?types=CATEGORY,ITEM,MODIFIER_LIST");
+    const catalogResponse = await squareFetch(
+      "/catalog/list?types=CATEGORY,ITEM,MODIFIER_LIST",
+    );
     const objects = catalogResponse.objects || [];
-
-    // Parse categories
+    console.log(objects);
+    // Parse categories (support camelCase and snake_case)
     const categories = objects
       .filter((obj: any) => obj.type === "CATEGORY")
-      .map((obj: any) => ({
-        id: obj.id,
-        name: obj.categoryData?.name || "",
-      }));
-
-    // Parse modifiers
-    const modifierData = objects.filter((obj: any) => obj.type === "MODIFIER_LIST");
-
-    // Parse products
-    const products = objects
-      .filter((obj: any) => obj.type === "ITEM")
       .map((obj: any) => {
-        const itemData = obj.itemData || {};
-        const categoryId = itemData.categoryId || "";
-        const category = categories.find((c: any) => c.id === categoryId);
-
+        const data = obj.categoryData || obj.category_data || {};
         return {
           id: obj.id,
-          name: itemData.name || "",
-          description: itemData.description || "",
-          price: itemData.variations?.[0]?.itemVariationData?.priceMoney?.amount
-            ? (itemData.variations[0].itemVariationData.priceMoney.amount / 100)
-            : 0,
-          categoryId: categoryId,
-          categoryName: category?.name || "Other",
-          imageUrl: itemData.imageIds?.[0] ? `/square/image/${itemData.imageIds[0]}` : undefined,
-          available: !itemData.isArchived,
+          name: data.name || "",
         };
       });
 
-    // Parse modifiers with options
-    const modifiers = modifierData.map((mod: any) => ({
-      id: mod.id,
-      name: mod.modifierListData?.name || "",
-      options: (mod.modifierListData?.modifiers || []).map((opt: any) => ({
-        id: opt.id,
-        name: opt.modifierData?.name || "",
-        priceModifier: opt.modifierData?.priceMoney?.amount
-          ? (opt.modifierData.priceMoney.amount / 100)
-          : 0,
-      })),
-    }));
+    // Parse modifiers
+    const modifierData = objects.filter(
+      (obj: any) => obj.type === "MODIFIER_LIST",
+    );
+
+    // Parse products (support camelCase and snake_case)
+    const products = objects
+      .filter((obj: any) => obj.type === "ITEM")
+      .map((obj: any) => {
+        const item = obj.itemData || obj.item_data || {};
+
+        // determine category id: categoryId, category_id, or first element of categories
+        let categoryId = "";
+        if (item.categoryId) categoryId = item.categoryId;
+        else if (item.category_id) categoryId = item.category_id;
+        else if (Array.isArray(item.categories) && item.categories.length > 0) {
+          const first = item.categories[0];
+          categoryId = typeof first === "string" ? first : first.id || "";
+        }
+
+        const category = categories.find((c: any) => c.id === categoryId);
+
+        // extract price from variation (support camelCase and snake_case)
+        const firstVariation = (item.variations && item.variations[0]) || {};
+        const variationData =
+          firstVariation.itemVariationData ||
+          firstVariation.item_variation_data ||
+          {};
+        const priceMoney =
+          variationData.priceMoney || variationData.price_money || {};
+        const price = priceMoney.amount ? priceMoney.amount / 100 : 0;
+
+        const imageId =
+          (item.imageIds && item.imageIds[0]) ||
+          (item.image_ids && item.image_ids[0]);
+        const available =
+          item.isArchived !== undefined
+            ? !item.isArchived
+            : !(item.is_archived ?? false);
+
+        return {
+          id: obj.id,
+          name: item.name || "",
+          description: item.description || "",
+          price,
+          categoryId,
+          categoryName: category?.name || "Other",
+          imageUrl: imageId ? `/square/image/${imageId}` : undefined,
+          available,
+        };
+      });
+
+    // Parse modifiers with options (support camelCase and snake_case)
+    const modifiers = modifierData.map((mod: any) => {
+      const listData = mod.modifierListData || mod.modifier_list_data || {};
+      const opts = listData.modifiers || [];
+      return {
+        id: mod.id,
+        name: listData.name || "",
+        options: opts.map((opt: any) => {
+          const optData = opt.modifierData || opt.modifier_data || {};
+          const priceMoney = optData.priceMoney || optData.price_money || {};
+          return {
+            id: opt.id,
+            name: optData.name || "",
+            priceModifier: priceMoney.amount ? priceMoney.amount / 100 : 0,
+          };
+        }),
+      };
+    });
 
     const menu: SquareMenu = {
       categories,
@@ -138,21 +198,28 @@ export const handleCreateOrder: RequestHandler = async (req, res) => {
   try {
     const locationId = process.env.SQUARE_LOCATION_ID;
     if (!locationId) {
-      return res.status(500).json({ success: false, error: "SQUARE_LOCATION_ID not configured" });
+      return res
+        .status(500)
+        .json({ success: false, error: "SQUARE_LOCATION_ID not configured" });
     }
 
-    const { tableNumber, tableId, items, notes, customerName, customerPhone } = req.body as OrderRequest;
+    const { tableNumber, tableId, items, notes, customerName, customerPhone } =
+      req.body as OrderRequest;
 
     if (!items || items.length === 0) {
-      return res.status(400).json({ success: false, error: "No items in order" });
+      return res
+        .status(400)
+        .json({ success: false, error: "No items in order" });
     }
 
     // Build line items
     const lineItems = items.map((item) => {
-      const modifiers = Object.entries(item.modifiers || {}).map(([modifierId, optionId]) => ({
-        uid: modifierId,
-        catalog_object_id: optionId as string,
-      }));
+      const modifiers = Object.entries(item.modifiers || {}).map(
+        ([modifierId, optionId]) => ({
+          uid: modifierId,
+          catalog_object_id: optionId as string,
+        }),
+      );
 
       return {
         quantity: item.quantity.toString(),
@@ -241,7 +308,8 @@ export const handleGetOrderStatus: RequestHandler = async (req, res) => {
   } catch (error) {
     console.error("Get order status error:", error);
     res.status(500).json({
-      error: error instanceof Error ? error.message : "Failed to get order status",
+      error:
+        error instanceof Error ? error.message : "Failed to get order status",
     });
   }
 };
