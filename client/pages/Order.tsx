@@ -79,6 +79,8 @@ export default function Order() {
     );
 
     const cartItem: CartItem = {
+      itemId: product.itemId,
+      variationId: product.variationId,
       productId: product.id,
       productName: product.name,
       price: product.price + modifierTotal,

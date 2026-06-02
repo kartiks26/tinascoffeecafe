@@ -13,8 +13,16 @@ export interface DemoResponse {
 
 // ============ SQUARE INTEGRATION TYPES ============
 
+export interface SquareProductVariation {
+  variationId: string;
+  name: string;
+  price: number;
+}
+
 export interface SquareProduct {
-  id: string;
+  id: string; // variationId
+  itemId: string; // parent item ID
+  variationId: string;
   name: string;
   description?: string;
   price: number;
@@ -34,6 +42,7 @@ export interface SquareModifierOption {
   id: string;
   name: string;
   priceModifier: number;
+  catalogObjectId?: string; // Square catalog object ID for this option
 }
 
 export interface SquareCategory {
@@ -49,7 +58,9 @@ export interface SquareMenu {
 }
 
 export interface CartItem {
-  productId: string;
+  itemId: string;
+  variationId: string;
+  productId: string; // currently the variationId for Square order creation
   productName: string;
   price: number;
   quantity: number;
