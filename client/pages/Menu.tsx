@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Header from "@/components/ui/Header";
+import Footer from "@/components/ui/Footer";
 import {
   Dialog,
   DialogContent,
@@ -91,42 +93,7 @@ export default function Menu() {
 
   return (
     <div className="bg-white text-gray-900 min-h-screen">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-40 bg-[#092622] shadow-lg">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link
-            to="/"
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-          >
-            <div className="text-white font-bold text-2xl">TINA'S</div>
-            <div className="text-white/80 text-sm font-light">COFFEE</div>
-          </Link>
-
-          <div className="hidden md:flex items-center gap-8">
-            <Link
-              to="/menu"
-              onClick={() => triggerHaptic("tap")}
-              className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide"
-            >
-              Menu
-            </Link>
-            <Link
-              to="/about"
-              onClick={() => triggerHaptic("tap")}
-              className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide"
-            >
-              About
-            </Link>
-            <Link
-              to="/contact"
-              onClick={() => triggerHaptic("tap")}
-              className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide"
-            >
-              Contact
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Header />
 
       {/* Menu Header */}
       <section className="bg-gradient-to-b from-gray-50 to-white py-12 md:py-16">
@@ -350,48 +317,7 @@ export default function Menu() {
         </DialogContent>
       </Dialog>
 
-      {/* Footer */}
-      <footer className="bg-[#171717] text-white py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-12 mb-12">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="text-white font-bold text-xl">TINA'S</div>
-                <div className="text-white/70 text-xs font-light">COFFEE</div>
-              </div>
-              <p className="text-gray-400 text-sm font-light">
-                Crafting excellence in every cup since day one.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4 text-[#3bbdac] uppercase tracking-wide text-sm">
-                Hours
-              </h4>
-              <p className="text-gray-400 text-sm font-light leading-relaxed">
-                Monday–Friday: 6:00 AM – 8:00 PM
-                <br />
-                Saturday–Sunday: 7:00 AM – 9:00 PM
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4 text-[#3bbdac] uppercase tracking-wide text-sm">
-                Contact
-              </h4>
-              <div className="text-gray-400 text-sm font-light space-y-2">
-                <p>588 Ruthven Street, Toowoomba, QLD</p>
-                <p>(555) 123-4567</p>
-                <p>hello@tinascoffee.com</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm font-light">
-            <p>&copy; 2026 Tina's Coffee. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Header from "@/components/ui/Header";
+import Footer from "@/components/ui/Footer";
 import {
   MapPin,
   Clock,
@@ -27,84 +29,7 @@ export default function Index() {
 
   return (
     <div className="bg-white text-gray-900 min-h-screen">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-40 bg-[#092622] shadow-lg">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link
-            to="/"
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-          >
-            <div className="text-white font-bold text-2xl">TINA'S</div>
-            <div className="text-white/80 text-sm font-light">COFFEE</div>
-          </Link>
-
-          <div className="hidden md:flex items-center gap-8">
-            {/* <Link
-              to="/menu"
-              onClick={() => triggerHaptic("tap")}
-              className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide"
-            >
-              Menu
-            </Link> */}
-            <Link
-              to="/about"
-              onClick={() => triggerHaptic("tap")}
-              className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide"
-            >
-              About
-            </Link>
-            <Link
-              to="/contact"
-              onClick={() => triggerHaptic("tap")}
-              className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide"
-            >
-              Contact
-            </Link>
-          </div>
-
-          <div className="md:hidden">
-            <button
-              type="button"
-              aria-label={
-                mobileMenuOpen ? "Close navigation" : "Open navigation"
-              }
-              aria-expanded={mobileMenuOpen}
-              onClick={() => setMobileMenuOpen((prev) => !prev)}
-              className="text-white"
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-[#092622] border-t border-white/10">
-            <div className="max-w-7xl mx-auto px-6 py-4 space-y-3">
-              {[
-                // { href: "/menu", label: "Menu" },
-                { href: "/about", label: "About" },
-                { href: "/contact", label: "Contact" },
-              ].map((link) => (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  onClick={() => {
-                    triggerHaptic("tap");
-                    setMobileMenuOpen(false);
-                  }}
-                  className="block text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-      </nav>
+      <Header />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden min-h-screen md:min-h-[85vh] flex items-center justify-center">
@@ -287,52 +212,7 @@ export default function Index() {
           </div>
         </div>
       </section>
-      {/* Footer */}
-      <footer className="bg-[#171717] text-white py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-12 mb-12">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="text-white font-bold text-xl">TINA'S</div>
-                <div className="text-white/70 text-xs font-light">
-                  COFFEE PLACE
-                </div>
-              </div>
-              <p className="text-gray-400 text-sm font-light">
-                Crafting excellence in every cup since day one.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4 text-[#3bbdac] uppercase tracking-wide text-sm">
-                Hours
-              </h4>
-              <p className="text-gray-400 text-sm font-light leading-relaxed">
-                Monday–Friday: 6:30 AM – 2:30 PM
-                <br />
-                Saturday : 7:00 AM – 1:00 PM
-                <br />
-                Sunday: Closed
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4 text-[#3bbdac] uppercase tracking-wide text-sm">
-                Contact
-              </h4>
-              <div className="text-gray-400 text-sm font-light space-y-2">
-                <p>580 Ruthven Street, Toowoomba, QLD 4350</p>
-                <p>+61 469 633 877</p>
-                <p>hello@tinascoffee.com</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm font-light">
-            <p>&copy; 2026 Tina's Coffee. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

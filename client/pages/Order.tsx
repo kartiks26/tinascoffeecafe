@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import { Plus, Minus, ShoppingCart, Loader } from "lucide-react";
+import { useSearchParams, useNavigate, Link } from "react-router-dom";
+import { Plus, Minus, ShoppingCart, Loader, Menu, X } from "lucide-react";
+import Header from "@/components/ui/Header";
+import Footer from "@/components/ui/Footer";
 import { useSquareMenu } from "@/hooks/useSquareMenu";
 import { useCart } from "@/hooks/useCart";
 import { CartItem, SquareProduct, SquareModifier } from "@shared/api";
@@ -28,7 +30,10 @@ export default function Order() {
   const [tableInput, setTableInput] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedProduct, setExpandedProduct] = useState<string | null>(null);
-  const [selectedModifiers, setSelectedModifiers] = useState<Record<string, Record<string, string>>>({});
+  const [selectedModifiers, setSelectedModifiers] = useState<
+    Record<string, Record<string, string>>
+  >({});
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const { menu, loading, error } = useSquareMenu();
   const cart = useCart();
@@ -74,7 +79,11 @@ export default function Order() {
     cart.addToCart(cartItem);
   };
 
-  const handleModifierSelect = (productId: string, modifierId: string, optionId: string) => {
+  const handleModifierSelect = (
+    productId: string,
+    modifierId: string,
+    optionId: string,
+  ) => {
     triggerHaptic("tap");
     setSelectedModifiers((prev) => ({
       ...prev,
@@ -104,13 +113,13 @@ export default function Order() {
               value={tableInput}
               onChange={(e) => setTableInput(e.target.value)}
               placeholder="e.g., A1, 5, Table 3"
-              className="w-full px-4 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#014CE0] text-center text-lg font-light uppercase"
+              className="w-full px-6 py-4 border-2 border-gray-300 rounded-full focus:outline-none focus:border-[#092622] text-center text-lg font-light uppercase"
               autoFocus
             />
             <button
               type="submit"
               disabled={!tableInput.trim()}
-              className="w-full px-6 py-4 bg-[#014CE0] hover:bg-[#0139A8] disabled:bg-gray-300 text-white font-light uppercase tracking-widest rounded-lg transition-all"
+              className="w-full px-6 py-4 bg-[#092622] hover:bg-[#064637] disabled:bg-gray-300 text-white font-light uppercase tracking-widest rounded-full transition-all"
             >
               Continue to Menu
             </button>
@@ -130,7 +139,7 @@ export default function Order() {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <Loader className="w-12 h-12 text-[#014CE0] animate-spin mx-auto mb-4" />
+          <Loader className="w-12 h-12 text-[#092622] animate-spin mx-auto mb-4" />
           <p className="text-gray-600 font-light">Loading menu...</p>
         </div>
       </div>
@@ -141,11 +150,15 @@ export default function Order() {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-6">
         <div className="text-center max-w-md">
-          <h2 className="text-2xl font-light text-gray-900 mb-3">Unable to Load Menu</h2>
-          <p className="text-gray-600 font-light mb-6">{error || "Please try again later"}</p>
+          <h2 className="text-2xl font-light text-gray-900 mb-3">
+            Unable to Load Menu
+          </h2>
+          <p className="text-gray-600 font-light mb-6">
+            {error || "Please try again later"}
+          </p>
           <button
             onClick={() => window.location.reload()}
-            className="px-6 py-3 bg-[#014CE0] text-white rounded-lg font-light uppercase"
+            className="px-6 py-3 bg-[#092622] text-white rounded-full font-light uppercase"
           >
             Retry
           </button>
@@ -155,38 +168,17 @@ export default function Order() {
   }
 
   const displayedProducts = selectedCategory
-    ? menu.products.filter((p) => p.categoryId === selectedCategory && p.available)
+    ? menu.products.filter(
+        (p) => p.categoryId === selectedCategory && p.available,
+      )
     : menu.products.filter((p) => p.available);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="sticky top-0 z-30 bg-[#014CE0] text-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="font-bold text-xl">TINA'S COFFEE</h1>
-              <p className="text-sm text-white/80 font-light">Table: {session.tableNumber}</p>
-            </div>
-
-            <button
-              onClick={() => navigate2("/order/checkout")}
-              className="relative flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-full transition-all"
-            >
-              <ShoppingCart className="w-5 h-5" />
-              <span className="font-light">{cart.itemCount}</span>
-              {cart.itemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-                  {cart.itemCount}
-                </span>
-              )}
-            </button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gray-50 text-gray-900">
+      <Header />
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className=" min-h-screen max-w-7xl mx-auto px-6 py-8">
         {/* Category Filter */}
         {menu.categories.length > 0 && (
           <div className="mb-8 flex gap-2 overflow-x-auto pb-2">
@@ -197,7 +189,7 @@ export default function Order() {
               }}
               className={`px-4 py-2 rounded-full font-light uppercase text-sm whitespace-nowrap transition-all ${
                 selectedCategory === null
-                  ? "bg-[#014CE0] text-white"
+                  ? "bg-[#092622] text-white"
                   : "bg-white text-gray-900 border border-gray-300"
               }`}
             >
@@ -212,7 +204,7 @@ export default function Order() {
                 }}
                 className={`px-4 py-2 rounded-full font-light uppercase text-sm whitespace-nowrap transition-all ${
                   selectedCategory === cat.id
-                    ? "bg-[#014CE0] text-white"
+                    ? "bg-[#092622] text-white"
                     : "bg-white text-gray-900 border border-gray-300"
                 }`}
               >
@@ -227,7 +219,7 @@ export default function Order() {
           {displayedProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-lg shadow hover:shadow-lg transition-all overflow-hidden"
+              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all overflow-hidden"
             >
               {product.imageUrl && (
                 <div className="relative h-48 bg-gray-200 overflow-hidden">
@@ -240,7 +232,9 @@ export default function Order() {
               )}
 
               <div className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">{product.name}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                  {product.name}
+                </h3>
                 {product.description && (
                   <p className="text-sm text-gray-600 font-light mb-4 line-clamp-2">
                     {product.description}
@@ -248,7 +242,7 @@ export default function Order() {
                 )}
 
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-2xl font-bold text-[#014CE0]">
+                  <span className="text-2xl font-bold text-[#092622]">
                     ${product.price.toFixed(2)}
                   </span>
                   {!product.available && (
@@ -259,56 +253,63 @@ export default function Order() {
                 </div>
 
                 {/* Modifiers */}
-                {expandedProduct === product.id && menu.modifiers.length > 0 && (
-                  <div className="mb-4 p-4 bg-gray-50 rounded-lg space-y-3 border-t pt-4">
-                    {menu.modifiers.map((modifier) => (
-                      <div key={modifier.id}>
-                        <h4 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">
-                          {modifier.name}
-                        </h4>
-                        <div className="space-y-2">
-                          {modifier.options.map((option) => (
-                            <label
-                              key={option.id}
-                              className="flex items-center p-2 rounded hover:bg-white cursor-pointer"
-                            >
-                              <input
-                                type="radio"
-                                name={`${product.id}-${modifier.id}`}
-                                checked={
-                                  selectedModifiers[product.id]?.[modifier.id] === option.id
-                                }
-                                onChange={() =>
-                                  handleModifierSelect(product.id, modifier.id, option.id)
-                                }
-                                className="w-4 h-4 accent-[#014CE0]"
-                              />
-                              <span className="ml-2 text-sm text-gray-700 flex-1">
-                                {option.name}
-                              </span>
-                              {option.priceModifier > 0 && (
-                                <span className="text-xs text-[#014CE0] font-semibold">
-                                  +${option.priceModifier.toFixed(2)}
+                {expandedProduct === product.id &&
+                  menu.modifiers.length > 0 && (
+                    <div className="mb-4 p-4 bg-gray-50 rounded-2xl space-y-3 border-t pt-4">
+                      {menu.modifiers.map((modifier) => (
+                        <div key={modifier.id}>
+                          <h4 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">
+                            {modifier.name}
+                          </h4>
+                          <div className="space-y-2">
+                            {modifier.options.map((option) => (
+                              <label
+                                key={option.id}
+                                className="flex items-center p-2 rounded-full hover:bg-white cursor-pointer"
+                              >
+                                <input
+                                  type="radio"
+                                  name={`${product.id}-${modifier.id}`}
+                                  checked={
+                                    selectedModifiers[product.id]?.[
+                                      modifier.id
+                                    ] === option.id
+                                  }
+                                  onChange={() =>
+                                    handleModifierSelect(
+                                      product.id,
+                                      modifier.id,
+                                      option.id,
+                                    )
+                                  }
+                                  className="w-4 h-4 accent-[#092622]"
+                                />
+                                <span className="ml-2 text-sm text-gray-700 flex-1">
+                                  {option.name}
                                 </span>
-                              )}
-                            </label>
-                          ))}
+                                {option.priceModifier > 0 && (
+                                  <span className="text-xs text-[#092622] font-semibold">
+                                    +${option.priceModifier.toFixed(2)}
+                                  </span>
+                                )}
+                              </label>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                      ))}
+                    </div>
+                  )}
 
                 {/* Actions */}
                 <div className="flex gap-2">
                   <button
                     onClick={() => {
                       setExpandedProduct(
-                        expandedProduct === product.id ? null : product.id
+                        expandedProduct === product.id ? null : product.id,
                       );
                       triggerHaptic("tap");
                     }}
-                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-900 rounded-lg font-light text-sm hover:bg-gray-50 transition-all"
+                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-900 rounded-full font-light text-sm hover:bg-gray-50 transition-all"
                   >
                     {menu.modifiers.length > 0
                       ? expandedProduct === product.id
@@ -318,7 +319,7 @@ export default function Order() {
                   </button>
                   <button
                     onClick={() => handleAddToCart(product)}
-                    className="flex-1 px-4 py-2 bg-[#014CE0] hover:bg-[#0139A8] text-white rounded-lg font-light text-sm transition-all"
+                    className="flex-1 px-4 py-2 bg-[#092622] hover:bg-[#064637] text-white rounded-full font-light text-sm transition-all"
                   >
                     Add
                   </button>
@@ -330,10 +331,14 @@ export default function Order() {
 
         {displayedProducts.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-600 font-light">No items available in this category</p>
+            <p className="text-gray-600 font-light">
+              No items available in this category
+            </p>
           </div>
         )}
       </div>
+
+      <Footer />
     </div>
   );
 }
