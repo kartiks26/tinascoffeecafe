@@ -62,6 +62,11 @@ export default function Checkout() {
   const tableNumber =
     tableId.replace(/^table_/i, "").toUpperCase() || "Unknown";
 
+  const orderPath =
+    tableId && tableId !== "unknown"
+      ? `/order?table=${encodeURIComponent(tableId)}`
+      : "/order";
+
   if (cart.itemCount === 0) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-6">
@@ -73,7 +78,7 @@ export default function Checkout() {
             Add some items from the menu before checking out
           </p>
           <button
-            onClick={() => navigate("/order")}
+            onClick={() => navigate(orderPath)}
             className="px-6 py-3 bg-[#092622] text-white rounded-full font-light uppercase"
           >
             Back to Menu
@@ -148,7 +153,7 @@ export default function Checkout() {
           <button
             onClick={() => {
               triggerHaptic("tap");
-              navigate("/order");
+              navigate(orderPath);
             }}
             className="inline-block px-8 py-3 bg-[#092622] text-white rounded-full font-light uppercase hover:bg-[#064637] transition-all"
           >
@@ -268,7 +273,7 @@ export default function Checkout() {
                 <button
                   onClick={() => {
                     triggerHaptic("tap");
-                    navigate("/order");
+                    navigate(orderPath);
                   }}
                   className="w-full px-6 py-3 border-2 border-gray-300 text-gray-900 font-light uppercase rounded-full hover:bg-gray-50 transition-all"
                 >

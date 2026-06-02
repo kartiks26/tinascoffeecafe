@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const cart = useCart();
+  const location = useLocation();
+  const queryString = location.search || "";
 
   function triggerHaptic(pattern: "tap" | "success") {
     if ("vibrate" in navigator) {
@@ -30,7 +32,7 @@ export default function Header() {
 
         <div className="hidden md:flex items-center gap-8">
           <Link
-            to="/order"
+            to={`/order${queryString}`}
             onClick={() => triggerHaptic("tap")}
             className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide"
           >
@@ -54,7 +56,7 @@ export default function Header() {
 
         <div className="flex items-center gap-4">
           <Link
-            to="/order/checkout"
+            to={`/order/checkout${queryString}`}
             className="relative flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full transition-all text-white"
           >
             <ShoppingCart className="w-5 h-5" />
@@ -90,7 +92,7 @@ export default function Header() {
         <div className="md:hidden bg-[#092622] border-t border-white/10">
           <div className="max-w-7xl mx-auto px-6 py-4 space-y-3">
             {[
-              { href: "/order", label: "Order" },
+              { href: `/order${queryString}`, label: "Order" },
               { href: "/about", label: "About" },
               { href: "/contact", label: "Contact" },
             ].map((link) => (

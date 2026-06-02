@@ -69,10 +69,19 @@ export default function Order() {
   const handleAddToCart = (product: SquareProduct) => {
     triggerHaptic("success");
     const modifiers = selectedModifiers[product.id] || {};
+    const modifierTotal = Object.entries(modifiers).reduce(
+      (sum, [modifierId, optionId]) => {
+        const modifier = menu?.modifiers.find((m) => m.id === modifierId);
+        const option = modifier?.options.find((o) => o.id === optionId);
+        return sum + (option?.priceModifier || 0);
+      },
+      0,
+    );
+
     const cartItem: CartItem = {
       productId: product.id,
       productName: product.name,
-      price: product.price,
+      price: product.price + modifierTotal,
       quantity: 1,
       modifiers,
     };
