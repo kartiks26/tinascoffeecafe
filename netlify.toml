@@ -4,8 +4,6 @@
   publish = "dist/spa"
 
 [functions]
-  # Netlify handles bundling automatically, but we scope the 
-  # external modules inside the node_bundle configuration object.
   [functions.node_bundle]
     external_node_modules = ["express"]
 
@@ -14,3 +12,8 @@
   to = "/.netlify/functions/api/:splat"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
