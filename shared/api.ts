@@ -95,3 +95,28 @@ export interface CreateOrderResponse {
   success: boolean;
   error?: string;
 }
+
+// ============ SQUARE PAYMENTS INTEGRATION ============
+
+export interface PaymentRequest {
+  orderId: string;
+  sourceId: string; // from Web Payments SDK
+  idempotencyKey: string;
+  customerName?: string;
+  customerEmail?: string;
+}
+
+export interface PaymentResponse {
+  success: boolean;
+  orderId: string;
+  paymentId?: string;
+  receiptUrl?: string;
+  status?: string;
+  error?: string;
+  errorCode?: string;
+}
+
+export interface PaymentWebKey {
+  applicationId: string;
+  locationId: string;
+}
