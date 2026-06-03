@@ -30,6 +30,7 @@ export interface SquareProduct {
   categoryName?: string;
   imageUrl?: string;
   available: boolean;
+  modifierIds?: string[]; // Square modifier lists attached to this item
 }
 
 export interface SquareModifier {

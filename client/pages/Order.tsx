@@ -267,69 +267,75 @@ export default function Order() {
 
                 {/* Modifiers */}
                 {expandedProduct === product.id &&
-                  menu.modifiers.length > 0 && (
+                  product.modifierIds?.length && (
                     <div className="mb-4 p-4 bg-gray-50 rounded-2xl space-y-3 border-t pt-4">
-                      {menu.modifiers.map((modifier) => (
-                        <div key={modifier.id}>
-                          <h4 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">
-                            {modifier.name}
-                          </h4>
-                          <div className="space-y-2">
-                            {modifier.options.map((option) => (
-                              <label
-                                key={option.id}
-                                className="flex items-center p-2 rounded-full hover:bg-white cursor-pointer"
-                              >
-                                <input
-                                  type="radio"
-                                  name={`${product.id}-${modifier.id}`}
-                                  checked={
-                                    selectedModifiers[product.id]?.[
-                                      modifier.id
-                                    ] === option.id
-                                  }
-                                  onChange={() =>
-                                    handleModifierSelect(
-                                      product.id,
-                                      modifier.id,
-                                      option.id,
-                                    )
-                                  }
-                                  className="w-4 h-4 accent-[#092622]"
-                                />
-                                <span className="ml-2 text-sm text-gray-700 flex-1">
-                                  {option.name}
-                                </span>
-                                {option.priceModifier > 0 && (
-                                  <span className="text-xs text-[#092622] font-semibold">
-                                    +${option.priceModifier.toFixed(2)}
+                      {menu.modifiers
+                        .filter((modifier) =>
+                          product.modifierIds?.includes(modifier.id),
+                        )
+                        .map((modifier) => (
+                          <div key={modifier.id}>
+                            <h4 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">
+                              {modifier.name}
+                            </h4>
+                            <div className="space-y-2">
+                              {modifier.options.map((option) => (
+                                <label
+                                  key={option.id}
+                                  className="flex items-center p-2 rounded-full hover:bg-white cursor-pointer"
+                                >
+                                  <input
+                                    type="radio"
+                                    name={`${product.id}-${modifier.id}`}
+                                    checked={
+                                      selectedModifiers[product.id]?.[
+                                        modifier.id
+                                      ] === option.id
+                                    }
+                                    onChange={() =>
+                                      handleModifierSelect(
+                                        product.id,
+                                        modifier.id,
+                                        option.id,
+                                      )
+                                    }
+                                    className="w-4 h-4 accent-[#092622]"
+                                  />
+                                  <span className="ml-2 text-sm text-gray-700 flex-1">
+                                    {option.name}
                                   </span>
-                                )}
-                              </label>
-                            ))}
+                                  {option.priceModifier > 0 && (
+                                    <span className="text-xs text-[#092622] font-semibold">
+                                      +${option.priceModifier.toFixed(2)}
+                                    </span>
+                                  )}
+                                </label>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   )}
 
                 {/* Actions */}
                 <div className="flex gap-2">
-                  <button
-                    onClick={() => {
-                      setExpandedProduct(
-                        expandedProduct === product.id ? null : product.id,
-                      );
-                      triggerHaptic("tap");
-                    }}
-                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-900 rounded-full font-light text-sm hover:bg-gray-50 transition-all"
-                  >
-                    {menu.modifiers.length > 0
-                      ? expandedProduct === product.id
-                        ? "Done"
-                        : "Customize"
-                      : "Details"}
-                  </button>
+                  {product.modifierIds?.length > 0 && (
+                    <button
+                      onClick={() => {
+                        setExpandedProduct(
+                          expandedProduct === product.id ? null : product.id,
+                        );
+                        triggerHaptic("tap");
+                      }}
+                      className="flex-1 px-4 py-2 border border-gray-300 text-gray-900 rounded-full font-light text-sm hover:bg-gray-50 transition-all"
+                    >
+                      {product.modifierIds?.length
+                        ? expandedProduct === product.id
+                          ? "Done"
+                          : "Customize"
+                        : "Details"}
+                    </button>
+                  )}
                   <button
                     onClick={() => handleAddToCart(product)}
                     className="flex-1 px-4 py-2 bg-[#092622] hover:bg-[#064637] text-white rounded-full font-light text-sm transition-all"

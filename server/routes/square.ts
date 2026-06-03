@@ -139,6 +139,17 @@ export const handleSyncMenu: RequestHandler = async (req, res) => {
           return [];
         }
 
+        const modifierIds: string[] = [];
+        const modifierListInfo =
+          item.modifierListInfo || item.modifier_list_info || [];
+        if (Array.isArray(modifierListInfo)) {
+          modifierListInfo.forEach((modInfo: any) => {
+            const modifierId =
+              modInfo.modifierListId || modInfo.modifier_list_id;
+            if (modifierId) modifierIds.push(modifierId);
+          });
+        }
+
         return variations.map((variation: any) => {
           const variationData =
             variation.itemVariationData || variation.item_variation_data || {};
@@ -162,6 +173,7 @@ export const handleSyncMenu: RequestHandler = async (req, res) => {
             categoryName: category?.name || "Other",
             imageUrl: imageId ? `/square/image/${imageId}` : undefined,
             available,
+            modifierIds,
           };
         });
       });
