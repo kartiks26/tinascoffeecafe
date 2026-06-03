@@ -155,16 +155,16 @@ export function PaymentReview({
                 <button
                   onClick={onBack}
                   disabled={isLoading}
-                  className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-900 font-light uppercase rounded-full hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-900 font-light uppercase  rounded-xl hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Back
                 </button>
                 <button
                   onClick={onProceed}
                   disabled={isLoading}
-                  className="flex-1 px-6 py-3 bg-[#092622] hover:bg-[#064637] disabled:bg-gray-400 text-white font-light uppercase rounded-full transition-all disabled:cursor-not-allowed"
+                  className="flex-1 px-4 py-1 bg-[#092622] hover:bg-[#064637] disabled:bg-gray-400 text-white text-xs  font-light uppercase transition-all disabled:cursor-not-allowed rounded-xl"
                 >
-                  {isLoading ? "Processing..." : "Proceed to Payment"}
+                  {isLoading ? "Processing..." : "Make Payment"}
                 </button>
               </div>
             </div>

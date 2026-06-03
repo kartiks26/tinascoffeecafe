@@ -77,7 +77,9 @@ export interface UseSquarePaymentsConfig {
 export function useSquarePayments(config?: UseSquarePaymentsConfig) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [paymentConfig, setPaymentConfig] = useState<PaymentWebKey | null>(null);
+  const [paymentConfig, setPaymentConfig] = useState<PaymentWebKey | null>(
+    null,
+  );
   const [form, setForm] = useState<SquarePaymentForm | null>(null);
 
   const sdkLoadedRef = useRef(false);
@@ -89,8 +91,7 @@ export function useSquarePayments(config?: UseSquarePaymentsConfig) {
         // Load Square Web Payments SDK
         if (!window.Square) {
           const script = document.createElement("script");
-          script.src =
-            "https://web.squarecdn.com/v1/square.js?expand=payments";
+          script.src = "https://web.squarecdn.com/v1/square.js?expand=payments";
           script.async = true;
 
           script.onerror = () => {
@@ -143,28 +144,7 @@ export function useSquarePayments(config?: UseSquarePaymentsConfig) {
 
         // Initialize payment methods
         const card = await payments.card({
-          style: {
-            ".input": {
-              "font-size": "14px",
-              "font-family": "Poppins, sans-serif",
-              "color": "#333",
-              "background-color": "#f9f9f9",
-              "border": "1px solid #e0e0e0",
-              "border-radius": "8px",
-              "padding": "10px 12px",
-            },
-            ".input:focus": {
-              "border-color": "#092622",
-              "box-shadow": "0 0 0 3px rgba(9, 38, 34, 0.1)",
-            },
-            ".input-label": {
-              "font-size": "12px",
-              "font-weight": "600",
-              "color": "#666",
-              "text-transform": "uppercase",
-              "margin-bottom": "4px",
-            },
-          },
+          style: {},
         });
 
         let applePay = null;
@@ -248,7 +228,9 @@ export function useSquarePayments(config?: UseSquarePaymentsConfig) {
               return result.token.sourceId || result.token;
             } catch (err) {
               const message =
-                err instanceof Error ? err.message : "Google Pay payment failed";
+                err instanceof Error
+                  ? err.message
+                  : "Google Pay payment failed";
               throw new Error(message);
             }
           },

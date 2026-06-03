@@ -21,14 +21,17 @@ const processedIdempotencyKeys = new Map<
 >();
 
 // Clean up old entries every 5 minutes
-setInterval(() => {
-  const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
-  for (const [key, value] of processedIdempotencyKeys.entries()) {
-    if (value.timestamp < fiveMinutesAgo) {
-      processedIdempotencyKeys.delete(key);
+setInterval(
+  () => {
+    const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+    for (const [key, value] of processedIdempotencyKeys.entries()) {
+      if (value.timestamp < fiveMinutesAgo) {
+        processedIdempotencyKeys.delete(key);
+      }
     }
-  }
-}, 5 * 60 * 1000);
+  },
+  5 * 60 * 1000,
+);
 
 function getSquareHeaders(idempotencyKey?: string) {
   const token = process.env.SQUARE_ACCESS_TOKEN;
@@ -83,13 +86,8 @@ export const handleProcessPayment: RequestHandler = async (req, res) => {
       } as PaymentResponse);
     }
 
-    const {
-      orderId,
-      sourceId,
-      idempotencyKey,
-      customerName,
-      customerEmail,
-    } = req.body as PaymentRequest;
+    const { orderId, sourceId, idempotencyKey, customerName, customerEmail } =
+      req.body as PaymentRequest;
 
     if (!orderId || !sourceId || !idempotencyKey) {
       return res.status(400).json({
@@ -118,7 +116,12 @@ export const handleProcessPayment: RequestHandler = async (req, res) => {
     }
 
     const order = orderResponse.order || {};
-    const totalAmount = order.totalMoney?.amount || 0;
+    const totalAmount =
+      order.totalMoney?.amount ||
+      order.total_money?.amount ||
+      order.total_money?.amount_money?.amount ||
+      order.totalMoney?.amount_money?.amount ||
+      0;
 
     if (totalAmount <= 0) {
       return res.status(400).json({
@@ -170,13 +173,16 @@ export const handleProcessPayment: RequestHandler = async (req, res) => {
       timestamp: Date.now(),
     });
 
-    console.log(`Payment processed successfully: ${paymentId} for order ${orderId}`);
+    console.log(
+      `Payment processed successfully: ${paymentId} for order ${orderId}`,
+    );
 
     return res.json(successResponse);
   } catch (error) {
     console.error("Payment processing error:", error);
 
-    const errorMessage = error instanceof Error ? error.message : "Payment failed";
+    const errorMessage =
+      error instanceof Error ? error.message : "Payment failed";
     let errorCode = "PAYMENT_FAILED";
 
     // Parse Square-specific error codes
@@ -204,7 +210,9 @@ export const handleProcessPayment: RequestHandler = async (req, res) => {
 
 export const handleGetWebPaymentKey: RequestHandler = async (req, res) => {
   try {
-    const applicationId = process.env.VITE_PUBLIC_SQUARE_APP_ID || process.env.SQUARE_APPLICATION_ID;
+    const applicationId =
+      process.env.VITE_PUBLIC_SQUARE_APP_ID ||
+      process.env.SQUARE_APPLICATION_ID;
     const locationId = process.env.SQUARE_LOCATION_ID;
 
     if (!applicationId || !locationId) {
@@ -245,7 +253,8 @@ export const handleVerifyPayment: RequestHandler = async (req, res) => {
   } catch (error) {
     console.error("Verify payment error:", error);
     res.status(500).json({
-      error: error instanceof Error ? error.message : "Failed to verify payment",
+      error:
+        error instanceof Error ? error.message : "Failed to verify payment",
     });
   }
 };

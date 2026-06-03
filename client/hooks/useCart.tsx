@@ -11,19 +11,33 @@ interface UseCartState {
   itemCount: number;
 }
 
-const TAX_RATE = 0.08; // 8% default tax rate, should come from Square
+const TAX_RATE = 0.0; // 8% default tax rate, should come from Square
 
 type CartContextValue = UseCartState & {
   addToCart: (item: CartItem) => void;
-  removeFromCart: (productId: string, modifiers?: Record<string, string>) => void;
-  updateQuantity: (productId: string, quantity: number, modifiers?: Record<string, string>) => void;
+  removeFromCart: (
+    productId: string,
+    modifiers?: Record<string, string>,
+  ) => void;
+  updateQuantity: (
+    productId: string,
+    quantity: number,
+    modifiers?: Record<string, string>,
+  ) => void;
   clearCart: () => void;
-  getCartItem: (productId: string, modifiers?: Record<string, string>) => CartItem | undefined;
+  getCartItem: (
+    productId: string,
+    modifiers?: Record<string, string>,
+  ) => CartItem | undefined;
 };
 
-const CartContext = React.createContext<CartContextValue | undefined>(undefined);
+const CartContext = React.createContext<CartContextValue | undefined>(
+  undefined,
+);
 
-export const CartProvider: React.FC<React.PropsWithChildren<Record<string, unknown>>> = ({ children }) => {
+export const CartProvider: React.FC<
+  React.PropsWithChildren<Record<string, unknown>>
+> = ({ children }) => {
   const [state, setState] = useState<UseCartState>({
     items: [],
     subtotal: 0,
@@ -55,7 +69,10 @@ export const CartProvider: React.FC<React.PropsWithChildren<Record<string, unkno
   };
 
   const updateCartTotals = (items: CartItem[]) => {
-    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const subtotal = items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0,
+    );
     const estimatedTax = subtotal * TAX_RATE;
     const total = subtotal + estimatedTax;
     const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -75,18 +92,25 @@ export const CartProvider: React.FC<React.PropsWithChildren<Record<string, unkno
   const addToCart = useCallback((item: CartItem) => {
     setState((prev) => {
       const existing = prev.items.find(
-        (i) => i.productId === item.productId && JSON.stringify(i.modifiers) === JSON.stringify(item.modifiers)
+        (i) =>
+          i.productId === item.productId &&
+          JSON.stringify(i.modifiers) === JSON.stringify(item.modifiers),
       );
 
       let newItems: CartItem[];
       if (existing) {
-        newItems = prev.items.map((i) => (i === existing ? { ...i, quantity: i.quantity + item.quantity } : i));
+        newItems = prev.items.map((i) =>
+          i === existing ? { ...i, quantity: i.quantity + item.quantity } : i,
+        );
       } else {
         newItems = [...prev.items, item];
       }
 
       // compute new state synchronously
-      const subtotal = newItems.reduce((sum, it) => sum + it.price * it.quantity, 0);
+      const subtotal = newItems.reduce(
+        (sum, it) => sum + it.price * it.quantity,
+        0,
+      );
       const estimatedTax = subtotal * TAX_RATE;
       const total = subtotal + estimatedTax;
       const itemCount = newItems.reduce((sum, it) => sum + it.quantity, 0);
@@ -104,63 +128,83 @@ export const CartProvider: React.FC<React.PropsWithChildren<Record<string, unkno
     });
   }, []);
 
-  const removeFromCart = useCallback((productId: string, modifiers?: Record<string, string>) => {
-    setState((prev) => {
-      const filtered = prev.items.filter((item) => {
-        if (item.productId !== productId) return true;
-        if (!modifiers) return false;
-        return JSON.stringify(item.modifiers) !== JSON.stringify(modifiers);
+  const removeFromCart = useCallback(
+    (productId: string, modifiers?: Record<string, string>) => {
+      setState((prev) => {
+        const filtered = prev.items.filter((item) => {
+          if (item.productId !== productId) return true;
+          if (!modifiers) return false;
+          return JSON.stringify(item.modifiers) !== JSON.stringify(modifiers);
+        });
+
+        const subtotal = filtered.reduce(
+          (sum, it) => sum + it.price * it.quantity,
+          0,
+        );
+        const estimatedTax = subtotal * TAX_RATE;
+        const total = subtotal + estimatedTax;
+        const itemCount = filtered.reduce((sum, it) => sum + it.quantity, 0);
+
+        const newState: UseCartState = {
+          items: filtered,
+          subtotal: Math.round(subtotal * 100) / 100,
+          estimatedTax: Math.round(estimatedTax * 100) / 100,
+          total: Math.round(total * 100) / 100,
+          itemCount,
+        };
+
+        persistItems(filtered);
+        return newState;
       });
+    },
+    [],
+  );
 
-      const subtotal = filtered.reduce((sum, it) => sum + it.price * it.quantity, 0);
-      const estimatedTax = subtotal * TAX_RATE;
-      const total = subtotal + estimatedTax;
-      const itemCount = filtered.reduce((sum, it) => sum + it.quantity, 0);
+  const updateQuantity = useCallback(
+    (
+      productId: string,
+      quantity: number,
+      modifiers?: Record<string, string>,
+    ) => {
+      if (quantity <= 0) {
+        removeFromCart(productId, modifiers);
+        return;
+      }
 
-      const newState: UseCartState = {
-        items: filtered,
-        subtotal: Math.round(subtotal * 100) / 100,
-        estimatedTax: Math.round(estimatedTax * 100) / 100,
-        total: Math.round(total * 100) / 100,
-        itemCount,
-      };
+      setState((prev) => {
+        const newItems = prev.items.map((item) => {
+          if (
+            item.productId === productId &&
+            (!modifiers ||
+              JSON.stringify(item.modifiers) === JSON.stringify(modifiers))
+          ) {
+            return { ...item, quantity };
+          }
+          return item;
+        });
 
-      persistItems(filtered);
-      return newState;
-    });
-  }, []);
+        const subtotal = newItems.reduce(
+          (sum, it) => sum + it.price * it.quantity,
+          0,
+        );
+        const estimatedTax = subtotal * TAX_RATE;
+        const total = subtotal + estimatedTax;
+        const itemCount = newItems.reduce((sum, it) => sum + it.quantity, 0);
 
-  const updateQuantity = useCallback((productId: string, quantity: number, modifiers?: Record<string, string>) => {
-    if (quantity <= 0) {
-      removeFromCart(productId, modifiers);
-      return;
-    }
+        const newState: UseCartState = {
+          items: newItems,
+          subtotal: Math.round(subtotal * 100) / 100,
+          estimatedTax: Math.round(estimatedTax * 100) / 100,
+          total: Math.round(total * 100) / 100,
+          itemCount,
+        };
 
-    setState((prev) => {
-      const newItems = prev.items.map((item) => {
-        if (item.productId === productId && (!modifiers || JSON.stringify(item.modifiers) === JSON.stringify(modifiers))) {
-          return { ...item, quantity };
-        }
-        return item;
+        persistItems(newItems);
+        return newState;
       });
-
-      const subtotal = newItems.reduce((sum, it) => sum + it.price * it.quantity, 0);
-      const estimatedTax = subtotal * TAX_RATE;
-      const total = subtotal + estimatedTax;
-      const itemCount = newItems.reduce((sum, it) => sum + it.quantity, 0);
-
-      const newState: UseCartState = {
-        items: newItems,
-        subtotal: Math.round(subtotal * 100) / 100,
-        estimatedTax: Math.round(estimatedTax * 100) / 100,
-        total: Math.round(total * 100) / 100,
-        itemCount,
-      };
-
-      persistItems(newItems);
-      return newState;
-    });
-  }, [removeFromCart]);
+    },
+    [removeFromCart],
+  );
 
   const clearCart = useCallback(() => {
     setState({
@@ -178,9 +222,17 @@ export const CartProvider: React.FC<React.PropsWithChildren<Record<string, unkno
     }
   }, []);
 
-  const getCartItem = useCallback((productId: string, modifiers?: Record<string, string>) => {
-    return state.items.find((item) => item.productId === productId && (!modifiers || JSON.stringify(item.modifiers) === JSON.stringify(modifiers)));
-  }, [state.items]);
+  const getCartItem = useCallback(
+    (productId: string, modifiers?: Record<string, string>) => {
+      return state.items.find(
+        (item) =>
+          item.productId === productId &&
+          (!modifiers ||
+            JSON.stringify(item.modifiers) === JSON.stringify(modifiers)),
+      );
+    },
+    [state.items],
+  );
 
   const value: CartContextValue = {
     items: state.items,

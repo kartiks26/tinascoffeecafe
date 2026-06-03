@@ -310,6 +310,8 @@ export const handleCreateOrder: RequestHandler = async (req, res) => {
       return lineItem;
     });
 
+    const TAX_RATE = 8; // 8% tax
+
     // Create order body with required fields only
     const orderBody: any = {
       order: {
@@ -360,15 +362,18 @@ export const handleCreateOrder: RequestHandler = async (req, res) => {
 
     // Calculate totals from response
     const order = orderResponse.order || {};
-    const totalMoney = order.totalMoney || { amount: 0 };
-    const taxMoney = order.totalTaxMoney || { amount: 0 };
+    const totalMoney = order.totalMoney || order.total_money || {};
+    const taxMoney = order.totalTaxMoney || order.total_tax_money || {};
+    const subtotalMoney = order.subtotalMoney || order.subtotal_money || {};
 
     const squareOrder: SquareOrderResponse = {
-      orderId: order.id || "",
+      orderId: order.id || order.order_id || "",
       status: order.state || "OPEN",
-      total: totalMoney.amount / 100 || 0,
-      tax: taxMoney.amount / 100 || 0,
-      subtotal: (totalMoney.amount - taxMoney.amount) / 100 || 0,
+      total: parseSquareMoney(totalMoney),
+      tax: parseSquareMoney(taxMoney),
+      subtotal:
+        parseSquareMoney(subtotalMoney) ||
+        parseSquareMoney(totalMoney) - parseSquareMoney(taxMoney),
     };
 
     const response: CreateOrderResponse = {

@@ -49,7 +49,11 @@ export default function Checkout() {
   const navigate = useNavigate();
   const { menu } = useSquareMenu();
   const cart = useCart();
-  const { form: paymentForm, loading: sdkLoading, error: sdkError } = useSquarePayments();
+  const {
+    form: paymentForm,
+    loading: sdkLoading,
+    error: sdkError,
+  } = useSquarePayments();
 
   const [checkoutState, setCheckoutState] = useState<CheckoutState>("review");
   const [customerName, setCustomerName] = useState("");
@@ -59,7 +63,8 @@ export default function Checkout() {
   const [errorCode, setErrorCode] = useState<string | null>(null);
 
   // Payment tracking
-  const [submittedOrder, setSubmittedOrder] = useState<SquareOrderResponse | null>(null);
+  const [submittedOrder, setSubmittedOrder] =
+    useState<SquareOrderResponse | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [paymentId, setPaymentId] = useState<string | null>(null);
   const [submittedItems, setSubmittedItems] = useState<CartItem[] | null>(null);
@@ -191,8 +196,7 @@ export default function Checkout() {
       toast.success("Payment successful! Your order is being prepared.");
     } catch (err) {
       triggerHaptic("warning");
-      const message =
-        err instanceof Error ? err.message : "Payment failed";
+      const message = err instanceof Error ? err.message : "Payment failed";
       setError(message);
       setCheckoutState("error");
       toast.error(message);
@@ -484,11 +488,7 @@ export default function Checkout() {
   }
 
   // ===== RENDER: Payment Form =====
-  if (
-    checkoutState === "payment_form" &&
-    submittedOrder &&
-    submittedItems
-  ) {
+  if (checkoutState === "payment_form" && submittedOrder && submittedItems) {
     if (sdkLoading) {
       return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6">
@@ -525,8 +525,7 @@ export default function Checkout() {
     }
 
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-12">
-        <Header />
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-between px-6 py-12">
         <PaymentForm
           form={paymentForm}
           totalAmount={submittedOrder.total}
@@ -539,7 +538,6 @@ export default function Checkout() {
           }}
           onBack={() => setCheckoutState("payment_review")}
         />
-        <Footer />
       </div>
     );
   }
@@ -581,12 +579,7 @@ export default function Checkout() {
   }
 
   // ===== RENDER: Error =====
-  if (
-    checkoutState === "error" &&
-    orderId &&
-    submittedOrder &&
-    error
-  ) {
+  if (checkoutState === "error" && orderId && submittedOrder && error) {
     return (
       <>
         <Header />

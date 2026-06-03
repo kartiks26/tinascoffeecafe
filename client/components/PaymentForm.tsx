@@ -31,12 +31,7 @@ export function PaymentForm({
 
   useEffect(() => {
     const attachCard = async () => {
-      if (
-        form?.card &&
-        cardContainerRef.current &&
-        !cardAttached &&
-        !attachedRef.current
-      ) {
+      if (form?.card && cardContainerRef.current && !attachedRef.current) {
         try {
           attachedRef.current = true;
           await form.card.attach(cardContainerRef.current);
@@ -55,6 +50,7 @@ export function PaymentForm({
       if (form) {
         try {
           const hasApple = await form.canPayWithApplePay();
+          console.log("Apple Pay availability:", hasApple);
           setCanPayWithApplePay(hasApple);
         } catch {
           setCanPayWithApplePay(false);
@@ -73,9 +69,16 @@ export function PaymentForm({
     checkWallets();
 
     return () => {
-      // Cleanup is handled by Square SDK
+      // Cleanup: detach card if attached
+      if (form?.card && attachedRef.current) {
+        form.card.detach().catch((err) => {
+          console.error("Failed to detach card:", err);
+        });
+        attachedRef.current = false;
+        setCardAttached(false);
+      }
     };
-  }, [form, cardAttached]);
+  }, [form]);
 
   const handleCardPayment = async () => {
     if (!form?.card) {
