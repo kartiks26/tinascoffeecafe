@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <nav className="sticky top-0 z-40 bg-[#092622] shadow-lg">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div className=" mx-auto px-6 py-4 flex justify-between items-center">
         <Link
           to="/"
           className="flex items-center gap-2 hover:opacity-80 transition-opacity"
@@ -32,11 +32,11 @@ export default function Header() {
 
         <div className="hidden md:flex items-center gap-8">
           <Link
-            to={`/order${queryString}`}
+            to={`/menu`}
             onClick={() => triggerHaptic("tap")}
             className="text-white font-light hover:opacity-80 transition-opacity text-sm uppercase tracking-wide"
           >
-            Order
+            Menu
           </Link>
           <Link
             to="/about"
@@ -54,21 +54,8 @@ export default function Header() {
           </Link>
         </div>
 
-        <div className="flex items-center gap-4">
-          <Link
-            to={`/order/checkout${queryString}`}
-            className="relative flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full transition-all text-white"
-          >
-            <ShoppingCart className="w-5 h-5" />
-            <span className="font-light">{cart.itemCount}</span>
-            {/* {cart.itemCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-                {cart.itemCount}
-              </span>
-            )} */}
-          </Link>
-
-          <div className="md:hidden">
+        <div className="flex items-center gap-4 md:hidden">
+          <div>
             <button
               type="button"
               aria-label={
@@ -81,7 +68,7 @@ export default function Header() {
               {mobileMenuOpen ? (
                 <X className="w-6 h-6" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu className="w-full h-full" />
               )}
             </button>
           </div>
@@ -90,9 +77,9 @@ export default function Header() {
 
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#092622] border-t border-white/10">
-          <div className="max-w-7xl mx-auto px-6 py-4 space-y-3">
+          <div className="max-w-auto mx-auto px-6 py-4 space-y-3">
             {[
-              { href: `/order${queryString}`, label: "Order" },
+              { href: "/menu", label: "Menu" },
               { href: "/about", label: "About" },
               { href: "/contact", label: "Contact" },
             ].map((link) => (
