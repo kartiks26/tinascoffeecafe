@@ -20,6 +20,7 @@ export interface SquareProductVariation {
 }
 
 export interface SquareProduct {
+  isVariablePrice: any;
   id: string; // variationId
   itemId: string; // parent item ID
   variationId: string;

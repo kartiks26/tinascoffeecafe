@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
-import { useSearchParams, useNavigate, Link } from "react-router-dom";
-import { Plus, Minus, ShoppingCart, Loader, Menu, X } from "lucide-react";
+import { useState } from "react";
+import { Loader } from "lucide-react";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
 import { useSquareMenu } from "@/hooks/useSquareMenu";
-import { useCart } from "@/hooks/useCart";
-import { CartItem, SquareProduct, SquareModifier } from "@shared/api";
+import { SquareProduct } from "@shared/api";
 
 function triggerHaptic(pattern: "tap" | "success") {
   if ("vibrate" in navigator) {
@@ -17,143 +15,59 @@ function triggerHaptic(pattern: "tap" | "success") {
   }
 }
 
-interface TableSession {
-  tableNumber: string;
-  tableId: string;
+// Extract base name and size from "Latte (Medium)" → { base: "Latte", size: "Medium" }
+function parseVariationName(name: string): {
+  base: string;
+  size: string | null;
+} {
+  const match = name.match(/^(.+?)\s*\(([^)]+)\)$/);
+  if (match) return { base: match[1].trim(), size: match[2].trim() };
+  return { base: name, size: null };
 }
 
-export default function Order() {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const [session, setSession] = useState<TableSession | null>(null);
-  const [showTableInput, setShowTableInput] = useState(false);
-  const [tableInput, setTableInput] = useState("");
+const SIZE_ORDER = ["Small", "Regular", "Medium", "Large", "Huge"];
+
+// Group flat variation list into logical menu items
+function groupProducts(products: SquareProduct[]) {
+  const groups = new Map<string, SquareProduct[]>();
+
+  products.forEach((p) => {
+    const { base } = parseVariationName(p.name);
+    const key = `${p.itemId}__${base}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(p);
+  });
+
+  return Array.from(groups.values()).map((variations) => {
+    // Sort by SIZE_ORDER
+    variations.sort((a, b) => {
+      const { size: sA } = parseVariationName(a.name);
+      const { size: sB } = parseVariationName(b.name);
+      return (
+        (SIZE_ORDER.indexOf(sA || "") ?? 99) -
+        (SIZE_ORDER.indexOf(sB || "") ?? 99)
+      );
+    });
+    return variations;
+  });
+}
+
+export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [expandedProduct, setExpandedProduct] = useState<string | null>(null);
-  const [selectedModifiers, setSelectedModifiers] = useState<
-    Record<string, Record<string, string>>
-  >({});
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>(
+    {},
+  );
 
   const { menu, loading, error } = useSquareMenu();
-  const cart = useCart();
-  const navigate2 = useNavigate();
-
-  // Initialize table from URL params
-  useEffect(() => {
-    const tableId = searchParams.get("table");
-    if (tableId) {
-      // Decode table ID - should match QR code format
-      const tableNumber = tableId.replace(/^table_/i, "").toUpperCase();
-      setSession({
-        tableId: tableId,
-        tableNumber: tableNumber,
-      });
-    }
-  }, [searchParams]);
-
-  const handleTableSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    triggerHaptic("success");
-    const tableNumber = tableInput.toUpperCase().trim();
-    if (tableNumber) {
-      setSession({
-        tableNumber,
-        tableId: `table_${tableNumber.toLowerCase()}`,
-      });
-      searchParams.set("table", `table_${tableNumber.toLowerCase()}`);
-      navigate(`?${searchParams.toString()}`);
-      setShowTableInput(false);
-      setTableInput("");
-    }
-  };
-
-  const handleAddToCart = (product: SquareProduct) => {
-    triggerHaptic("success");
-    const modifiers = selectedModifiers[product.id] || {};
-    const modifierTotal = Object.entries(modifiers).reduce(
-      (sum, [modifierId, optionId]) => {
-        const modifier = menu?.modifiers.find((m) => m.id === modifierId);
-        const option = modifier?.options.find((o) => o.id === optionId);
-        return sum + (option?.priceModifier || 0);
-      },
-      0,
-    );
-
-    const cartItem: CartItem = {
-      itemId: product.itemId,
-      variationId: product.variationId,
-      productId: product.id,
-      productName: product.name,
-      price: product.price + modifierTotal,
-      quantity: 1,
-      modifiers,
-    };
-    cart.addToCart(cartItem);
-  };
-
-  const handleModifierSelect = (
-    productId: string,
-    modifierId: string,
-    optionId: string,
-  ) => {
-    triggerHaptic("tap");
-    setSelectedModifiers((prev) => ({
-      ...prev,
-      [productId]: {
-        ...prev[productId],
-        [modifierId]: optionId,
-      },
-    }));
-  };
-
-  if (!session) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center px-6">
-        <div className="max-w-md w-full">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-light text-gray-900 mb-3">
-              Welcome to Tina's Coffee
-            </h1>
-            <p className="text-gray-600 font-light mb-6">
-              Enter your table number to get started
-            </p>
-          </div>
-
-          <form onSubmit={handleTableSubmit} className="space-y-4">
-            <input
-              type="text"
-              value={tableInput}
-              onChange={(e) => setTableInput(e.target.value)}
-              placeholder="e.g., A1, 5, Table 3"
-              className="w-full px-6 py-4 border-2 border-gray-300 rounded-full focus:outline-none focus:border-[#092622] text-center text-lg font-light uppercase"
-              autoFocus
-            />
-            <button
-              type="submit"
-              disabled={!tableInput.trim()}
-              className="w-full px-6 py-4 bg-[#092622] hover:bg-[#064637] disabled:bg-gray-300 text-white font-light uppercase tracking-widest rounded-full transition-all"
-            >
-              Continue to Menu
-            </button>
-          </form>
-
-          <div className="mt-8 pt-8 border-t border-gray-200 text-center">
-            <p className="text-sm text-gray-600 font-light">
-              Scanned a QR code? It should auto-detect your table.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <Loader className="w-12 h-12 text-[#092622] animate-spin mx-auto mb-4" />
-          <p className="text-gray-600 font-light">Loading menu...</p>
+          <Loader className="w-10 h-10 text-[#092622] animate-spin mx-auto mb-4" />
+          <p className="text-gray-500 text-sm font-light tracking-wide">
+            Loading menu…
+          </p>
         </div>
       </div>
     );
@@ -162,16 +76,16 @@ export default function Order() {
   if (error || !menu) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-6">
-        <div className="text-center max-w-md">
-          <h2 className="text-2xl font-light text-gray-900 mb-3">
-            Unable to Load Menu
+        <div className="text-center max-w-sm">
+          <h2 className="text-xl font-medium text-gray-900 mb-2">
+            Unable to load menu
           </h2>
-          <p className="text-gray-600 font-light mb-6">
+          <p className="text-gray-500 text-sm mb-6">
             {error || "Please try again later"}
           </p>
           <button
             onClick={() => window.location.reload()}
-            className="px-6 py-3 bg-[#092622] text-white rounded-full font-light uppercase"
+            className="px-6 py-2.5 bg-[#092622] text-white text-sm rounded-full"
           >
             Retry
           </button>
@@ -180,33 +94,34 @@ export default function Order() {
     );
   }
 
-  const displayedProducts = selectedCategory
+  const filteredProducts = selectedCategory
     ? menu.products.filter(
         (p) => p.categoryId === selectedCategory && p.available,
       )
     : menu.products.filter((p) => p.available);
 
+  const groupedItems = groupProducts(filteredProducts);
+
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-[#f8f7f4]">
       <Header />
 
-      {/* Main Content */}
-      <div className=" min-h-screen max-w-7xl mx-auto px-6 py-8">
-        {/* Category Filter */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+        {/* Category pills */}
         {menu.categories.length > 0 && (
-          <div className="mb-8 flex gap-2 overflow-x-auto pb-2">
+          <div className="flex gap-2 overflow-x-auto pb-3 mb-8 scrollbar-hide">
             <button
               onClick={() => {
                 setSelectedCategory(null);
                 triggerHaptic("tap");
               }}
-              className={`px-4 py-2 rounded-full font-light uppercase text-sm whitespace-nowrap transition-all ${
+              className={`px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition-all border ${
                 selectedCategory === null
-                  ? "bg-[#092622] text-white"
-                  : "bg-white text-gray-900 border border-gray-300"
+                  ? "bg-[#092622] text-white border-[#092622]"
+                  : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
               }`}
             >
-              All Items
+              All
             </button>
             {menu.categories.map((cat) => (
               <button
@@ -215,10 +130,10 @@ export default function Order() {
                   setSelectedCategory(cat.id);
                   triggerHaptic("tap");
                 }}
-                className={`px-4 py-2 rounded-full font-light uppercase text-sm whitespace-nowrap transition-all ${
+                className={`px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition-all border ${
                   selectedCategory === cat.id
-                    ? "bg-[#092622] text-white"
-                    : "bg-white text-gray-900 border border-gray-300"
+                    ? "bg-[#092622] text-white border-[#092622]"
+                    : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
                 }`}
               >
                 {cat.name}
@@ -227,132 +142,135 @@ export default function Order() {
           </div>
         )}
 
-        {/* Product Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayedProducts.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all overflow-hidden"
-            >
-              {product.imageUrl && (
-                <div className="relative h-48 bg-gray-200 overflow-hidden">
-                  <img
-                    src={product.imageUrl}
-                    alt={product.name}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform"
-                  />
-                </div>
-              )}
+        {/* Grid */}
+        {groupedItems.length === 0 ? (
+          <div className="text-center py-16 text-gray-400 text-sm">
+            No items available in this category
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-6 lg:grid-cols-3 gap-5">
+            {groupedItems.map((variations) => {
+              const groupKey = variations[0].itemId;
+              const hasMultipleSizes = variations.length > 1;
+              const selectedId = selectedSizes[groupKey] || variations[0].id;
+              const active =
+                variations.find((v) => v.id === selectedId) || variations[0];
+              const { base } = parseVariationName(active.name);
 
-              <div className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                  {product.name}
-                </h3>
-                {product.description && (
-                  <p className="text-sm text-gray-600 font-light mb-4 line-clamp-2">
-                    {product.description}
-                  </p>
-                )}
-
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-2xl font-bold text-[#092622]">
-                    ${product.price.toFixed(2)}
-                  </span>
-                  {!product.available && (
-                    <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">
-                      Out of Stock
-                    </span>
-                  )}
-                </div>
-
-                {/* Modifiers */}
-                {expandedProduct === product.id &&
-                  product.modifierIds?.length && (
-                    <div className="mb-4 p-4 bg-gray-50 rounded-2xl space-y-3 border-t pt-4">
-                      {menu.modifiers
-                        .filter((modifier) =>
-                          product.modifierIds?.includes(modifier.id),
-                        )
-                        .map((modifier) => (
-                          <div key={modifier.id}>
-                            <h4 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">
-                              {modifier.name}
-                            </h4>
-                            <div className="space-y-2">
-                              {modifier.options.map((option) => (
-                                <label
-                                  key={option.id}
-                                  className="flex items-center p-2 rounded-full hover:bg-white cursor-pointer"
-                                >
-                                  <input
-                                    type="radio"
-                                    name={`${product.id}-${modifier.id}`}
-                                    checked={
-                                      selectedModifiers[product.id]?.[
-                                        modifier.id
-                                      ] === option.id
-                                    }
-                                    onChange={() =>
-                                      handleModifierSelect(
-                                        product.id,
-                                        modifier.id,
-                                        option.id,
-                                      )
-                                    }
-                                    className="w-4 h-4 accent-[#092622]"
-                                  />
-                                  <span className="ml-2 text-sm text-gray-700 flex-1">
-                                    {option.name}
-                                  </span>
-                                  {option.priceModifier > 0 && (
-                                    <span className="text-xs text-[#092622] font-semibold">
-                                      +${option.priceModifier.toFixed(2)}
-                                    </span>
-                                  )}
-                                </label>
-                              ))}
-                            </div>
-                          </div>
-                        ))}
+              return (
+                <div
+                  key={groupKey}
+                  className="bg-white rounded-2xl overflow-hidden border border-gray-100 flex flex-col"
+                >
+                  {/* Image */}
+                  <div className="relative h-44 bg-gray-100 overflow-hidden">
+                    {active.imageUrl ? (
+                      <img
+                        src={active.imageUrl}
+                        alt={base}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-300">
+                        <svg
+                          className="w-10 h-10"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1}
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          />
+                        </svg>
+                      </div>
+                    )}
+                    {/* Price badge */}
+                    <div className="absolute bottom-2 right-2 bg-white/90 backdrop-blur-sm text-[#092622] text-sm font-semibold px-2.5 py-1 rounded-full shadow-sm">
+                      {active?.isVariablePrice
+                        ? "Market price"
+                        : `$${active?.price.toFixed(2)}`}
                     </div>
-                  )}
+                  </div>
 
-                {/* Actions */}
-                <div className="flex gap-2">
-                  {product.modifierIds?.length > 0 && (
-                    <button
-                      onClick={() => {
-                        setExpandedProduct(
-                          expandedProduct === product.id ? null : product.id,
-                        );
-                        triggerHaptic("tap");
-                      }}
-                      className="flex-1 px-4 py-2 border border-gray-300 text-gray-900 rounded-full font-light text-sm hover:bg-gray-50 transition-all"
-                    >
-                      {product.modifierIds?.length
-                        ? expandedProduct === product.id
-                          ? "Done"
-                          : "Customize"
-                        : "Details"}
-                    </button>
-                  )}
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="flex-1 px-4 py-2 bg-[#092622] hover:bg-[#064637] text-white rounded-full font-light text-sm transition-all"
-                  >
-                    Add
-                  </button>
+                  <div className="p-4 flex flex-col flex-1">
+                    {/* Name */}
+                    <h3 className="font-medium text-gray-900 text-sm mb-1 leading-snug">
+                      {base}
+                    </h3>
+
+                    {/* Description */}
+                    {active.description && (
+                      <p className="text-xs text-gray-400 leading-relaxed mb-3 line-clamp-2">
+                        {active.description}
+                      </p>
+                    )}
+
+                    <div className="mt-auto space-y-3">
+                      {/* Size selector */}
+                      {/* {hasMultipleSizes && (
+                        <div className="flex flex-wrap gap-1.5">
+                          {variations.map((v) => {
+                            const { size } = parseVariationName(v.name);
+                            return (
+                              <button
+                                key={v.id}
+                                onClick={() => {
+                                  setSelectedSizes((prev) => ({
+                                    ...prev,
+                                    [groupKey]: v.id,
+                                  }));
+                                  triggerHaptic("tap");
+                                }}
+                                className={`px-3 py-1 rounded-full text-xs border transition-all ${
+                                  v.id === selectedId
+                                    ? "bg-[#092622] text-white border-[#092622]"
+                                    : "bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-400"
+                                }`}
+                              >
+                                {size || v.name} · ${v.price.toFixed(2)}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )} */}
+
+                      {/* Modifiers */}
+                      {active.modifierIds?.length > 0 && (
+                        <div className="space-y-2">
+                          {menu.modifiers
+                            .filter((m) => active.modifierIds.includes(m.id))
+                            .map((modifier) => (
+                              <div key={modifier.id}>
+                                <p className="text-[10px] font-semibold text-gray-300 uppercase tracking-widest mb-1.5">
+                                  {modifier.name}
+                                </p>
+                                <div className="flex flex-wrap gap-1">
+                                  {modifier.options.map((option) => (
+                                    <span
+                                      key={option.id}
+                                      className="text-xs text-gray-500 bg-gray-50 border border-gray-100 px-2 py-0.5 rounded-full"
+                                    >
+                                      {option.name}
+                                      {option.priceModifier > 0 && (
+                                        <span className="text-gray-300 ml-1">
+                                          +${option.priceModifier.toFixed(2)}
+                                        </span>
+                                      )}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {displayedProducts.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-600 font-light">
-              No items available in this category
-            </p>
+              );
+            })}
           </div>
         )}
       </div>

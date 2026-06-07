@@ -89,34 +89,54 @@ export const handleSyncMenu: RequestHandler = async (req, res) => {
         .json({ success: false, error: "SQUARE_LOCATION_ID not configured" });
     }
 
-    // Fetch catalog
-    const catalogResponse = await squareFetch(
-      "/catalog/list?types=CATEGORY,ITEM,MODIFIER_LIST",
-    );
+    // --- FIX: Use searchCatalogObjects instead of list to bypass pagination limits ---
+    // We pass include_related_objects: true so Square automatically attaches the IMAGE objects
+    const catalogResponse = await squareFetch("/catalog/search", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        object_types: ["ITEM", "MODIFIER_LIST", "CATEGORY"],
+        include_related_objects: true,
+        include_deleted_objects: false,
+      }),
+    });
+
     const objects = catalogResponse.objects || [];
-    // Parse categories (support camelCase and snake_case)
-    const categories = objects
-      .filter((obj: any) => obj.type === "CATEGORY")
-      .map((obj: any) => {
-        const data = obj.categoryData || obj.category_data || {};
-        return {
-          id: obj.id,
-          name: data.name || "",
-        };
+    const relatedObjects = catalogResponse.related_objects || [];
+
+    // --- Build image lookup map from both main and related objects ---
+    const imageMap = new Map<string, string>();
+    [...objects, ...relatedObjects]
+      .filter((obj: any) => obj.type === "IMAGE")
+      .forEach((obj: any) => {
+        const imgData = obj.imageData || obj.image_data || {};
+        if (imgData.url) {
+          imageMap.set(obj.id, imgData.url);
+        }
       });
 
-    // Parse modifiers
+    // Parse categories
+    const catObjects = objects.filter((obj: any) => obj.type === "CATEGORY");
+    const categories = catObjects.map((obj: any) => {
+      const data = obj.categoryData || obj.category_data || {};
+      return {
+        id: obj.id,
+        name: data.name || "",
+      };
+    });
+    const categoryMap = new Map(categories.map((c) => [c.id, c]));
+
+    // Parse modifier lists
     const modifierData = objects.filter(
       (obj: any) => obj.type === "MODIFIER_LIST",
     );
 
-    // Parse products into variation-aware menu items.
+    // Parse products into variation-aware menu items
     const products = objects
       .filter((obj: any) => obj.type === "ITEM")
       .flatMap((obj: any) => {
         const item = obj.itemData || obj.item_data || {};
 
-        // determine category id: categoryId, category_id, or first element of categories
         let categoryId = "";
         if (item.categoryId) categoryId = item.categoryId;
         else if (item.category_id) categoryId = item.category_id;
@@ -125,92 +145,135 @@ export const handleSyncMenu: RequestHandler = async (req, res) => {
           categoryId = typeof first === "string" ? first : first.id || "";
         }
 
-        const category = categories.find((c: any) => c.id === categoryId);
+        const category = categoryMap.get(categoryId);
+
+        // Get parent item image ID
         const imageId =
           (item.imageIds && item.imageIds[0]) ||
           (item.image_ids && item.image_ids[0]);
-        const available =
-          item.isArchived !== undefined
-            ? !item.isArchived
-            : !(item.is_archived ?? false);
 
-        const variations = item.variations || [];
-        if (!Array.isArray(variations) || variations.length === 0) {
-          return [];
-        }
+        const imageUrl = imageId ? imageMap.get(imageId) || "" : "";
+        const itemArchived = item.isArchived ?? item.is_archived ?? false;
 
-        const modifierIds: string[] = [];
         const modifierListInfo =
           item.modifierListInfo || item.modifier_list_info || [];
-        if (Array.isArray(modifierListInfo)) {
-          modifierListInfo.forEach((modInfo: any) => {
-            const modifierId =
-              modInfo.modifierListId || modInfo.modifier_list_id;
-            if (modifierId) modifierIds.push(modifierId);
+        const modifierIds: string[] = [
+          ...new Set(
+            Array.isArray(modifierListInfo)
+              ? modifierListInfo
+                  .map((m: any) => m.modifierListId || m.modifier_list_id || "")
+                  .filter(Boolean)
+              : [],
+          ),
+        ] as string[];
+
+        const variations = item.variations || [];
+        if (!Array.isArray(variations) || variations.length === 0) return [];
+
+        return variations
+          .filter((variation: any) => {
+            if (variation.is_deleted || variation.isDeleted) return false;
+
+            const vData =
+              variation.item_variation_data ||
+              variation.itemVariationData ||
+              {};
+            if (vData.sellable === false) return false;
+
+            const presentAtAll =
+              variation.present_at_all_locations ||
+              variation.presentAtAllLocations;
+            if (!presentAtAll) {
+              const locationIds =
+                variation.present_at_location_ids ||
+                variation.presentAtLocationIds ||
+                [];
+              if (!locationIds.includes(locationId)) return false;
+            }
+            return true;
+          })
+          .map((variation: any) => {
+            const vData =
+              variation.item_variation_data ||
+              variation.itemVariationData ||
+              {};
+
+            const priceMoney = vData.priceMoney || vData.price_money;
+            const price = parseSquareMoney(priceMoney);
+            const currency = priceMoney?.currency || "AUD";
+            const isVariablePrice =
+              (vData.pricing_type || vData.pricingType) === "VARIABLE_PRICING";
+
+            const variationName = vData.name || "";
+            const displayName =
+              variationName && variationName !== item.name
+                ? `${item.name} (${variationName})`
+                : item.name || variationName || "Untitled Item";
+
+            const available = !itemArchived && (vData.sellable ?? true);
+
+            // Handle variation-specific image, or fall back to item image
+            const variationImageId =
+              (variation.image_ids && variation.image_ids[0]) ||
+              (variation.imageIds && variation.imageIds[0]);
+            const finalImageUrl = variationImageId
+              ? imageMap.get(variationImageId) || imageUrl
+              : imageUrl;
+
+            return {
+              id: variation.id,
+              itemId: obj.id,
+              variationId: variation.id,
+              name: displayName,
+              description: item.description || "",
+              price,
+              currency,
+              isVariablePrice,
+              categoryId,
+              categoryName: category?.name || "Other",
+              imageUrl: finalImageUrl,
+              available,
+              modifierIds,
+            };
           });
-        }
-
-        return variations.map((variation: any) => {
-          const variationData =
-            variation.itemVariationData || variation.item_variation_data || {};
-          const price = parseSquareMoney(
-            variationData.priceMoney || variationData.price_money,
-          );
-          const variationName = variationData.name || "";
-          const displayName =
-            variationName && variationName !== item.name
-              ? `${item.name} (${variationName})`
-              : item.name || variationName || "Untitled Item";
-
-          return {
-            id: variation.id,
-            itemId: obj.id,
-            variationId: variation.id,
-            name: displayName,
-            description: item.description || "",
-            price,
-            categoryId,
-            categoryName: category?.name || "Other",
-            imageUrl: imageId ? `/square/image/${imageId}` : undefined,
-            available,
-            modifierIds,
-          };
-        });
       });
 
-    // Parse modifiers with options (support camelCase and snake_case)
+    // Filter categories to only those that have at least one product
+    const usedCategoryIds = new Set(products.map((p) => p.categoryId));
+    const filteredCategories = categories.filter((c) =>
+      usedCategoryIds.has(c.id),
+    );
+
+    // Parse modifiers with options
     const modifiers = modifierData.map((mod: any) => {
       const listData = mod.modifierListData || mod.modifier_list_data || {};
       const opts = listData.modifiers || [];
       return {
         id: mod.id,
         name: listData.name || "",
-        options: opts.map((opt: any) => {
-          const optData = opt.modifierData || opt.modifier_data || {};
-          const priceMoney = optData.priceMoney || optData.price_money || {};
-          return {
-            id: opt.id,
-            name: optData.name || "",
-            priceModifier: priceMoney.amount ? priceMoney.amount / 100 : 0,
-            catalogObjectId: opt.id, // Store the Square catalog object ID
-          };
-        }),
+        options: opts
+          .filter((opt: any) => !(opt.is_deleted || opt.isDeleted))
+          .map((opt: any) => {
+            const optData = opt.modifierData || opt.modifier_data || {};
+            const priceMoney = optData.priceMoney || optData.price_money || {};
+            return {
+              id: opt.id,
+              name: optData.name || "",
+              priceModifier: priceMoney.amount ? priceMoney.amount / 100 : 0,
+              catalogObjectId: opt.id,
+            };
+          }),
       };
     });
 
     const menu: SquareMenu = {
-      categories,
+      categories: filteredCategories,
       products,
       modifiers,
       lastSyncTime: Date.now(),
     };
 
-    const response: MenuSyncResponse = {
-      menu,
-      success: true,
-    };
-
-    res.json(response);
+    res.json({ menu, success: true } as MenuSyncResponse);
   } catch (error) {
     console.error("Menu sync error:", error);
     res.status(500).json({
