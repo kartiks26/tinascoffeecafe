@@ -93,12 +93,23 @@ export default function MenuPage() {
       </div>
     );
   }
-
+  const visibleCategories = [
+    "Coffee",
+    "Tea",
+    "Iced Coffee",
+    "Breakfast",
+    "Wrap",
+  ];
   const filteredProducts = selectedCategory
     ? menu.products.filter(
-        (p) => p.categoryId === selectedCategory && p.available,
+        (p) =>
+          p.categoryId === selectedCategory &&
+          p.available &&
+          visibleCategories.includes(p.categoryName || ""),
       )
-    : menu.products.filter((p) => p.available);
+    : menu.products.filter(
+        (p) => p.available && visibleCategories.includes(p.categoryName || ""),
+      );
 
   const groupedItems = groupProducts(filteredProducts);
 
@@ -123,22 +134,24 @@ export default function MenuPage() {
             >
               All
             </button>
-            {menu.categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => {
-                  setSelectedCategory(cat.id);
-                  triggerHaptic("tap");
-                }}
-                className={`px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition-all border ${
-                  selectedCategory === cat.id
-                    ? "bg-[#092622] text-white border-[#092622]"
-                    : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
-                }`}
-              >
-                {cat.name}
-              </button>
-            ))}
+            {menu.categories
+              .filter((cat) => visibleCategories.includes(cat.name))
+              .map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => {
+                    setSelectedCategory(cat.id);
+                    triggerHaptic("tap");
+                  }}
+                  className={`px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition-all border ${
+                    selectedCategory === cat.id
+                      ? "bg-[#092622] text-white border-[#092622]"
+                      : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
           </div>
         )}
 
