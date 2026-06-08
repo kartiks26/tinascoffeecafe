@@ -186,7 +186,7 @@ export default function Index() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             <a
               href="/menu#coffee"
-              className="group relative overflow-hidden rounded-2xl h-80 hover:shadow-2xl transition-shadow duration-300"
+              className="group relative overflow-hidden rounded-2xl h-48 hover:shadow-2xl transition-shadow duration-300"
               style={{
                 backgroundImage: "url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&h=800&fit=crop')",
                 backgroundSize: "cover",
@@ -202,7 +202,7 @@ export default function Index() {
 
             <a
               href="/menu#tea"
-              className="group relative overflow-hidden rounded-2xl h-80 hover:shadow-2xl transition-shadow duration-300"
+              className="group relative overflow-hidden rounded-2xl h-48 hover:shadow-2xl transition-shadow duration-300"
               style={{
                 backgroundImage: "url('https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=600&h=800&fit=crop')",
                 backgroundSize: "cover",
@@ -218,7 +218,7 @@ export default function Index() {
 
             <a
               href="/menu#breakfast"
-              className="group relative overflow-hidden rounded-2xl h-80 hover:shadow-2xl transition-shadow duration-300"
+              className="group relative overflow-hidden rounded-2xl h-48 hover:shadow-2xl transition-shadow duration-300"
               style={{
                 backgroundImage: "url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=800&fit=crop')",
                 backgroundSize: "cover",
@@ -234,7 +234,7 @@ export default function Index() {
 
             <a
               href="/menu#wrap"
-              className="group relative overflow-hidden rounded-2xl h-80 hover:shadow-2xl transition-shadow duration-300"
+              className="group relative overflow-hidden rounded-2xl h-48 hover:shadow-2xl transition-shadow duration-300"
               style={{
                 backgroundImage: "url('https://images.unsplash.com/photo-1509375206418-3e01e5fbef0e?w=600&h=800&fit=crop')",
                 backgroundSize: "cover",
