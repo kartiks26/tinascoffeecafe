@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/drawer";
 import { useSquareMenu } from "@/hooks/useSquareMenu";
 import { SquareProduct } from "@shared/api";
+import { useSearchParams } from "react-router-dom";
 
 function triggerHaptic(pattern: "tap" | "success") {
   if ("vibrate" in navigator) {
@@ -64,20 +65,22 @@ export default function MenuPage() {
   const [detailVariations, setDetailVariations] = useState<
     SquareProduct[] | null
   >(null);
+  const [searchParams] = useSearchParams();
+
+  const paramCategory = searchParams.get("category")?.toLowerCase();
 
   const { menu, loading, error } = useSquareMenu();
 
   useEffect(() => {
-    const hash = window.location.hash.slice(1).toLowerCase();
-    if (hash && menu.categories.length > 0) {
+    if (paramCategory && menu?.categories.length > 0) {
       const matchedCategory = menu.categories.find(
-        (cat) => cat.name.toLowerCase() === hash
+        (cat) => cat.name.toLowerCase() === paramCategory,
       );
       if (matchedCategory) {
         setSelectedCategory(matchedCategory.id);
       }
     }
-  }, [menu.categories]);
+  }, [menu?.categories]);
 
   if (loading) {
     return (
@@ -115,10 +118,11 @@ export default function MenuPage() {
 
   const visibleCategories = [
     "Coffee",
-    "Tea",
-    "Iced Coffee",
     "Breakfast",
+    "Iced Coffee",
     "Wrap",
+    "Lunch Wraps",
+    "Tea",
   ];
   const filteredProducts = selectedCategory
     ? menu.products.filter(
@@ -143,7 +147,9 @@ export default function MenuPage() {
         detailActive.modifierIds?.includes(modifier.id),
       )
     : [];
-
+const categoryOrder = new Map(
+  visibleCategories.map((name, index) => [name, index]),
+);
   return (
     <div className="min-h-screen bg-[#f8f7f4]">
       <Header />
@@ -167,6 +173,11 @@ export default function MenuPage() {
               </button>
               {menu.categories
                 .filter((category) => visibleCategories.includes(category.name))
+                .sort(
+                  (a, b) =>
+                    (categoryOrder.get(a.name) ?? Infinity) -
+                    (categoryOrder.get(b.name) ?? Infinity),
+                )
                 .map((category) => (
                   <button
                     key={category.id}
@@ -415,7 +426,6 @@ export default function MenuPage() {
                   )}
                 </div>
               </div>
-
             </>
           )}
         </DrawerContent>

@@ -162,7 +162,7 @@ export default function About() {
             Visit us in 588 Ruthven Street or explore our menu online
           </p>
           <a
-            href="/menu.pdf"
+            href="/menu"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block px-10 py-4 bg-[#092622] hover:bg-[#0139A8] text-white font-light uppercase tracking-widest rounded-full transition-all hover:shadow-xl active:scale-95"

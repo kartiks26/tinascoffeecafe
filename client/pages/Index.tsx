@@ -23,7 +23,40 @@ function triggerHaptic(pattern: "tap" | "success") {
     navigator.vibrate(patterns[pattern]);
   }
 }
-
+const topSelections = [
+  {
+    name: "Cappuccino",
+    description: "Silky espresso with velvety steamed milk",
+    price: "$5.50",
+    badge: "Best Seller",
+    image:
+      "https://www.livingnorth.com/images/media/articles/food-and-drink/eat-and-drink/coffee.png?",
+  },
+  {
+    name: "Avocado Toast",
+    description: "Fresh sourdough with ripe avocado and egg",
+    price: "$12.50",
+    badge: "Popular",
+    image:
+      "https://www.giallozafferano.com/images/273-27388/Avocado-toast_650x433_wm.jpg",
+  },
+  {
+    name: "Eggs Benedict",
+    description: "Poached eggs on an English muffin with hollandaise sauce",
+    price: "$22.50",
+    badge: "Best Seller",
+    image:
+      "https://images.arla.com/recordid/CA40121A-DB5E-467A-A456960E6E819EB7/eggs-benedict1.jpg?format=webp&width=1269&height=1050&mode=crop",
+  },
+  {
+    name: "Chai Latte",
+    description: "Warm spiced tea with steamed milk",
+    price: "$6.00",
+    badge: "Popular",
+    image:
+      "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chai-latte-4e5fe2f.jpg",
+  },
+];
 export default function Index() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -107,8 +140,7 @@ export default function Index() {
 
             {/* CTA Button */}
             <a
-              href="/menu.pdf"
-              target="_blank"
+              href="/menu"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 px-10 py-4 bg-[#092622] hover:bg-[#FFD700] hover:text-gray-900 text-white font-light uppercase tracking-widest text-sm rounded-full transition-all transform hover:scale-105 duration-200 shadow-2xl"
             >
@@ -185,66 +217,86 @@ export default function Index() {
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             <a
-              href="/menu#coffee"
+              href="/menu?category=coffee"
               className="group relative overflow-hidden rounded-2xl h-48 hover:shadow-2xl transition-shadow duration-300"
               style={{
-                backgroundImage: "url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&h=800&fit=crop')",
+                backgroundImage:
+                  "url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&h=800&fit=crop')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                <h3 className="text-2xl font-light mb-1 tracking-wide">Coffee</h3>
-                <p className="text-sm text-white/70 font-light">Premium selections</p>
+                <h3 className="text-2xl font-light mb-1 tracking-wide">
+                  Coffee
+                </h3>
+                <p className="text-sm text-white/70 font-light">
+                  Premium selections
+                </p>
               </div>
             </a>
 
             <a
-              href="/menu#tea"
+              href="/menu?category=tea"
               className="group relative overflow-hidden rounded-2xl h-48 hover:shadow-2xl transition-shadow duration-300"
               style={{
-                backgroundImage: "url('https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=600&h=800&fit=crop')",
+                backgroundImage:
+                  "url('https://static.vecteezy.com/system/resources/thumbnails/076/353/572/small/hot-green-tea-with-lemon-showcasing-antioxidants-and-mild-caffeine-that-refresh-the-body-while-supporting-immune-health-during-a-cold-free-photo.jpeg')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                <h3 className="text-2xl font-light mb-1 tracking-wide">Tea & Refreshers</h3>
-                <p className="text-sm text-white/70 font-light">Cool & relaxing</p>
+                <h3 className="text-2xl font-light mb-1 tracking-wide">
+                  Tea & Refreshers
+                </h3>
+                <p className="text-sm text-white/70 font-light">
+                  Cool & relaxing
+                </p>
               </div>
             </a>
 
             <a
-              href="/menu#breakfast"
+              href="/menu?category=breakfast"
               className="group relative overflow-hidden rounded-2xl h-48 hover:shadow-2xl transition-shadow duration-300"
               style={{
-                backgroundImage: "url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=800&fit=crop')",
+                backgroundImage:
+                  "url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=800&fit=crop')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                <h3 className="text-2xl font-light mb-1 tracking-wide">Breakfast</h3>
-                <p className="text-sm text-white/70 font-light">Morning favorites</p>
+                <h3 className="text-2xl font-light mb-1 tracking-wide">
+                  Breakfast
+                </h3>
+                <p className="text-sm text-white/70 font-light">
+                  Morning favorites
+                </p>
               </div>
             </a>
 
             <a
-              href="/menu#wrap"
+              href="/menu?category=Lunch Wraps"
               className="group relative overflow-hidden rounded-2xl h-48 hover:shadow-2xl transition-shadow duration-300"
               style={{
-                backgroundImage: "url('https://images.unsplash.com/photo-1509375206418-3e01e5fbef0e?w=600&h=800&fit=crop')",
+                backgroundImage:
+                  "url('https://www.deerandoak.co.uk/cdn/shop/articles/D_O_website_imagery_17_2048x.jpg?v=1745590921')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                <h3 className="text-2xl font-light mb-1 tracking-wide">Wraps & Lunch</h3>
-                <p className="text-sm text-white/70 font-light">Hearty selections</p>
+                <h3 className="text-2xl font-light mb-1 tracking-wide">
+                  Wraps & Lunch
+                </h3>
+                <p className="text-sm text-white/70 font-light">
+                  Hearty selections
+                </p>
               </div>
             </a>
           </div>
@@ -262,125 +314,45 @@ export default function Index() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <a
-              href="/menu"
-              className="group bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200"
-            >
-              <div className="relative h-56 bg-gray-100 overflow-hidden">
-                <div
-                  className="w-full h-full"
-                  style={{
-                    backgroundImage: "url('https://images.unsplash.com/photo-1495474472456-4d71bcdd2085?w=500&h=500&fit=crop')",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Cappuccino
-                </h3>
-                <p className="text-gray-600 text-sm font-light mb-4">
-                  Silky espresso with velvety steamed milk
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-semibold text-[#092622]">$5.50</span>
-                  <span className="text-xs text-[#FFD700] font-semibold uppercase tracking-widest">
-                    Popular
-                  </span>
+            {topSelections.map((item) => (
+              <div
+                key={item.name}
+                className="group bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200"
+              >
+                <div className="relative h-56 bg-gray-100 overflow-hidden">
+                  <div
+                    className="w-full h-full group-hover:scale-105 transition-transform duration-500"
+                    style={{
+                      backgroundImage: `url('${item.image}')`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  />
                 </div>
-              </div>
-            </a>
 
-            <a
-              href="/menu"
-              className="group bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200"
-            >
-              <div className="relative h-56 bg-gray-100 overflow-hidden">
-                <div
-                  className="w-full h-full"
-                  style={{
-                    backgroundImage: "url('https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=500&h=500&fit=crop')",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Iced Latte
-                </h3>
-                <p className="text-gray-600 text-sm font-light mb-4">
-                  Cold brew with creamy milk and ice
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-semibold text-[#092622]">$5.75</span>
-                  <span className="text-xs text-[#FFD700] font-semibold uppercase tracking-widest">
-                    Popular
-                  </span>
-                </div>
-              </div>
-            </a>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    {item.name}
+                  </h3>
 
-            <a
-              href="/menu"
-              className="group bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200"
-            >
-              <div className="relative h-56 bg-gray-100 overflow-hidden">
-                <div
-                  className="w-full h-full"
-                  style={{
-                    backgroundImage: "url('https://images.unsplash.com/photo-1585328707852-8baf94fb0989?w=500&h=500&fit=crop')",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Avocado Toast
-                </h3>
-                <p className="text-gray-600 text-sm font-light mb-4">
-                  Fresh sourdough with ripe avocado and egg
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-semibold text-[#092622]">$12.50</span>
-                  <span className="text-xs text-[#FFD700] font-semibold uppercase tracking-widest">
-                    Popular
-                  </span>
-                </div>
-              </div>
-            </a>
+                  <p className="text-gray-600 text-sm font-light mb-4">
+                    {item.description}
+                  </p>
 
-            <a
-              href="/menu"
-              className="group bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200"
-            >
-              <div className="relative h-56 bg-gray-100 overflow-hidden">
-                <div
-                  className="w-full h-full"
-                  style={{
-                    backgroundImage: "url('https://images.unsplash.com/photo-1528137871618-179a50891339?w=500&h=500&fit=crop')",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Chai Latte
-                </h3>
-                <p className="text-gray-600 text-sm font-light mb-4">
-                  Warm spiced tea with steamed milk
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-semibold text-[#092622]">$6.00</span>
-                  <span className="text-xs text-[#FFD700] font-semibold uppercase tracking-widest">
-                    Popular
-                  </span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-semibold text-[#092622]">
+                      {item.price}
+                    </span>
+
+                    {item.badge && (
+                      <span className="text-xs text-[#FFD700] font-semibold uppercase tracking-widest">
+                        {item.badge}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </a>
+            ))}
           </div>
         </div>
       </section>
@@ -395,8 +367,7 @@ export default function Index() {
             Explore our full menu of premium coffee and delicious food options
           </p>
           <a
-            href="/menu.pdf"
-            target="_blank"
+            href="/menu"
             rel="noopener noreferrer"
             className="inline-block px-10 py-4 bg-[#092622] hover:bg-[#0139A8] text-white font-light uppercase tracking-widest rounded-full transition-all hover:shadow-xl active:scale-95"
           >
