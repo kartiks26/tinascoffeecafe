@@ -251,6 +251,140 @@ export default function Index() {
         </div>
       </section>
 
+      {/* This Week's Top Selections */}
+      <section className="py-20 md:py-28 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-4 text-center">
+            This Week's Top Selections
+          </h2>
+          <p className="text-lg text-gray-600 text-center mb-12 font-light">
+            Customer favorites we're obsessed with
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <a
+              href="/menu"
+              className="group bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200"
+            >
+              <div className="relative h-56 bg-gray-100 overflow-hidden">
+                <div
+                  className="w-full h-full"
+                  style={{
+                    backgroundImage: "url('https://images.unsplash.com/photo-1495474472456-4d71bcdd2085?w=500&h=500&fit=crop')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                ></div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  Cappuccino
+                </h3>
+                <p className="text-gray-600 text-sm font-light mb-4">
+                  Silky espresso with velvety steamed milk
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-semibold text-[#092622]">$5.50</span>
+                  <span className="text-xs text-[#FFD700] font-semibold uppercase tracking-widest">
+                    Popular
+                  </span>
+                </div>
+              </div>
+            </a>
+
+            <a
+              href="/menu"
+              className="group bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200"
+            >
+              <div className="relative h-56 bg-gray-100 overflow-hidden">
+                <div
+                  className="w-full h-full"
+                  style={{
+                    backgroundImage: "url('https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=500&h=500&fit=crop')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                ></div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  Iced Latte
+                </h3>
+                <p className="text-gray-600 text-sm font-light mb-4">
+                  Cold brew with creamy milk and ice
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-semibold text-[#092622]">$5.75</span>
+                  <span className="text-xs text-[#FFD700] font-semibold uppercase tracking-widest">
+                    Popular
+                  </span>
+                </div>
+              </div>
+            </a>
+
+            <a
+              href="/menu"
+              className="group bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200"
+            >
+              <div className="relative h-56 bg-gray-100 overflow-hidden">
+                <div
+                  className="w-full h-full"
+                  style={{
+                    backgroundImage: "url('https://images.unsplash.com/photo-1585328707852-8baf94fb0989?w=500&h=500&fit=crop')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                ></div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  Avocado Toast
+                </h3>
+                <p className="text-gray-600 text-sm font-light mb-4">
+                  Fresh sourdough with ripe avocado and egg
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-semibold text-[#092622]">$12.50</span>
+                  <span className="text-xs text-[#FFD700] font-semibold uppercase tracking-widest">
+                    Popular
+                  </span>
+                </div>
+              </div>
+            </a>
+
+            <a
+              href="/menu"
+              className="group bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200"
+            >
+              <div className="relative h-56 bg-gray-100 overflow-hidden">
+                <div
+                  className="w-full h-full"
+                  style={{
+                    backgroundImage: "url('https://images.unsplash.com/photo-1528137871618-179a50891339?w=500&h=500&fit=crop')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                ></div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  Chai Latte
+                </h3>
+                <p className="text-gray-600 text-sm font-light mb-4">
+                  Warm spiced tea with steamed milk
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-semibold text-[#092622]">$6.00</span>
+                  <span className="text-xs text-[#FFD700] font-semibold uppercase tracking-widest">
+                    Popular
+                  </span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 md:py-32 bg-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
