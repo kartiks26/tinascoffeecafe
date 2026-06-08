@@ -20,7 +20,7 @@ const contactLinks = [
     icon: Phone,
   },
   {
-    href: "mailto:hello@tinascoffee.com",
+    href: "mailto:tinasplacecafe75@gmail.com",
     label: "Mail",
     icon: Mail,
   },

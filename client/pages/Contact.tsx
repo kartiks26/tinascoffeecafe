@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
 import { Mail, Phone, MapPin, Clock, Instagram } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 function triggerHaptic(pattern: "tap") {
   if ("vibrate" in navigator) {
@@ -16,7 +17,10 @@ export default function Contact() {
     email: "",
     message: "",
   });
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -27,14 +31,39 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     triggerHaptic("tap");
-    // Form submission would go here
-    console.log("Form submitted:", formData);
-    setFormData({ name: "", email: "", message: "" });
-  };
 
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+      );
+
+      setSubmitStatus("success");
+
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Failed to send email:", error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <div className="bg-white text-gray-900 min-h-screen">
       <Header />
@@ -107,7 +136,7 @@ export default function Contact() {
                       href="mailto:hello@tinascoffee.com"
                       className="text-gray-600 font-light hover:text-[#092622] transition-colors"
                     >
-                      hello@tinascoffee.com
+                      tinasplacecafe75@gmail.com
                     </a>
                   </div>
                 </div>
@@ -183,7 +212,7 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#092622] focus:ring-1 focus:ring-[#092622] transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300  focus:outline-none focus:border-[#092622] focus:ring-1 focus:ring-[#092622] transition-colors"
                     placeholder="Your name"
                   />
                 </div>
@@ -202,7 +231,7 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#092622] focus:ring-1 focus:ring-[#092622] transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300  focus:outline-none focus:border-[#092622] focus:ring-1 focus:ring-[#092622] transition-colors"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -221,24 +250,44 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#092622] focus:ring-1 focus:ring-[#092622] transition-colors resize-none"
+                    className="w-full px-4 py-3 border border-gray-300  focus:outline-none focus:border-[#092622] focus:ring-1 focus:ring-[#092622] transition-colors resize-none"
                     placeholder="Tell us how we can help..."
                   />
                 </div>
 
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   onClick={() => triggerHaptic("tap")}
-                  className="w-full px-8 py-4 bg-[#092622] hover:bg-[#0139A8] text-white font-light uppercase tracking-widest rounded-lg transition-all hover:shadow-lg active:scale-95"
+                  className="w-full px-8 py-4 bg-[#092622] hover:bg-[#0139A8] text-white font-light uppercase tracking-widest  transition-all hover:shadow-lg active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
               </form>
 
-              <p className="mt-6 text-sm text-gray-600 font-light">
-                We typically respond within 24 hours. For urgent matters, please
-                call us directly.
-              </p>
+              {submitStatus === "success" && (
+                <div className=" border border-green-200 bg-green-50 p-4">
+                  <h4 className="font-semibold text-green-800">
+                    Message sent successfully!
+                  </h4>
+                  <p className="mt-1 text-sm text-green-700">
+                    Thank you for contacting us. We've received your message and
+                    will respond to your email within the next 2 hours during
+                    business hours.
+                  </p>
+                </div>
+              )}
+
+              {submitStatus === "error" && (
+                <div className=" border border-red-200 bg-red-50 p-4">
+                  <h4 className="font-semibold text-red-800">
+                    Unable to send message
+                  </h4>
+                  <p className="mt-1 text-sm text-red-700">
+                    Something went wrong. Please try again or call us directly.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -250,7 +299,7 @@ export default function Contact() {
           <h2 className="text-3xl font-light text-[#092622] mb-8 uppercase tracking-wide">
             Find Us
           </h2>
-          <div className="bg-gray-200 rounded-lg h-200 flex items-center justify-center">
+          <div className="bg-gray-200  h-200 flex items-center justify-center">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3417.1927968908212!2d151.9504918753185!3d-27.564598876264707!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b965d1a7b0e5baf%3A0xfce9b5d7b7320700!2zVGluYeKAmXMgUGxhY2UgQ2FmZSAmIENhdGVyaW5nLvCfkpU!5e1!3m2!1sen!2sau!4v1780207589144!5m2!1sen!2sau"
               width="100%"

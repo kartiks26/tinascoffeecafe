@@ -116,7 +116,7 @@ export default function Index() {
             {/* Social Icons */}
             <div className="flex justify-center gap-8 mb-12">
               <a
-                href="mailto:hello@tinascoffee.com"
+                href="mailto:tinasplacecafe75@gmail.com"
                 className="text-white hover:text-[#FFD700] transition-colors transform hover:scale-110 duration-200"
                 title="Email"
               >

@@ -13,12 +13,13 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "react-google-maps": "^9.4.5",
     "react-google-reviews": "^1.8.0",
-    "zod": "^3.25.76",
-    "serverless-http": "^3.2.0"
+    "serverless-http": "^3.2.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@hookform/resolvers": "^5.2.1",
