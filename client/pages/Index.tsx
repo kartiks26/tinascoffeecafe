@@ -173,6 +173,68 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Menu Categories Section */}
+      <section className="py-20 md:py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-4 text-center">
+            Browse by Category
+          </h2>
+          <p className="text-lg text-gray-600 text-center mb-12 font-light">
+            Explore our menu by your favorite categories
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <a
+              href="/menu#coffee"
+              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 p-8 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+              <div className="text-5xl mb-4">☕</div>
+              <h3 className="text-2xl font-semibold text-[#092622] mb-2">Coffee</h3>
+              <p className="text-gray-600 font-light mb-4">Premium coffee drinks</p>
+              <span className="inline-block px-4 py-2 bg-[#092622] text-white text-sm font-semibold rounded-full group-hover:bg-[#FFD700] group-hover:text-gray-900 transition-colors">
+                Explore →
+              </span>
+            </a>
+
+            <a
+              href="/menu#tea"
+              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-green-50 to-green-100 p-8 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+              <div className="text-5xl mb-4">🍵</div>
+              <h3 className="text-2xl font-semibold text-[#092622] mb-2">Tea & More</h3>
+              <p className="text-gray-600 font-light mb-4">Refreshing beverages</p>
+              <span className="inline-block px-4 py-2 bg-[#092622] text-white text-sm font-semibold rounded-full group-hover:bg-[#FFD700] group-hover:text-gray-900 transition-colors">
+                Explore →
+              </span>
+            </a>
+
+            <a
+              href="/menu#breakfast"
+              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 p-8 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+              <div className="text-5xl mb-4">🥐</div>
+              <h3 className="text-2xl font-semibold text-[#092622] mb-2">Breakfast</h3>
+              <p className="text-gray-600 font-light mb-4">Fresh morning options</p>
+              <span className="inline-block px-4 py-2 bg-[#092622] text-white text-sm font-semibold rounded-full group-hover:bg-[#FFD700] group-hover:text-gray-900 transition-colors">
+                Explore →
+              </span>
+            </a>
+
+            <a
+              href="/menu#wrap"
+              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-red-50 to-red-100 p-8 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+              <div className="text-5xl mb-4">🌯</div>
+              <h3 className="text-2xl font-semibold text-[#092622] mb-2">Wraps & Food</h3>
+              <p className="text-gray-600 font-light mb-4">Hearty lunch options</p>
+              <span className="inline-block px-4 py-2 bg-[#092622] text-white text-sm font-semibold rounded-full group-hover:bg-[#FFD700] group-hover:text-gray-900 transition-colors">
+                Explore →
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 md:py-32 bg-white">
         <div className="max-w-4xl mx-auto px-6 text-center">

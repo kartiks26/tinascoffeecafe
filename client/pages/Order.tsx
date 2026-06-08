@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Grid2X2, List, Loader, X } from "lucide-react";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
@@ -66,6 +66,18 @@ export default function MenuPage() {
   >(null);
 
   const { menu, loading, error } = useSquareMenu();
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1).toLowerCase();
+    if (hash && menu.categories.length > 0) {
+      const matchedCategory = menu.categories.find(
+        (cat) => cat.name.toLowerCase() === hash
+      );
+      if (matchedCategory) {
+        setSelectedCategory(matchedCategory.id);
+      }
+    }
+  }, [menu.categories]);
 
   if (loading) {
     return (
