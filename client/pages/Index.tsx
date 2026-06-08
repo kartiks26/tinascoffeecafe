@@ -183,7 +183,7 @@ export default function Index() {
             Explore our carefully curated selections
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             <a
               href="/menu#coffee"
               className="group relative overflow-hidden rounded-2xl h-80 hover:shadow-2xl transition-shadow duration-300"
