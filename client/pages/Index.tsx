@@ -177,59 +177,59 @@ export default function Index() {
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-4 text-center">
-            Browse by Category
+            Our Collections
           </h2>
           <p className="text-lg text-gray-600 text-center mb-12 font-light">
-            Explore our menu by your favorite categories
+            Explore our carefully curated selections
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <a
               href="/menu#coffee"
-              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 p-8 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              className="group relative overflow-hidden rounded-lg h-80 hover:shadow-2xl transition-shadow duration-300"
             >
-              <div className="text-5xl mb-4">☕</div>
-              <h3 className="text-2xl font-semibold text-[#092622] mb-2">Coffee</h3>
-              <p className="text-gray-600 font-light mb-4">Premium coffee drinks</p>
-              <span className="inline-block px-4 py-2 bg-[#092622] text-white text-sm font-semibold rounded-full group-hover:bg-[#FFD700] group-hover:text-gray-900 transition-colors">
-                Explore →
-              </span>
+              <div className="absolute inset-0 bg-gradient-to-b from-amber-900/40 via-amber-950/50 to-black/80"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-700 to-amber-950 opacity-60 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+                <h3 className="text-2xl font-light mb-1 tracking-wide">Coffee</h3>
+                <p className="text-sm text-white/70 font-light">Premium selections</p>
+              </div>
             </a>
 
             <a
               href="/menu#tea"
-              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-green-50 to-green-100 p-8 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              className="group relative overflow-hidden rounded-lg h-80 hover:shadow-2xl transition-shadow duration-300"
             >
-              <div className="text-5xl mb-4">🍵</div>
-              <h3 className="text-2xl font-semibold text-[#092622] mb-2">Tea & More</h3>
-              <p className="text-gray-600 font-light mb-4">Refreshing beverages</p>
-              <span className="inline-block px-4 py-2 bg-[#092622] text-white text-sm font-semibold rounded-full group-hover:bg-[#FFD700] group-hover:text-gray-900 transition-colors">
-                Explore →
-              </span>
+              <div className="absolute inset-0 bg-gradient-to-b from-green-900/40 via-green-950/50 to-black/80"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-green-700 to-teal-950 opacity-60 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+                <h3 className="text-2xl font-light mb-1 tracking-wide">Tea & Refreshers</h3>
+                <p className="text-sm text-white/70 font-light">Cool & relaxing</p>
+              </div>
             </a>
 
             <a
               href="/menu#breakfast"
-              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 p-8 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              className="group relative overflow-hidden rounded-lg h-80 hover:shadow-2xl transition-shadow duration-300"
             >
-              <div className="text-5xl mb-4">🥐</div>
-              <h3 className="text-2xl font-semibold text-[#092622] mb-2">Breakfast</h3>
-              <p className="text-gray-600 font-light mb-4">Fresh morning options</p>
-              <span className="inline-block px-4 py-2 bg-[#092622] text-white text-sm font-semibold rounded-full group-hover:bg-[#FFD700] group-hover:text-gray-900 transition-colors">
-                Explore →
-              </span>
+              <div className="absolute inset-0 bg-gradient-to-b from-orange-900/40 via-amber-950/50 to-black/80"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-700 to-amber-950 opacity-60 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+                <h3 className="text-2xl font-light mb-1 tracking-wide">Breakfast</h3>
+                <p className="text-sm text-white/70 font-light">Morning favorites</p>
+              </div>
             </a>
 
             <a
               href="/menu#wrap"
-              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-red-50 to-red-100 p-8 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              className="group relative overflow-hidden rounded-lg h-80 hover:shadow-2xl transition-shadow duration-300"
             >
-              <div className="text-5xl mb-4">🌯</div>
-              <h3 className="text-2xl font-semibold text-[#092622] mb-2">Wraps & Food</h3>
-              <p className="text-gray-600 font-light mb-4">Hearty lunch options</p>
-              <span className="inline-block px-4 py-2 bg-[#092622] text-white text-sm font-semibold rounded-full group-hover:bg-[#FFD700] group-hover:text-gray-900 transition-colors">
-                Explore →
-              </span>
+              <div className="absolute inset-0 bg-gradient-to-b from-red-900/40 via-red-950/50 to-black/80"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-red-700 to-rose-950 opacity-60 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+                <h3 className="text-2xl font-light mb-1 tracking-wide">Wraps & Lunch</h3>
+                <p className="text-sm text-white/70 font-light">Hearty selections</p>
+              </div>
             </a>
           </div>
         </div>
