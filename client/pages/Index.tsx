@@ -186,10 +186,14 @@ export default function Index() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <a
               href="/menu#coffee"
-              className="group relative overflow-hidden rounded-lg h-80 hover:shadow-2xl transition-shadow duration-300"
+              className="group relative overflow-hidden rounded-2xl h-80 hover:shadow-2xl transition-shadow duration-300"
+              style={{
+                backgroundImage: "url('https://images.unsplash.com/photo-1559056199-641a0ac8b3f7?w=600&h=800&fit=crop')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-amber-900/40 via-amber-950/50 to-black/80"></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-700 to-amber-950 opacity-60 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
                 <h3 className="text-2xl font-light mb-1 tracking-wide">Coffee</h3>
                 <p className="text-sm text-white/70 font-light">Premium selections</p>
@@ -198,10 +202,14 @@ export default function Index() {
 
             <a
               href="/menu#tea"
-              className="group relative overflow-hidden rounded-lg h-80 hover:shadow-2xl transition-shadow duration-300"
+              className="group relative overflow-hidden rounded-2xl h-80 hover:shadow-2xl transition-shadow duration-300"
+              style={{
+                backgroundImage: "url('https://images.unsplash.com/photo-1597318972632-01c8f74a64ae?w=600&h=800&fit=crop')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-green-900/40 via-green-950/50 to-black/80"></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-green-700 to-teal-950 opacity-60 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
                 <h3 className="text-2xl font-light mb-1 tracking-wide">Tea & Refreshers</h3>
                 <p className="text-sm text-white/70 font-light">Cool & relaxing</p>
@@ -210,10 +218,14 @@ export default function Index() {
 
             <a
               href="/menu#breakfast"
-              className="group relative overflow-hidden rounded-lg h-80 hover:shadow-2xl transition-shadow duration-300"
+              className="group relative overflow-hidden rounded-2xl h-80 hover:shadow-2xl transition-shadow duration-300"
+              style={{
+                backgroundImage: "url('https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=600&h=800&fit=crop')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-orange-900/40 via-amber-950/50 to-black/80"></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-700 to-amber-950 opacity-60 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
                 <h3 className="text-2xl font-light mb-1 tracking-wide">Breakfast</h3>
                 <p className="text-sm text-white/70 font-light">Morning favorites</p>
@@ -222,10 +234,14 @@ export default function Index() {
 
             <a
               href="/menu#wrap"
-              className="group relative overflow-hidden rounded-lg h-80 hover:shadow-2xl transition-shadow duration-300"
+              className="group relative overflow-hidden rounded-2xl h-80 hover:shadow-2xl transition-shadow duration-300"
+              style={{
+                backgroundImage: "url('https://images.unsplash.com/photo-1585238341710-4b6c6a895ecc?w=600&h=800&fit=crop')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-red-900/40 via-red-950/50 to-black/80"></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-red-700 to-rose-950 opacity-60 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
                 <h3 className="text-2xl font-light mb-1 tracking-wide">Wraps & Lunch</h3>
                 <p className="text-sm text-white/70 font-light">Hearty selections</p>
