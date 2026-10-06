@@ -632,11 +632,7 @@ export default function Index() {
           <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20">
             <div className="relative">
               <div className="aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-[#d8c9b8] shadow-[0_24px_70px_rgba(45,31,28,0.14)] sm:aspect-[5/4] lg:aspect-[4/5]">
-                <img
-                  src="https://tinas-place-toowoomba.vercel.app/images/flat-white-rosetta.jpg"
-                  alt="A flat white with a rosetta in a ribbed cream cup"
-                  className="h-full w-full object-cover transition duration-700 hover:scale-[1.025]"
-                />
+                <CoffeeCupViewer />
               </div>
               <div className="absolute -bottom-5 -right-2 rounded-full bg-[#b05f7a] px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.18em] text-white shadow-xl sm:right-5 sm:px-6">
                 Poured with a heart
@@ -693,7 +689,6 @@ export default function Index() {
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
             </div>
-            <CoffeeCupViewer />
           </div>
         </div>
       </section>
