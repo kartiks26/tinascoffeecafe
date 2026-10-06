@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Reviews from "@/components/util/GoogleReviews";
 import CoffeeCupViewer from "@/components/ui/CoffeeCupViewer";
+import GoogleReviews from "@/components/ui/googleReviews";
 
 function triggerHaptic(pattern: "tap" | "success") {
   if ("vibrate" in navigator) {
@@ -692,7 +693,7 @@ export default function Index() {
           </div>
         </div>
       </section>
-
+      <GoogleReviews />
       <section className="bg-[#f4efe8] py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="mb-10 flex flex-col gap-5 md:mb-14 md:flex-row md:items-end md:justify-between">
