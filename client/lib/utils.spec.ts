@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { cn } from "./utils";
+import { dedupeCategoryNames } from "../pages/Order";
 
 describe("cn function", () => {
   it("should merge classes correctly", () => {
@@ -28,5 +29,28 @@ describe("cn function", () => {
     expect(cn("base", { conditional: true, "not-included": false })).toBe(
       "base conditional",
     );
+  });
+});
+
+describe("dedupeCategoryNames", () => {
+  it("removes duplicate category names while preserving ordering", () => {
+    expect(
+      dedupeCategoryNames([
+        "Coffee",
+        "Iced Coffee",
+        "Tea",
+        "Smoothies",
+        "Breakfast",
+        "Iced Coffee",
+        "Lunch",
+      ]),
+    ).toEqual([
+      "Coffee",
+      "Iced Coffee",
+      "Tea",
+      "Smoothies",
+      "Breakfast",
+      "Lunch",
+    ]);
   });
 });

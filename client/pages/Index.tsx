@@ -30,36 +30,39 @@ function triggerHaptic(pattern: "tap" | "success") {
 }
 const topSelections = [
   {
-    name: "Cappuccino",
-    description: "Silky espresso with velvety steamed milk",
-    price: "$5.50",
+    name: "Spanish Latte",
+    description:
+      "Rich espresso blended with steamed milk and sweet condensed milk",
+    price: "$6.00",
     badge: "Best Seller",
+    image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800",
+  },
+  {
+    name: "Magic Coffee",
+    description:
+      "Double ristretto topped with silky steamed milk in a smooth, strong coffee",
+    price: "$4.50",
+    badge: "Popular",
     image:
       "https://www.livingnorth.com/images/media/articles/food-and-drink/eat-and-drink/coffee.png?",
   },
   {
-    name: "Avocado Toast",
-    description: "Fresh sourdough with ripe avocado and egg",
-    price: "$12.50",
-    badge: "Popular",
-    image:
-      "https://www.giallozafferano.com/images/273-27388/Avocado-toast_650x433_wm.jpg",
-  },
-  {
-    name: "Eggs Benedict",
-    description: "Poached eggs on an English muffin with hollandaise sauce",
-    price: "$22.50",
+    name: "Caesar Wrap with Chips",
+    description:
+      "Grilled chicken, crisp cos lettuce, parmesan and creamy Caesar dressing in a toasted wrap, served with golden chips",
+    price: "$18.50",
     badge: "Best Seller",
     image:
-      "https://images.arla.com/recordid/CA40121A-DB5E-467A-A456960E6E819EB7/eggs-benedict1.jpg?format=webp&width=1269&height=1050&mode=crop",
+      "https://media.hellofresh.com/q_100,w_3840,f_auto,c_limit,fl_lossy/recipes/image/HF_Y26_R1011_W08_NZ_R50242-5_Main__4high-db55c774.jpg",
   },
   {
-    name: "Chai Latte",
-    description: "Warm spiced tea with steamed milk",
-    price: "$6.00",
+    name: "Omelette with Relish",
+    description:
+      "Fluffy golden omelette served with house relish and toasted sourdough",
+    price: "$18.50",
     badge: "Popular",
     image:
-      "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chai-latte-4e5fe2f.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1gkj2eIiPMspBgdvaiHv6_TLqCZKTVYWK-2fM5dEjsQ&s=10",
   },
 ];
 export default function Index() {
@@ -106,7 +109,6 @@ export default function Index() {
   return (
     <div className="bg-white text-gray-900 min-h-screen">
       <Header />
-
       {/* Hero Section */}
       <section className="relative overflow-hidden min-h-screen md:min-h-[85vh] flex items-center justify-center">
         {/* Background Image with Overlay */}
@@ -136,15 +138,14 @@ export default function Index() {
 
             {/* Main Heading */}
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-white mb-8 leading-tight">
-              Tina`s
+              Tina`s Place
               <br />
-              <span className="text-[#FFD700]">coffee Place</span>
+              <span className="text-[#FFD700] text-4xl"> Cafe & Catering.</span>
             </h1>
 
             {/* Description */}
             <div className="space-y-2 text-white/90 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto">
               <p> 580 Ruthven St, Toowoomba City, Queensland</p>
-              <p className="text-white/75 font-bold mt-2">Cafe & Catering</p>
             </div>
 
             {/* Divider */}
@@ -210,44 +211,56 @@ export default function Index() {
           </div>
         </div>
       </section>
-
       {/* Features Section */}
-      <section className="bg-gradient-to-r from-gray-50 to-white py-20 md:py-28">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-12">
-            <div className="text-center">
-              <div className="text-4xl mb-4">☕</div>
-              <h3 className="text-xl font-semibold text-[#092622] mb-2">
-                Premium Coffee
-              </h3>
-              <p className="text-gray-600 font-light">
-                Ethically sourced and freshly roasted beans from around the
-                world
+      {/* Somerset Coffee Section */}
+      {/* Somerset Coffee Feature */}
+      <section className="bg-[#092622] text-white py-16 md:py-24">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+            {/* Supplier Branding */}
+            {/* Somerset Coffee Branding */}
+            <div
+              className="bg-[#F49926] rounded-3xl p-6 md:p-10
+                flex flex-col items-center justify-center
+                min-h-[300px]"
+            >
+              <img
+                src="/images/Somerset-coffee-logo.png"
+                alt="Somerset Artisan Coffee"
+                className="w-full max-w-[340px] h-auto object-contain"
+              />
+
+              <p className="text-[#092622] text-sm mt-5 tracking-wide text-center">
+                Proudly served at Tina's Place
               </p>
             </div>
-            <div className="text-center">
-              <div className="text-4xl mb-4">🎨</div>
-              <h3 className="text-xl font-semibold text-[#092622] mb-2">
-                Artisan Crafted
-              </h3>
-              <p className="text-gray-600 font-light">
-                Each cup is prepared with care and precision by our skilled
-                baristas
+
+            {/* Story */}
+            <div>
+              <p
+                className="text-[#d6c1a1] uppercase tracking-[0.25em]
+                      text-xs md:text-sm mb-5"
+              >
+                Our Coffee Partner
               </p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl mb-4">🤝</div>
-              <h3 className="text-xl font-semibold text-[#092622] mb-2">
-                Community First
-              </h3>
-              <p className="text-gray-600 font-light">
-                A welcoming space for everyone to pause, connect, and enjoy
+
+              <h2
+                className="text-4xl md:text-5xl font-semibold
+                       leading-tight mb-6"
+              >
+                Great coffee
+                <span className="block text-[#d6c1a1]">starts here.</span>
+              </h2>
+
+              <p className="text-gray-300 leading-relaxed mb-6">
+                At Tina’s Place, we proudly serve Somerset Coffee, featuring
+                distinctive blends sourced from coffee-growing regions around
+                the world and roasted in Queensland.
               </p>
             </div>
           </div>
         </div>
       </section>
-
       {/* Menu Categories Section */}
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6">
@@ -271,7 +284,7 @@ export default function Index() {
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                <h3 className="text-2xl font-light mb-1 tracking-wide">
+                <h3 className="text-xl font-light mb-1 tracking-wide">
                   Coffee
                 </h3>
                 <p className="text-sm text-white/70 font-light">
@@ -292,7 +305,7 @@ export default function Index() {
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                <h3 className="text-2xl font-light mb-1 tracking-wide">
+                <h3 className="text-xl font-light mb-1 tracking-wide">
                   Tea & Refreshers
                 </h3>
                 <p className="text-sm text-white/70 font-light">
@@ -313,7 +326,7 @@ export default function Index() {
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                <h3 className="text-2xl font-light mb-1 tracking-wide">
+                <h3 className="text-xl font-light mb-1 tracking-wide">
                   Breakfast
                 </h3>
                 <p className="text-sm text-white/70 font-light">
@@ -334,9 +347,7 @@ export default function Index() {
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                <h3 className="text-2xl font-light mb-1 tracking-wide">
-                  Lunch
-                </h3>
+                <h3 className="text-xl font-light mb-1 tracking-wide">Lunch</h3>
                 <p className="text-sm text-white/70 font-light">
                   Hearty selections
                 </p>
@@ -345,7 +356,6 @@ export default function Index() {
           </div>
         </div>
       </section>
-
       {/* This Week's Top Selections */}
       <section className="py-20 md:py-28 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
@@ -399,7 +409,6 @@ export default function Index() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-20 md:py-32 bg-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
@@ -623,7 +632,6 @@ export default function Index() {
           </div>
         </div>
       </section>
-
       <div
         id="featurable-806e1882-029c-4d23-abdf-d8ae34917291"
         data-featurable-async

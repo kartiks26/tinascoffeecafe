@@ -61,7 +61,7 @@ function groupProducts(products: SquareProduct[]) {
 
 export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [mobileView, setMobileView] = useState<"grid" | "list">("grid");
+  const [mobileView, setMobileView] = useState<"grid" | "list">("list");
   const [detailVariations, setDetailVariations] = useState<
     SquareProduct[] | null
   >(null);
@@ -120,8 +120,8 @@ export default function MenuPage() {
     "Coffee",
     "Breakfast",
     "Iced Coffee",
-    "Wrap",
-    "Lunch Wraps",
+    "Lunch",
+    "Smoothies",
     "Tea",
   ];
   const filteredProducts = selectedCategory
@@ -147,9 +147,9 @@ export default function MenuPage() {
         detailActive.modifierIds?.includes(modifier.id),
       )
     : [];
-const categoryOrder = new Map(
-  visibleCategories.map((name, index) => [name, index]),
-);
+  const categoryOrder = new Map(
+    visibleCategories.map((name, index) => [name, index]),
+  );
   return (
     <div className="min-h-screen bg-[#f8f7f4]">
       <Header />
@@ -173,6 +173,11 @@ const categoryOrder = new Map(
               </button>
               {menu.categories
                 .filter((category) => visibleCategories.includes(category.name))
+                .filter(
+                  (category, index, categories) =>
+                    categories.findIndex((c) => c.name === category.name) ===
+                    index,
+                )
                 .sort(
                   (a, b) =>
                     (categoryOrder.get(a.name) ?? Infinity) -
@@ -420,9 +425,10 @@ const categoryOrder = new Map(
                   ))}
 
                   {detailModifiers.length === 0 && (
-                    <div className="rounded-xl bg-gray-50 px-4 py-5 text-center text-sm text-gray-500">
-                      No additional options are available for this item.
-                    </div>
+                    <></>
+                    // <div className="rounded-xl bg-gray-50 px-4 py-5 text-center text-sm text-gray-500">
+                    //   No additional options are available for this item.
+                    // </div>
                   )}
                 </div>
               </div>
