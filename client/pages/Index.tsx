@@ -1,7 +1,7 @@
 "use client";
 
 import "@google/model-viewer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
 import {
@@ -10,6 +10,8 @@ import {
   Phone,
   Mail,
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
   Menu,
   X,
   Instagram,
@@ -44,7 +46,7 @@ const topSelections = [
     price: "$4.50",
     badge: "Popular",
     image:
-      "https://www.livingnorth.com/images/media/articles/food-and-drink/eat-and-drink/coffee.png?",
+      "https://items-images-production.s3.us-west-2.amazonaws.com/files/4aa92b88a97d6d2d05bc465382a7fbc552882fac/original.png",
   },
   {
     name: "Caesar Wrap with Chips",
@@ -65,8 +67,44 @@ const topSelections = [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1gkj2eIiPMspBgdvaiHv6_TLqCZKTVYWK-2fM5dEjsQ&s=10",
   },
 ];
+
+const cateringPacks = [
+  {
+    label: "01 / SAVOURY",
+    name: "The savoury box",
+    description:
+      "A lunch-ready selection of sandwich triangles and wraps, prepared for your gathering.",
+    items: ["Sandwich triangles", "Fresh wraps", "Sausage rolls", "Mini pies"],
+    image:
+      "https://altacatering.com.au/cdn/shop/files/PieandRollPlatter.png?v=1755826587&width=840",
+  },
+  {
+    label: "02 / SWEET",
+    name: "The sweet box",
+    description:
+      "A little something sweet, with muffins, tarts and biscuits for the table.",
+    items: ["Muffins", "Tarts", "Biscuits"],
+    image:
+      "https://www.flavourscatering.com.au/wp-content/uploads/2021/05/MNkBXpwQ.webp",
+  },
+  {
+    label: "03 / MIXED",
+    name: "The mixed box",
+    description:
+      "A mix of savoury bites and sweet treats, so there is something for everyone.",
+    items: ["Sandwiches & wraps", "Muffins, tarts & biscuits"],
+    image:
+      "https://www.chefscene.com/wp-content/uploads/2020/11/Savoury_grazing_box-scaled.jpg",
+  },
+];
+
 export default function Index() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeCateringPack, setActiveCateringPack] = useState(0);
+  const [isCateringCarouselHovered, setIsCateringCarouselHovered] =
+    useState(false);
+  const [isCateringCarouselFocused, setIsCateringCarouselFocused] =
+    useState(false);
   const [cateringForm, setCateringForm] = useState({
     name: "",
     phone: "",
@@ -75,6 +113,22 @@ export default function Index() {
     details: "",
   });
   const [emailStatus, setEmailStatus] = useState<"idle" | "opened">("idle");
+
+  useEffect(() => {
+    if (
+      isCateringCarouselHovered ||
+      isCateringCarouselFocused ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setActiveCateringPack((current) => (current + 1) % cateringPacks.length);
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, [isCateringCarouselHovered, isCateringCarouselFocused]);
 
   const handleCateringSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -441,6 +495,115 @@ export default function Index() {
               </span>
             </h2>
           </div>
+          <div
+            className="relative mt-7 overflow-hidden rounded-[18px] border border-[#2d1f1c]/25 bg-[#f7f1ea] shadow-[0_10px_25px_rgba(45,31,28,0.04)] lg:mt-8"
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Catering box options"
+            onMouseEnter={() => setIsCateringCarouselHovered(true)}
+            onMouseLeave={() => setIsCateringCarouselHovered(false)}
+            onFocusCapture={() => setIsCateringCarouselFocused(true)}
+            onBlurCapture={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+                setIsCateringCarouselFocused(false);
+              }
+            }}
+          >
+            <div
+              className="grid h-[480px] grid-rows-[175px_minmax(0,1fr)] sm:h-[420px] md:h-[320px] md:grid-cols-[0.8fr_1.2fr] md:grid-rows-1"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${activeCateringPack + 1} of ${cateringPacks.length}`}
+            >
+              <div className="relative overflow-hidden">
+                <img
+                  src={cateringPacks[activeCateringPack].image}
+                  alt={cateringPacks[activeCateringPack].name}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/20"
+                  aria-hidden="true"
+                />
+                <div className="relative flex h-full flex-col justify-between p-6 sm:p-8 md:p-10">
+                  <span className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-white drop-shadow"></span>
+                  <span
+                    className="text-4xl font-light leading-none tracking-[-0.08em] text-white drop-shadow sm:text-8xl"
+                    aria-hidden="true"
+                  >
+                    0{activeCateringPack + 1}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center p-6 sm:p-8 md:p-10">
+                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-[#b05f7a]">
+                  {cateringPacks[activeCateringPack].label}
+                </p>
+                <h3
+                  className="mt-3 text-3xl leading-tight text-[#2d1f1c] sm:text-4xl"
+                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                >
+                  {cateringPacks[activeCateringPack].name}
+                </h3>
+                <p
+                  className="mt-3 max-w-xl leading-relaxed text-[#2d1f1c]/75"
+                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                >
+                  {cateringPacks[activeCateringPack].description}
+                </p>
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {cateringPacks[activeCateringPack].items.map((item) => (
+                    <li
+                      key={item}
+                      className="rounded-full border border-[#2d1f1c]/25 px-3 py-1.5 text-xs text-[#2d1f1c]/80 sm:text-sm"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="flex items-center justify-center border-t border-[#2d1f1c]/20 px-5 py-3 sm:px-8">
+              {/* <a
+                href="#catering-enquiry"
+                className="text-xs font-semibold uppercase tracking-[0.15em] text-[#2c6960] underline underline-offset-4 transition hover:text-[#b05f7a] sm:text-sm"
+              >
+                Ask us about catering
+              </a> */}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  aria-label="Previous catering box"
+                  onClick={() =>
+                    setActiveCateringPack(
+                      (current) =>
+                        (current - 1 + cateringPacks.length) %
+                        cateringPacks.length,
+                    )
+                  }
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2d1f1c]/30 text-[#2d1f1c] transition hover:bg-[#2d1f1c] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2c6960]"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <span className="min-w-[3.5rem] text-center text-xs tabular-nums text-[#2d1f1c]/70">
+                  {String(activeCateringPack + 1).padStart(2, "0")} /{" "}
+                  {String(cateringPacks.length).padStart(2, "0")}
+                </span>
+                <button
+                  type="button"
+                  aria-label="Next catering box"
+                  onClick={() =>
+                    setActiveCateringPack(
+                      (current) => (current + 1) % cateringPacks.length,
+                    )
+                  }
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2d1f1c]/30 text-[#2d1f1c] transition hover:bg-[#2d1f1c] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2c6960]"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          </div>
 
           <div className="mt-7 grid gap-7 lg:mt-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-8">
             <div>
@@ -562,7 +725,7 @@ export default function Index() {
                       onChange={(event) =>
                         updateCateringField("dayNeeded", event.target.value)
                       }
-                      className="h-12 w-[95%] border border-[#2d1f1c]/35 bg-[#f1e8df] px-3 pr-10 text-base text-[#2d1f1c] shadow-inner outline-none transition focus:border-[#2c6960] sm:h-14 sm:px-4 sm:pr-12"
+                      className="h-12 w-[100%] border border-[#2d1f1c]/35 bg-[#f1e8df] px-3 pr-10 text-base text-[#2d1f1c] shadow-inner outline-none transition focus:border-[#2c6960] sm:h-14 sm:px-4 sm:pr-12"
                     />
                     <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#2d1f1c]/60 sm:right-4 sm:h-4 sm:w-4" />
                   </div>
